@@ -7,6 +7,7 @@ package compi1.web_designer_api.htmltraductor;
 
 import java_cup.runtime.*;
 import java.util.*;
+import compi1.web_designer_api.servlets.util.Token;
 
 
 @SuppressWarnings("fallthrough")
@@ -68,14 +69,14 @@ public class XMLlexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\1\0\1\1\1\3\22\0\1\1"+
-    "\1\0\1\4\14\0\1\5\14\0\1\6\1\7\1\10"+
-    "\2\0\1\11\1\12\1\13\1\0\1\14\3\0\1\15"+
-    "\2\0\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
-    "\1\25\1\26\1\27\1\30\4\0\1\31\1\32\1\33"+
-    "\3\0\1\11\1\12\1\13\1\0\1\14\3\0\1\15"+
-    "\2\0\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
-    "\1\25\1\26\1\27\1\30\271\0\2\15\115\0\1\25"+
-    "\u0180\0";
+    "\1\0\1\4\4\0\1\5\7\0\1\6\14\0\1\7"+
+    "\1\10\1\11\2\0\1\12\1\13\1\14\1\0\1\15"+
+    "\3\0\1\16\2\0\1\17\1\20\1\21\1\22\1\23"+
+    "\1\24\1\25\1\26\1\27\1\30\1\31\4\0\1\32"+
+    "\1\33\1\34\3\0\1\12\1\13\1\14\1\0\1\15"+
+    "\3\0\1\16\2\0\1\17\1\20\1\21\1\22\1\23"+
+    "\1\24\1\25\1\26\1\27\1\30\1\31\271\0\2\16"+
+    "\115\0\1\26\u0180\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[768];
@@ -103,12 +104,13 @@ public class XMLlexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\3\0\1\1\2\2\1\3\1\4\1\5\1\6\1\7"+
-    "\5\1\1\10\1\11\1\12\1\13\1\14\6\0\1\15"+
-    "\1\16\1\17\1\20\21\0\1\21\1\22\2\0\1\23"+
-    "\5\0\1\24\1\25\1\26\1\0\1\27\1\30\2\31";
+    "\5\1\1\10\1\11\1\12\1\13\1\11\6\0\1\14"+
+    "\1\15\1\16\1\17\1\11\6\0\1\20\13\0\1\21"+
+    "\1\22\2\0\1\23\5\0\1\24\1\25\1\26\1\0"+
+    "\1\27\1\30\2\31";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[66];
+    int [] result = new int[68];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -133,18 +135,18 @@ public class XMLlexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\34\0\70\0\124\0\124\0\160\0\124\0\124"+
-    "\0\124\0\124\0\124\0\214\0\250\0\304\0\340\0\374"+
-    "\0\124\0\u0118\0\124\0\u0134\0\u0118\0\u0150\0\u016c\0\u0188"+
-    "\0\u01a4\0\u01c0\0\u01dc\0\124\0\124\0\124\0\124\0\u01f8"+
-    "\0\u0214\0\u0230\0\u024c\0\u0268\0\u0284\0\u02a0\0\u02bc\0\u02d8"+
-    "\0\u02f4\0\u0310\0\u032c\0\u0348\0\u0364\0\u0380\0\u039c\0\u03b8"+
-    "\0\124\0\u03d4\0\u03f0\0\u040c\0\124\0\u0428\0\u0444\0\u0460"+
-    "\0\u047c\0\u0498\0\124\0\u04b4\0\u04d0\0\u04ec\0\124\0\124"+
-    "\0\u0508\0\124";
+    "\0\0\0\35\0\72\0\127\0\127\0\164\0\127\0\127"+
+    "\0\127\0\127\0\127\0\221\0\256\0\313\0\350\0\u0105"+
+    "\0\127\0\u0122\0\127\0\u013f\0\u015c\0\u0179\0\u0196\0\u01b3"+
+    "\0\u01d0\0\u01ed\0\u020a\0\127\0\127\0\127\0\127\0\u0227"+
+    "\0\u0244\0\u0261\0\u027e\0\u029b\0\u02b8\0\u02d5\0\u0122\0\u02f2"+
+    "\0\u030f\0\u032c\0\u0349\0\u0366\0\u0383\0\u03a0\0\u03bd\0\u03da"+
+    "\0\u03f7\0\u0414\0\127\0\u0431\0\u044e\0\u046b\0\127\0\u0488"+
+    "\0\u04a5\0\u04c2\0\u04df\0\u04fc\0\127\0\u0519\0\u0536\0\u0553"+
+    "\0\127\0\127\0\u0570\0\127";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[66];
+    int [] result = new int[68];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -167,25 +169,27 @@ public class XMLlexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\2\5\1\6\1\7\1\10\1\11\1\12\1\13"+
-    "\1\14\2\4\1\15\3\4\1\16\1\4\1\17\5\4"+
-    "\1\20\1\21\2\4\2\22\2\4\1\23\25\22\1\24"+
-    "\3\22\3\4\25\22\1\24\1\25\36\0\1\5\44\0"+
-    "\1\26\12\0\1\27\33\0\1\30\26\0\1\31\23\0"+
-    "\1\32\33\0\1\33\22\0\2\22\3\0\25\22\1\0"+
-    "\1\22\4\0\1\34\13\0\1\35\3\0\1\36\1\0"+
-    "\1\37\20\0\1\40\44\0\1\41\24\0\1\42\35\0"+
-    "\1\43\40\0\1\44\25\0\1\45\32\0\1\46\33\0"+
-    "\1\47\41\0\1\50\22\0\1\51\32\0\1\52\43\0"+
-    "\1\53\33\0\1\54\24\0\1\55\50\0\1\56\30\0"+
-    "\1\57\26\0\1\60\40\0\1\61\27\0\1\62\42\0"+
-    "\1\63\20\0\1\64\33\0\1\65\33\0\1\66\33\0"+
-    "\1\67\45\0\1\70\33\0\1\71\33\0\1\72\32\0"+
-    "\1\73\27\0\1\74\23\0\1\75\46\0\1\76\34\0"+
-    "\1\77\33\0\1\100\27\0\1\101\37\0\1\102\6\0";
+    "\1\4\2\5\1\6\1\7\1\4\1\10\1\11\1\12"+
+    "\1\13\1\14\2\4\1\15\3\4\1\16\1\4\1\17"+
+    "\5\4\1\20\1\21\2\4\2\22\2\4\1\23\26\22"+
+    "\1\24\3\22\3\4\1\25\25\22\1\24\1\22\37\0"+
+    "\1\5\46\0\1\26\12\0\1\27\34\0\1\30\27\0"+
+    "\1\31\24\0\1\32\34\0\1\33\22\0\2\22\3\0"+
+    "\26\22\1\0\1\22\4\0\1\34\14\0\1\35\3\0"+
+    "\1\36\1\0\1\37\5\0\2\22\3\0\26\22\1\0"+
+    "\1\40\14\0\1\41\45\0\1\42\25\0\1\43\36\0"+
+    "\1\44\41\0\1\45\26\0\1\46\15\0\2\22\3\0"+
+    "\1\47\25\22\1\0\1\22\16\0\1\50\34\0\1\51"+
+    "\42\0\1\52\23\0\1\53\33\0\1\54\44\0\1\55"+
+    "\34\0\1\56\25\0\1\57\51\0\1\60\31\0\1\61"+
+    "\27\0\1\62\41\0\1\63\30\0\1\64\43\0\1\65"+
+    "\21\0\1\66\34\0\1\67\34\0\1\70\34\0\1\71"+
+    "\46\0\1\72\34\0\1\73\34\0\1\74\33\0\1\75"+
+    "\30\0\1\76\24\0\1\77\47\0\1\100\35\0\1\101"+
+    "\34\0\1\102\30\0\1\103\40\0\1\104\6\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[1316];
+    int [] result = new int[1421];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -229,11 +233,12 @@ public class XMLlexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\3\0\2\11\1\1\5\11\5\1\1\11\1\1\1\11"+
-    "\2\1\6\0\4\11\21\0\1\11\1\1\2\0\1\11"+
-    "\5\0\1\11\2\1\1\0\2\11\1\1\1\11";
+    "\2\1\6\0\4\11\1\1\6\0\1\1\13\0\1\11"+
+    "\1\1\2\0\1\11\5\0\1\11\2\1\1\0\2\11"+
+    "\1\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[66];
+    int [] result = new int[68];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -310,18 +315,25 @@ public class XMLlexer implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
-  /*--------------------------------------------
-    CODIGO PARA EL MANEJO DE ERRORES
-  ----------------------------------------------*/
-    private List<String> errorsList;
 
-    public void init(){
-        errorsList = new LinkedList<>();
-    }
+    /*--------------------------------------------
+                    UTIL
+    ---------------------------------------------*/
+    private List<String> errorsList;
+    private List<Token> tokens;
 
     public void reset(){
         errorsList.clear();
     }
+
+    public List<Token> getTokens(){
+        return this.tokens;
+    }
+
+
+  /*--------------------------------------------
+    CODIGO PARA EL MANEJO DE ERRORES
+  ----------------------------------------------*/
 
     public List<String> getErrors(){
         return this.errorsList;
@@ -330,7 +342,7 @@ public class XMLlexer implements java_cup.runtime.Scanner {
     /*--------------------------------------------
         CODIGO PARA EL PARSER
     ----------------------------------------------*/
-    StringBuffer string = new StringBuffer();
+    StringBuffer string;
 
     private Symbol symbol(int type) {
         return new Symbol(type, yyline+1, yycolumn+1);
@@ -340,9 +352,8 @@ public class XMLlexer implements java_cup.runtime.Scanner {
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
 
-    private Symbol error(String message, Object value) {
+    private void addError(String message) {
         errorsList.add("Error en la linea: " + (yyline+1) + ", columna: " + (yycolumn+1) + " : "+message);
-        return new Symbol(sym.LEXER_ERROR, yyline+1, yycolumn+1, value);
     }
 
 
@@ -352,6 +363,9 @@ public class XMLlexer implements java_cup.runtime.Scanner {
    * @param   in  the java.io.Reader to read input from.
    */
   public XMLlexer(java.io.Reader in) {
+      errorsList = new LinkedList();
+    tokens = new LinkedList();
+    string = new StringBuffer();
     this.zzReader = in;
   }
 
@@ -772,7 +786,7 @@ public class XMLlexer implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return error("Simbolo invalido <"+ yytext()+">", yytext());
+            { addError("Simbolo invalido <"+ yytext()+">");
             }
           // fall through
           case 26: break;
@@ -807,7 +821,7 @@ public class XMLlexer implements java_cup.runtime.Scanner {
           // fall through
           case 32: break;
           case 8:
-            { string.setLenght(0); yybegin(INPUT);
+            { string.setLength(0); yybegin(INPUT);
             }
           // fall through
           case 33: break;
@@ -874,7 +888,7 @@ public class XMLlexer implements java_cup.runtime.Scanner {
                             return symbol(sym.TEXTO, string.toString());
                         
                         default:
-                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*"){
+                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
                                 return symbol(sym.IDENTIFIER, string.toString());
                             }else{
                                 return symbol(sym.STRING_TKN, string.toString());
@@ -889,6 +903,26 @@ public class XMLlexer implements java_cup.runtime.Scanner {
           // fall through
           case 36: break;
           case 12:
+            { string.append('\"');
+            }
+          // fall through
+          case 37: break;
+          case 13:
+            { string.append('\n');
+            }
+          // fall through
+          case 38: break;
+          case 14:
+            { string.append('\r');
+            }
+          // fall through
+          case 39: break;
+          case 15:
+            { string.append('\t');
+            }
+          // fall through
+          case 40: break;
+          case 16:
             { yybegin(YYINITIAL); //volver al estado de jflex
                     switch(string.toString()){  /*-------------ACCIONES------------------*/
                         case "CENTRAR":
@@ -900,39 +934,18 @@ public class XMLlexer implements java_cup.runtime.Scanner {
                         case "JUSTIFICAR":
                             return symbol(sym.JUSTIFICAR, string.toString());
                         default:
-                            if(string.toString.matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
+                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
                                 return symbol(sym.IDENTIFIER, string.toString());
-                            } else if(string.toString
-                                .matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
+                            } else if(string.toString().matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
                                 return symbol(sym.DATE_TKN, string.toString());
-                            } else if(string.toString.matches("[0-9]+")){
+                            } else if(string.toString().matches("[0-9]+")){
                                 return symbol(sym.INTEGER_TKN, string.toString());
-                            } else if(string.toString.matches("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})")){
+                            } else if(string.toString().matches("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})")){
                                 return symbol(sym.COLOR_HEX, string.toString());
                             } else {
                                 return symbol(sym.STRING_TKN, string.toString());
                             }
                     }
-            }
-          // fall through
-          case 37: break;
-          case 13:
-            { string.append('\"');
-            }
-          // fall through
-          case 38: break;
-          case 14:
-            { string.append('\n');
-            }
-          // fall through
-          case 39: break;
-          case 15:
-            { string.append('\r');
-            }
-          // fall through
-          case 40: break;
-          case 16:
-            { string.append('\t');
             }
           // fall through
           case 41: break;

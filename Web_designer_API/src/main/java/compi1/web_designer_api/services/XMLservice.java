@@ -18,7 +18,6 @@ public class XMLservice {
         String textUser = getRequestContent(request);
         StringReader reader = new StringReader(textUser);
         XMLlexer lexer = new XMLlexer(reader);
-        lexer.init();
         XMLparser parser = new XMLparser(lexer);
 
         try {

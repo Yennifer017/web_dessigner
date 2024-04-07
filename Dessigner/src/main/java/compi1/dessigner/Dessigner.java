@@ -11,6 +11,7 @@ package compi1.dessigner;
 public class Dessigner {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Fronted fronted = new Fronted();
+        fronted.setVisible(true);
     }
 }

@@ -3,6 +3,7 @@ package compi1.web_designer_api.htmltraductor;
 
 import java_cup.runtime.*;
 import java.util.*;
+import compi1.web_designer_api.servlets.util.Token;
 
 %% //separador de area
 
@@ -17,6 +18,15 @@ import java.util.*;
 %line
 %column
 
+/* ------------------------------------------------
+            codigo en el constructor
+---------------------------------------------------*/
+%init{
+    errorsList = new LinkedList();
+    tokens = new LinkedList();
+    string = new StringBuffer();
+%init}  
+
 /*--------------------------------------------------
                 macros o constantes
 ----------------------------------------------------*/
@@ -25,32 +35,35 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
 
 /* constants */
-L=[a-zA-Z_]+
-DecIntegerLiteral = [0-9]+
-Identifier = ("_"|"-"|"$")([:jletterdigit:]|"-"|"_"|"$")*
-DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3][0-1])
+/* nothing here */
 
 /*---------------------------------------------------
                 estados del lexer
 -----------------------------------------------------*/
 
-%state STRING
-%state INPUT
+%state STRING, INPUT
 
 
 %{ /****************CODIGO DE USUARIO*************/
-  /*--------------------------------------------
-    CODIGO PARA EL MANEJO DE ERRORES
-  ----------------------------------------------*/
-    private List<String> errorsList;
 
-    public void init(){
-        errorsList = new LinkedList<>();
-    }
+    /*--------------------------------------------
+                    UTIL
+    ---------------------------------------------*/
+    private List<String> errorsList;
+    private List<Token> tokens;
 
     public void reset(){
         errorsList.clear();
     }
+
+    public List<Token> getTokens(){
+        return this.tokens;
+    }
+
+
+  /*--------------------------------------------
+    CODIGO PARA EL MANEJO DE ERRORES
+  ----------------------------------------------*/
 
     public List<String> getErrors(){
         return this.errorsList;
@@ -59,7 +72,7 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
     /*--------------------------------------------
         CODIGO PARA EL PARSER
     ----------------------------------------------*/
-    StringBuffer string = new StringBuffer();
+    StringBuffer string;
 
     private Symbol symbol(int type) {
         return new Symbol(type, yyline+1, yycolumn+1);
@@ -69,9 +82,8 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
 
-    private Symbol error(String message, Object value) {
+    private void addError(String message) {
         errorsList.add("Error en la linea: " + (yyline+1) + ", columna: " + (yycolumn+1) + " : "+message);
-        return new Symbol(sym.LEXER_ERROR, yyline+1, yycolumn+1, value);
     }
 %}
 
@@ -90,7 +102,7 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
     <YYINITIAL> "ETIQUETA"      { return symbol(sym.ETIQUETA); }
     <YYINITIAL> "ETIQUETAS"     { return symbol(sym.ETIQUETAS); }
     <YYINITIAL> "NOMBRE"        { return symbol(sym.NOMBRE); }
-    <YYINITIAL> "PARAMETRO"    { return symbol(sym.PARAMETROS); }
+    <YYINITIAL> "PARAMETRO"     { return symbol(sym.PARAMETRO); }
     <YYINITIAL> "PARAMETROS"    { return symbol(sym.PARAMETROS); }
     <YYINITIAL> "VALOR"         { return symbol(sym.VALOR); }
     
@@ -102,7 +114,7 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
         "="             { return symbol(sym.EQUALS); }
 
         \"              { string.setLength(0); yybegin(STRING); }
-        "["             { string.setLenght(0); yybegin(INPUT);  }    
+        "["             { string.setLength(0); yybegin(INPUT);  }    
 
         /* ignored */
         {WhiteSpace} 	{/* ignore */}
@@ -167,7 +179,7 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
                             return symbol(sym.TEXTO, string.toString());
                         
                         default:
-                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*"){
+                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
                                 return symbol(sym.IDENTIFIER, string.toString());
                             }else{
                                 return symbol(sym.STRING_TKN, string.toString());
@@ -187,7 +199,7 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
     }
 
     <INPUT> {
-      "]"       { yybegin(YYINITIAL); //volver al estado de jflex
+      ']'       { yybegin(YYINITIAL); //volver al estado de jflex
                     switch(string.toString()){  /*-------------ACCIONES------------------*/
                         case "CENTRAR":
                             return symbol(sym.CENTRAR, string.toString()); 
@@ -198,14 +210,13 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
                         case "JUSTIFICAR":
                             return symbol(sym.JUSTIFICAR, string.toString());
                         default:
-                            if(string.toString.matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
+                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
                                 return symbol(sym.IDENTIFIER, string.toString());
-                            } else if(string.toString
-                                .matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
+                            } else if(string.toString().matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
                                 return symbol(sym.DATE_TKN, string.toString());
-                            } else if(string.toString.matches("[0-9]+")){
+                            } else if(string.toString().matches("[0-9]+")){
                                 return symbol(sym.INTEGER_TKN, string.toString());
-                            } else if(string.toString.matches("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})")){
+                            } else if(string.toString().matches("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})")){
                                 return symbol(sym.COLOR_HEX, string.toString());
                             } else {
                                 return symbol(sym.STRING_TKN, string.toString());
@@ -227,5 +238,5 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
 
 
   /* error fallback */
-    [^]             { return error("Simbolo invalido <"+ yytext()+">", yytext());}
+    [^]             { addError("Simbolo invalido <"+ yytext()+">");}
     <<EOF>>         { return symbol(sym.EOF); }

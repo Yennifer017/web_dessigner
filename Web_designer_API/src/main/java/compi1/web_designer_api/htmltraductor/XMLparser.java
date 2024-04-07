@@ -411,18 +411,18 @@ public class XMLparser extends java_cup.runtime.lr_parser {
 
 
     //fields
-    Lexer lex;
+    XMLlexer lex;
     private List<String> syntaxErrors;
 
 
     //conect the parser with the lexer
-    public parser(Lexer lex){
+    public XMLparser(XMLlexer lex){
         super(lex);
         syntaxErrors = new LinkedList<>();
     }
 
     //getters
-    public Lexer getLexer(){
+    public XMLlexer getLexer(){
         return this.lex;
     }
     public List<String> getSyntaxErrors(){
