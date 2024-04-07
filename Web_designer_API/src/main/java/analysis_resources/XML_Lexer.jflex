@@ -85,10 +85,12 @@ DateType = [0-9][0-9][0-9][0-9]"-"([0][1-9]|[1][0-2])"-"([0][1-9]|[1-2][0-9]|[3]
   /*etiquetas XML reservadas*/
     <YYINITIAL> "ACCION"        { return symbol(sym.ACCION); }
     <YYINITIAL> "ACCIONES"      { return symbol(sym.ACCIONES); }
+    <YYINITIAL> "ATRIBUTO"      { return symbol(sym.ATRIBUTO); }
     <YYINITIAL> "ATRIBUTOS"     { return symbol(sym.ATRIBUTOS); }
     <YYINITIAL> "ETIQUETA"      { return symbol(sym.ETIQUETA); }
     <YYINITIAL> "ETIQUETAS"     { return symbol(sym.ETIQUETAS); }
     <YYINITIAL> "NOMBRE"        { return symbol(sym.NOMBRE); }
+    <YYINITIAL> "PARAMETRO"    { return symbol(sym.PARAMETROS); }
     <YYINITIAL> "PARAMETROS"    { return symbol(sym.PARAMETROS); }
     <YYINITIAL> "VALOR"         { return symbol(sym.VALOR); }
     

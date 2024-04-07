@@ -1,4 +1,4 @@
-package compi1.web_designer_api.htmltraductor;;
+package compi1.web_designer_api.htmltraductor;
 
 import java_cup.runtime.*;
 import java.util.*;
@@ -47,7 +47,7 @@ parser code {:
 /*----------------------------------------------------
      Terminals (tokens returned by the scanner). 
 ------------------------------------------------------*/
-terminal            ACCION, ACCIONES, ATRIBUTOS, ETIQUETA, ETIQUETAS, NOMBRE, PARAMETROS, 
+terminal            ACCION, ACCIONES, ATRIBUTO, ATRIBUTOS, ETIQUETA, ETIQUETAS, NOMBRE, PARAMETRO, PARAMETROS, 
                     VALOR, AGREGAR_COMPONENTE, BORRAR_COMPONENTE, BORRAR_PAGINA, BORRAR_SITIO_WEB, 
                     MODIFICAR_COMPONENTE, MODIFICAR_PAGINA, NUEVA_PAGINA, NUEVO_SITIO_WEB, CLASE, FECHA_CREACION, 
                     FECHA_MODIFICACION, ID, PADRE, PAGINA, SITIO, TITULO, USUARIO_CREACION, USUARIO_MODIFICACION, 
@@ -64,12 +64,12 @@ non terminal        open_params, open_params_w, close_params , open_param , clos
                     page_specification_p , name_class, clase_param, open_labels, close_labels, optional_labels, 
                     optional_labels_v2 , labels , define_labels, open_attributes, close_attributes, text_attr, 
                     types_align, align_attr , color_attr, origin_attr, numeric_attr_name , numeric_attr , labels_attr , 
-                    optional_attributes , optional_attributes_v2 , atributes, define_attributes, define_attr_aux, 
-                    instruction, instruction_aux , actions_stm, more_actions , more_actions_aux, action, action_stm, 
+                    optional_attributes , optional_attributes_v2 , attributes, define_attributes, define_attr_aux, 
+                    instruction, instruction_aux , actions_stm, more_actions , more_actions_aux, action_specific, action_stm, 
                     new_site, params_new_site, params_new_site_aux , delete_site, new_page, params_new_page, 
                     params_new_page_aux, delete_page, modify_page , modify_params , modify_params_aux, add_component , 
                     add_comp_params, add_comp_params_aux , delete_component , delete_comp_params , delete_comp_params_aux, 
-                    modify_component, modify_comp_params, modify_comp_params_aux ;
+                    modify_component, modify_comp_params, modify_comp_params_aux, open_attr, close_attr ;
 
 
 /*------------------------------------------------------
@@ -109,7 +109,7 @@ father_param ::= PADRE CLOSE IDENTIFIER close_param;
 page_specification_p ::= PAGINA CLOSE IDENTIFIER close_param;
 
     /***************** clases to create ********************/
-name_class ::= TITULO
+name_class ::= TITULO_CLASS
           | PARRAFO
           | IMAGEN
           | VIDEO
@@ -119,14 +119,15 @@ clase_param ::= open_param CLASE CLOSE name_class close_param;
 
     /*********************** labels ****************************/
 open_labels ::= ETIQUETAS CLOSE;
-close_labels ::= OPEN FINISHER ETIQUETAS CLOSE;
+close_labels ::= FINISHER ETIQUETAS CLOSE;
 
 optional_labels ::= labels OPEN
             | /* empty */ ;
 optional_labels_v2 ::= labels
             | /* empty */ ;
-labels ::= open_labels define_labels close_labels;
-define_labels ::= OPEN ETIQUETA VALOR EQUALS ID FINISHER CLOSE define_labels
+            
+labels ::= open_labels OPEN define_labels close_labels;
+define_labels ::= OPEN ETIQUETA VALOR EQUALS ID FINISHER CLOSE OPEN define_labels
             | /* empty */ ;
             
             
@@ -135,7 +136,7 @@ define_labels ::= OPEN ETIQUETA VALOR EQUALS ID FINISHER CLOSE define_labels
 open_attributes ::= ATRIBUTOS CLOSE ;
 close_attributes ::= FINISHER ATRIBUTOS CLOSE ;
 
-open_attr ::= ATRIBUTO NOMBRE IGUAL ;
+open_attr ::= ATRIBUTO NOMBRE EQUALS ;
 close_attr ::= OPEN FINISHER ATRIBUTO CLOSE ;
           /*************** specific attributes ******************/
 text_attr ::= TEXTO CLOSE data close_attr ;
@@ -144,16 +145,16 @@ types_align ::= CENTRAR
             | IZQUIERDA
             | DERECHA
             | JUSTIFICAR ;
-align_attr ::= ALIGNACION CLOSE types_align close_attr ;
+align_attr ::= ALINEACION CLOSE types_align close_attr ;
 
 color_attr ::= COLOR CLOSE COLOR_HEX close_attr ;
 
-origin_attr ::= ORIGEN CLOSE STRING close_attr ;            /*CHEK THE STRING*/
+origin_attr ::= ORIGEN CLOSE STRING_TKN close_attr ;            /*CHEK THE STRING*/
 
 numeric_attr_name ::= ALTURA
             | ANCHO ;
 numeric_attr ::= numeric_attr_name CLOSE INTEGER_TKN close_attr ;
-labels_attr ::= ETIQUETAS_MENU CLOSE STRING close_attr  ;    /*CHEK THE STRING*/
+labels_attr ::= ETIQUETAS_MENU CLOSE STRING_TKN close_attr  ;    /*CHEK THE STRING*/
 
             /******************* define attributes ******************/
 optional_attributes ::= attributes OPEN
@@ -161,7 +162,7 @@ optional_attributes ::= attributes OPEN
 optional_attributes_v2 ::= attributes
             | /*empty*/ ;
                
-atributes ::= open_attributes OPEN define_attributes close_attributes ;
+attributes ::= open_attributes OPEN define_attributes close_attributes ;
 define_attributes ::= open_attr define_attr_aux
             | /* empty */ ;
 
@@ -178,14 +179,14 @@ define_attr_aux ::= text_attr OPEN define_attributes
                 INIT THE INSTRUCTIONS
 **************************************************************/
 instruction ::= OPEN instruction_aux ;
-instruction_aux ::= actions_stm | action ;
+instruction_aux ::= actions_stm | action_specific ;
             
 actions_stm ::= ACCIONES CLOSE OPEN more_actions FINISHER ACCIONES CLOSE ;
-more_actions ::= action more_actions_aux 
+more_actions ::= action_specific more_actions_aux 
             | /* empty */;
 more_actions_aux ::= OPEN more_actions;
 
-action ::= ACCION NOMBRE EQUALS action_stm OPEN FINISHER ACCION CLOSE ;
+action_specific ::= ACCION NOMBRE EQUALS action_stm OPEN FINISHER ACCION CLOSE ;
 action_stm ::= new_site
             | delete_site
             | new_page 
