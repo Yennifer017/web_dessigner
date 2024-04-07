@@ -69,7 +69,8 @@ non terminal        open_params, open_params_w, close_params , open_param , clos
                     new_site, params_new_site, params_new_site_aux , delete_site, new_page, params_new_page, 
                     params_new_page_aux, delete_page, modify_page , modify_params , modify_params_aux, add_component , 
                     add_comp_params, add_comp_params_aux , delete_component , delete_comp_params , delete_comp_params_aux, 
-                    modify_component, modify_comp_params, modify_comp_params_aux, open_attr, close_attr ;
+                    modify_component, modify_comp_params, modify_comp_params_aux, open_attr, close_attr, params_delete_site, 
+                    delete_page_params;
 
 
 /*------------------------------------------------------
@@ -203,9 +204,12 @@ params_new_site ::= open_param params_new_site_aux
             | /* empty */ ;
 params_new_site_aux ::= id_param OPEN params_new_site
             | record_params OPEN params_new_site ;
-            
 
-delete_site ::= BORRAR_SITIO_WEB CLOSE open_params OPEN open_param id_param OPEN close_params ;
+
+delete_site ::= BORRAR_SITIO_WEB CLOSE OPEN params_delete_site ;
+params_delete_site ::= open_params_w OPEN open_param id_param OPEN close_params
+	    | open_param id_param ;
+
 
      /******************** into pages ******************************/
 new_page ::= NUEVA_PAGINA CLOSE OPEN optional_labels open_params_w OPEN params_new_page close_params optional_labels_v2 ; 
@@ -218,7 +222,9 @@ params_new_page_aux ::= id_param OPEN params_new_page
               | record_params OPEN params_new_page ;
                
                
-delete_page ::= BORRAR_PAGINA CLOSE open_params OPEN open_param id_param OPEN close_params ;
+delete_page ::= BORRAR_PAGINA CLOSE OPEN delete_page_params;
+delete_page_params ::= open_params_w OPEN open_param id_param OPEN close_params 
+	 	| open_param id_param;
 
 
 modify_page ::= MODIFICAR_PAGINA CLOSE OPEN optional_labels open_params_w modify_params close_params optional_labels_v2 ;
