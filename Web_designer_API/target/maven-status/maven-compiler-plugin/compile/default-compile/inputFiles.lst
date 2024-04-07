@@ -1,2 +1,8 @@
-/home/yennifer/NetBeansProjects/Web_designer_API/src/main/java/compi1/web_designer_api/JakartaRestConfiguration.java
-/home/yennifer/NetBeansProjects/Web_designer_API/src/main/java/compi1/web_designer_api/resources/JakartaEE10Resource.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/XMLparser.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/servlets/Executor.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/sym.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/XMLlexer.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/JakartaRestConfiguration.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/services/XMLservice.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/resources/JakartaEE10Resource.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/servlets/util/Token.java

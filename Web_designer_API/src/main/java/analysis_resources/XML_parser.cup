@@ -1,0 +1,250 @@
+package compi1.web_designer_api.htmltraductor;;
+
+import java_cup.runtime.*;
+import java.util.*;
+
+/*-----------------------------------------------------------
+  CUP Specification for the Parser Class
+  -----------------------------------------------------------*/
+parser code {:
+    //fields
+    Lexer lex;
+    private List<String> syntaxErrors;
+
+
+    //conect the parser with the lexer
+    public parser(Lexer lex){
+        super(lex);
+        syntaxErrors = new LinkedList<>();
+    }
+
+    //getters
+    public Lexer getLexer(){
+        return this.lex;
+    }
+    public List<String> getSyntaxErrors(){
+        return this.syntaxErrors;
+    }
+    
+    /*----------------------------------------------------
+            SOBREESCRIBIENDO LOS METODOS DE ERROR
+    ------------------------------------------------------*/
+    public void syntax_error(Symbol cur_token) {
+        String mss = "Simbolo: " + symbl_name_from_id(cur_token.sym)
+                    + ", linea: " + cur_token.left
+                    + ", columna: " + cur_token.right;
+        if (expected_token_ids().isEmpty()) {
+            mss += " -- ya no se esperaba ningun simbolo";
+        }
+        syntaxErrors.add(mss);
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        syntaxErrors.add("Errores de sintaxis severos detectados, revisa municiosamente el codigo");
+    }
+:}
+
+/*----------------------------------------------------
+     Terminals (tokens returned by the scanner). 
+------------------------------------------------------*/
+terminal            ACCION, ACCIONES, ATRIBUTOS, ETIQUETA, ETIQUETAS, NOMBRE, PARAMETROS, 
+                    VALOR, AGREGAR_COMPONENTE, BORRAR_COMPONENTE, BORRAR_PAGINA, BORRAR_SITIO_WEB, 
+                    MODIFICAR_COMPONENTE, MODIFICAR_PAGINA, NUEVA_PAGINA, NUEVO_SITIO_WEB, CLASE, FECHA_CREACION, 
+                    FECHA_MODIFICACION, ID, PADRE, PAGINA, SITIO, TITULO, USUARIO_CREACION, USUARIO_MODIFICACION, 
+                    ALINEACION, ALTURA, ANCHO, COLOR, ETIQUETAS_MENU, ORIGEN, TEXTO, TITULO_CLASS, PARRAFO, IMAGEN, 
+                    VIDEO, MENU, CENTRAR, DERECHA, IZQUIERDA, JUSTIFICAR, OPEN, FINISHER, CLOSE, EQUALS, DATE_TKN, 
+                    IDENTIFIER;
+
+terminal Integer    INTEGER_TKN;
+terminal String     STRING_TKN, COLOR_HEX;
+
+/* Non-terminals */
+non terminal        open_params, open_params_w, close_params , open_param , close_param, data, need_id_record , 
+                    need_date_record, record_params, id_param, title_param , site_param, father_param, 
+                    page_specification_p , name_class, clase_param, open_labels, close_labels, optional_labels, 
+                    optional_labels_v2 , labels , define_labels, open_attributes, close_attributes, text_attr, 
+                    types_align, align_attr , color_attr, origin_attr, numeric_attr_name , numeric_attr , labels_attr , 
+                    optional_attributes , optional_attributes_v2 , atributes, define_attributes, define_attr_aux, 
+                    instruction, instruction_aux , actions_stm, more_actions , more_actions_aux, action, action_stm, 
+                    new_site, params_new_site, params_new_site_aux , delete_site, new_page, params_new_page, 
+                    params_new_page_aux, delete_page, modify_page , modify_params , modify_params_aux, add_component , 
+                    add_comp_params, add_comp_params_aux , delete_component , delete_comp_params , delete_comp_params_aux, 
+                    modify_component, modify_comp_params, modify_comp_params_aux ;
+
+
+/*------------------------------------------------------
+                     THE GRAMMAR 
+--------------------------------------------------------*/
+
+    
+start with instruction;
+
+/***********************util for all*******************/
+open_params ::= OPEN PARAMETROS CLOSE;
+open_params_w ::= PARAMETROS CLOSE;
+close_params ::= FINISHER PARAMETROS CLOSE;
+open_param ::= PARAMETRO NOMBRE EQUALS;
+close_param ::= OPEN FINISHER PARAMETRO CLOSE;
+
+data ::= DATE_TKN
+            | IDENTIFIER
+            | COLOR
+            | INTEGER_TKN
+            | STRING_TKN
+            | types_align;
+
+    /***********for the record, its not recursive********/
+need_id_record ::= USUARIO_CREACION
+            | USUARIO_MODIFICACION;
+need_date_record ::= FECHA_CREACION
+            | FECHA_MODIFICACION;
+record_params ::= need_id_record CLOSE IDENTIFIER close_param
+            | need_date_record CLOSE DATE_TKN close_param;
+            
+    /**************** other repeted params*****************/
+id_param ::= ID CLOSE IDENTIFIER close_param;
+title_param ::= TITULO CLOSE data close_param;
+site_param ::= SITIO CLOSE IDENTIFIER close_param;
+father_param ::= PADRE CLOSE IDENTIFIER close_param;
+page_specification_p ::= PAGINA CLOSE IDENTIFIER close_param;
+
+    /***************** clases to create ********************/
+name_class ::= TITULO
+          | PARRAFO
+          | IMAGEN
+          | VIDEO
+          | MENU    ;
+clase_param ::= open_param CLASE CLOSE name_class close_param;
+
+
+    /*********************** labels ****************************/
+open_labels ::= ETIQUETAS CLOSE;
+close_labels ::= OPEN FINISHER ETIQUETAS CLOSE;
+
+optional_labels ::= labels OPEN
+            | /* empty */ ;
+optional_labels_v2 ::= labels
+            | /* empty */ ;
+labels ::= open_labels define_labels close_labels;
+define_labels ::= OPEN ETIQUETA VALOR EQUALS ID FINISHER CLOSE define_labels
+            | /* empty */ ;
+            
+            
+     /**************** attributes *******************************/
+          /******************** tags *****************************/
+open_attributes ::= ATRIBUTOS CLOSE ;
+close_attributes ::= FINISHER ATRIBUTOS CLOSE ;
+
+open_attr ::= ATRIBUTO NOMBRE IGUAL ;
+close_attr ::= OPEN FINISHER ATRIBUTO CLOSE ;
+          /*************** specific attributes ******************/
+text_attr ::= TEXTO CLOSE data close_attr ;
+
+types_align ::= CENTRAR
+            | IZQUIERDA
+            | DERECHA
+            | JUSTIFICAR ;
+align_attr ::= ALIGNACION CLOSE types_align close_attr ;
+
+color_attr ::= COLOR CLOSE COLOR_HEX close_attr ;
+
+origin_attr ::= ORIGEN CLOSE STRING close_attr ;            /*CHEK THE STRING*/
+
+numeric_attr_name ::= ALTURA
+            | ANCHO ;
+numeric_attr ::= numeric_attr_name CLOSE INTEGER_TKN close_attr ;
+labels_attr ::= ETIQUETAS_MENU CLOSE STRING close_attr  ;    /*CHEK THE STRING*/
+
+            /******************* define attributes ******************/
+optional_attributes ::= attributes OPEN
+            | /*empty*/ ;
+optional_attributes_v2 ::= attributes
+            | /*empty*/ ;
+               
+atributes ::= open_attributes OPEN define_attributes close_attributes ;
+define_attributes ::= open_attr define_attr_aux
+            | /* empty */ ;
+
+define_attr_aux ::= text_attr OPEN define_attributes
+            | align_attr OPEN define_attributes
+            | color_attr OPEN define_attributes
+            | origin_attr OPEN define_attributes
+            | numeric_attr OPEN define_attributes
+            | labels_attr OPEN define_attributes
+            | /* empty */ ;
+
+
+/************************************************************
+                INIT THE INSTRUCTIONS
+**************************************************************/
+instruction ::= OPEN instruction_aux ;
+instruction_aux ::= actions_stm | action ;
+            
+actions_stm ::= ACCIONES CLOSE OPEN more_actions FINISHER ACCIONES CLOSE ;
+more_actions ::= action more_actions_aux 
+            | /* empty */;
+more_actions_aux ::= OPEN more_actions;
+
+action ::= ACCION NOMBRE EQUALS action_stm OPEN FINISHER ACCION CLOSE ;
+action_stm ::= new_site
+            | delete_site
+            | new_page 
+            | delete_page
+            | modify_page
+            | add_component
+            | delete_component
+            | modify_component ;
+
+/*********************** actions *********************************/
+    /********************** into sites ***************************/
+new_site ::= NUEVO_SITIO_WEB CLOSE open_params OPEN params_new_site close_params ;
+params_new_site ::= open_param params_new_site_aux
+            | /* empty */ ;
+params_new_site_aux ::= id_param OPEN params_new_site
+            | record_params OPEN params_new_site ;
+            
+
+delete_site ::= BORRAR_SITIO_WEB CLOSE open_params OPEN open_param id_param OPEN close_params ;
+
+     /******************** into pages ******************************/
+new_page ::= NUEVA_PAGINA CLOSE OPEN optional_labels open_params_w OPEN params_new_page close_params optional_labels_v2 ; 
+params_new_page ::= open_param params_new_page_aux
+              | /* empty */ ;
+params_new_page_aux ::= id_param OPEN params_new_page
+              | title_param OPEN params_new_page
+              | site_param OPEN params_new_page
+              | father_param OPEN params_new_page
+              | record_params OPEN params_new_page ;
+               
+               
+delete_page ::= BORRAR_PAGINA CLOSE open_params OPEN open_param id_param OPEN close_params ;
+
+
+modify_page ::= MODIFICAR_PAGINA CLOSE OPEN optional_labels open_params_w modify_params close_params optional_labels_v2 ;
+modify_params ::= open_param modify_params_aux
+                | /* empty */ ;
+modify_params_aux ::= id_param OPEN modify_params
+		| title_param OPEN modify_params ;
+		
+      /************************** components ***************************/
+add_component ::= AGREGAR_COMPONENTE CLOSE OPEN optional_attributes open_params_w add_comp_params close_params optional_attributes_v2 ;
+add_comp_params ::= open_param add_comp_params_aux
+                | /* empty */ ;
+add_comp_params_aux ::= id_param OPEN add_comp_params
+                | page_specification_p OPEN add_comp_params
+                | clase_param OPEN add_comp_params ;
+                
+                
+delete_component ::= BORRAR_COMPONENTE CLOSE open_params OPEN delete_comp_params close_params ;
+delete_comp_params ::= open_param delete_comp_params_aux
+                | /* empty */ ;
+delete_comp_params_aux ::= id_param OPEN delete_comp_params
+                | page_specification_p OPEN delete_comp_params ;
+                
+                
+modify_component ::= MODIFICAR_COMPONENTE CLOSE OPEN optional_attributes open_params_w modify_comp_params close_params optional_attributes_v2 ;
+modify_comp_params ::= open_param modify_comp_params_aux 
+                | /* empty */ ;
+modify_comp_params_aux ::= id_param OPEN modify_comp_params 
+                | page_specification_p OPEN modify_comp_params 
+                | clase_param OPEN modify_comp_params ;

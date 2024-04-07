@@ -19,6 +19,19 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/de.jflex/cup_runtime -->
+        <dependency>
+            <groupId>de.jflex</groupId>
+            <artifactId>cup_runtime</artifactId>
+            <version>11b-20160615</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     
     <build>
