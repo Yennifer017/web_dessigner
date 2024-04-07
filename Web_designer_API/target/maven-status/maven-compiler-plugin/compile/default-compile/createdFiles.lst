@@ -3,7 +3,9 @@ compi1/web_designer_api/htmltraductor/XMLlexer.class
 compi1/web_designer_api/htmltraductor/sym.class
 compi1/web_designer_api/htmltraductor/XMLparser.class
 compi1/web_designer_api/JakartaRestConfiguration.class
+compi1/web_designer_api/util/Token.class
+compi1/web_designer_api/services/Mensajero.class
 compi1/web_designer_api/services/XMLservice.class
-compi1/web_designer_api/servlets/util/Token.class
 compi1/web_designer_api/htmltraductor/XMLparser$CUP$XMLparser$actions.class
+compi1/web_designer_api/services/ResponserGen.class
 compi1/web_designer_api/servlets/Executor.class

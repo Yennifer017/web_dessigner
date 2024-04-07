@@ -3,7 +3,7 @@ package compi1.web_designer_api.htmltraductor;
 
 import java_cup.runtime.*;
 import java.util.*;
-import compi1.web_designer_api.servlets.util.Token;
+import compi1.web_designer_api.util.Token;
 
 %% //separador de area
 
@@ -25,6 +25,8 @@ import compi1.web_designer_api.servlets.util.Token;
     errorsList = new LinkedList();
     tokens = new LinkedList();
     string = new StringBuffer();
+    input = new StringBuffer();
+    ID_REGEX = "(_|-|\\$)([a-zA-Z]|[0-9]|_|-|\\$)*";
 %init}  
 
 /*--------------------------------------------------
@@ -51,6 +53,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
     ---------------------------------------------*/
     private List<String> errorsList;
     private List<Token> tokens;
+    private final String ID_REGEX;
 
     public void reset(){
         errorsList.clear();
@@ -73,12 +76,15 @@ WhiteSpace = {LineTerminator} | [ \t\f]
         CODIGO PARA EL PARSER
     ----------------------------------------------*/
     StringBuffer string;
+    StringBuffer input;
 
     private Symbol symbol(int type) {
+        tokens.add(new Token(type, yyline+1, yycolumn+1));
         return new Symbol(type, yyline+1, yycolumn+1);
     }
 
     private Symbol symbol(int type, Object value) {
+        tokens.add(new Token(value, type, yyline+1, yycolumn+1));
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
 
@@ -114,7 +120,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
         "="             { return symbol(sym.EQUALS); }
 
         \"              { string.setLength(0); yybegin(STRING); }
-        "["             { string.setLength(0); yybegin(INPUT);  }    
+        "["             { input.setLength(0); yybegin(INPUT);  }    
 
         /* ignored */
         {WhiteSpace} 	{/* ignore */}
@@ -179,7 +185,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
                             return symbol(sym.TEXTO, string.toString());
                         
                         default:
-                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
+                            if(string.toString().matches(ID_REGEX)){
                                 return symbol(sym.IDENTIFIER, string.toString());
                             }else{
                                 return symbol(sym.STRING_TKN, string.toString());
@@ -199,44 +205,44 @@ WhiteSpace = {LineTerminator} | [ \t\f]
     }
 
     <INPUT> {
-      ']'       { yybegin(YYINITIAL); //volver al estado de jflex
-                    switch(string.toString()){  /*-------------ACCIONES------------------*/
+        \"      {
+                    yybegin(YYINITIAL); //volver al estado de jflex
+                    switch(input.toString()){  /*-------------ACCIONES------------------*/
                         case "CENTRAR":
-                            return symbol(sym.CENTRAR, string.toString()); 
+                            return symbol(sym.CENTRAR, input.toString()); 
                         case "DERECHA":
-                            return symbol(sym.DERECHA, string.toString());
+                            return symbol(sym.DERECHA, input.toString());
                         case "IZQUIERDA":
-                            return symbol(sym.IZQUIERDA, string.toString());
+                            return symbol(sym.IZQUIERDA, input.toString());
                         case "JUSTIFICAR":
-                            return symbol(sym.JUSTIFICAR, string.toString());
+                            return symbol(sym.JUSTIFICAR, input.toString());
                         default:
-                            if(string.toString().matches("(_|-|$)([a-zA-Z]|[0-9]|_|-|$)*")){
-                                return symbol(sym.IDENTIFIER, string.toString());
-                            } else if(string.toString().matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
-                                return symbol(sym.DATE_TKN, string.toString());
-                            } else if(string.toString().matches("[0-9]+")){
-                                return symbol(sym.INTEGER_TKN, string.toString());
-                            } else if(string.toString().matches("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})")){
-                                return symbol(sym.COLOR_HEX, string.toString());
-                            } else {
-                                return symbol(sym.STRING_TKN, string.toString());
-                            }
+                            break;
                     }
-
+                    if(input.toString().matches(ID_REGEX)){
+                        return symbol(sym.IDENTIFIER, input.toString());
+                    } else if(input.toString().matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
+                        return symbol(sym.DATE_TKN, input.toString());
+                    } else if(input.toString().matches("[0-9]+")){
+                        return symbol(sym.INTEGER_TKN, input.toString());
+                    } else if(input.toString().matches("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})")){
+                        return symbol(sym.COLOR_HEX, input.toString());
+                    } else {
+                        return symbol(sym.STRING_TKN, input.toString());
+                    }
                 }
 
-        /*para poder insertar saltos de linea*/
-        [^\n\r\"\\]+                   { string.append( yytext() ); }
-        \\t                            { string.append('\t'); }
-        \\n                            { string.append('\n'); }
+        [^\n\r\"\\]+                   { input.append( yytext() ); }
+        \\t                            { input.append('\t'); }
+        \\n                            { input.append('\n'); }
 
-        \\r                            { string.append('\r'); }
-        \\\"                           { string.append('\"'); }
-        \\                             { string.append('\\'); }
+        \\r                            { input.append('\r'); }
+        \\\"                           { input.append('\"'); }
+        \\                             { input.append('\\'); }
+        
     }
     
-
-
+    
   /* error fallback */
     [^]             { addError("Simbolo invalido <"+ yytext()+">");}
     <<EOF>>         { return symbol(sym.EOF); }

@@ -1,5 +1,5 @@
 
-package compi1.web_designer_api.servlets.util;
+package compi1.web_designer_api.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
