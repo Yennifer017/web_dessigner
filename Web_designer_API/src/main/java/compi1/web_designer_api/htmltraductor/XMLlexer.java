@@ -914,7 +914,7 @@ public class XMLlexer implements java_cup.runtime.Scanner {
           case 44: break;
           case 13:
             { yybegin(YYINITIAL); //volver al estado de jflex
-                    switch(input.toString()){  /*-------------ACCIONES------------------*/
+                    switch(input.toString()){  /*---------------NOMBRE DE ALINEACIONES----------------*/
                         case "CENTRAR":
                             return symbol(sym.CENTRAR, input.toString()); 
                         case "DERECHA":
@@ -923,6 +923,18 @@ public class XMLlexer implements java_cup.runtime.Scanner {
                             return symbol(sym.IZQUIERDA, input.toString());
                         case "JUSTIFICAR":
                             return symbol(sym.JUSTIFICAR, input.toString());
+                            
+                        case "TITULO": /*---------------NOMBRE DE CLASES----------------*/
+                            return symbol(sym.TITULO_CLASS, input.toString()); 
+                        case "PARRAFO":
+                            return symbol(sym.PARRAFO, input.toString());
+                        case "IMAGEN":
+                            return symbol(sym.IMAGEN, input.toString());
+                        case "VIDEO":
+                            return symbol(sym.VIDEO, input.toString());
+                        case "MENU":
+                            return symbol(sym.MENU, input.toString());
+                            
                         default:
                             break;
                     }

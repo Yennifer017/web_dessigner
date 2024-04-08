@@ -197,7 +197,7 @@ public class XMLparser extends java_cup.runtime.lr_parser {
     "\006\014\uffe2\061\uffe2\001\002\000\004\060\343\001\002" +
     "\000\006\010\345\061\uffde\001\002\000\004\061\355\001" +
     "\002\000\004\015\346\001\002\000\004\063\347\001\002" +
-    "\000\004\031\350\001\002\000\004\061\351\001\002\000" +
+    "\000\004\065\350\001\002\000\004\061\351\001\002\000" +
     "\004\062\352\001\002\000\004\060\353\001\002\000\006" +
     "\010\345\061\uffde\001\002\000\004\061\uffdf\001\002\000" +
     "\004\011\356\001\002\000\004\062\357\001\002\000\004" +
@@ -800,7 +800,7 @@ class CUP$XMLparser$actions {
           return CUP$XMLparser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // define_labels ::= ETIQUETA VALOR EQUALS ID FINISHER CLOSE OPEN define_labels 
+          case 34: // define_labels ::= ETIQUETA VALOR EQUALS IDENTIFIER FINISHER CLOSE OPEN define_labels 
             {
               Object RESULT =null;
 

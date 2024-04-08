@@ -126,7 +126,7 @@ optional_labels ::= labels OPEN
             | /* empty */ ;
             
 labels ::= ETIQUETAS CLOSE OPEN define_labels FINISHER ETIQUETAS CLOSE;
-define_labels ::= ETIQUETA VALOR EQUALS ID FINISHER CLOSE OPEN define_labels
+define_labels ::= ETIQUETA VALOR EQUALS IDENTIFIER FINISHER CLOSE OPEN define_labels
             | /* empty */ ;
             
             
