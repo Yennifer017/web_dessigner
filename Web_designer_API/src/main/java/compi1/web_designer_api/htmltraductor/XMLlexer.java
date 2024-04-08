@@ -345,14 +345,32 @@ public class XMLlexer implements java_cup.runtime.Scanner {
     StringBuffer string;
     StringBuffer input;
 
-    private Symbol symbol(int type) {
-        tokens.add(new Token(type, yyline+1, yycolumn+1));
+    private Symbol symbol(int type, boolean save) {
+        if(save){
+          tokens.add(new Token(type, yyline+1, yycolumn+1));
+        }
         return new Symbol(type, yyline+1, yycolumn+1);
     }
 
-    private Symbol symbol(int type, Object value) {
-        tokens.add(new Token(value, type, yyline+1, yycolumn+1));
+    private Symbol symbol(int type, Object value, boolean save) {
+        if(save){
+          tokens.add(new Token(value, type, yyline+1, yycolumn+1));
+        }
         return new Symbol(type, yyline+1, yycolumn+1, value);
+    }
+    
+    private Symbol symbolInputWithObject(int type, Object value, boolean save){
+        if(save){
+          tokens.add(new Token(value, type, yyline+1, yycolumn+1 - value.toString().length()));
+        }
+        return new Symbol(type, yyline+1, yycolumn+1 - value.toString().length() , value);
+    }
+    
+    private Symbol symbolInputWithoutObject(int type, Object value, boolean save){
+        if(save){
+          tokens.add(new Token(type, yyline+1, yycolumn+1- value.toString().length()));
+        }
+        return new Symbol(type, yyline+1, yycolumn+1- value.toString().length());
     }
 
     private void addError(String message) {
@@ -366,8 +384,8 @@ public class XMLlexer implements java_cup.runtime.Scanner {
    * @param   in  the java.io.Reader to read input from.
    */
   public XMLlexer(java.io.Reader in) {
-      errorsList = new LinkedList();
-    tokens = new LinkedList();
+      errorsList = new ArrayList();
+    tokens = new ArrayList();
     string = new StringBuffer();
     input = new StringBuffer();
     ID_REGEX = "(_|-|\\$)([a-zA-Z]|[0-9]|_|-|\\$)*";
@@ -785,7 +803,7 @@ public class XMLlexer implements java_cup.runtime.Scanner {
         zzAtEOF = true;
             zzDoEOF();
               {
-                return symbol(sym.EOF);
+                return symbol(sym.EOF, false);
               }
       }
       else {
@@ -806,22 +824,22 @@ public class XMLlexer implements java_cup.runtime.Scanner {
           // fall through
           case 35: break;
           case 4:
-            { return symbol(sym.FINISHER);
+            { return symbol(sym.FINISHER, false);
             }
           // fall through
           case 36: break;
           case 5:
-            { return symbol(sym.OPEN);
+            { return symbol(sym.OPEN, false);
             }
           // fall through
           case 37: break;
           case 6:
-            { return symbol(sym.EQUALS);
+            { return symbol(sym.EQUALS, false);
             }
           // fall through
           case 38: break;
           case 7:
-            { return symbol(sym.CLOSE);
+            { return symbol(sym.CLOSE, false);
             }
           // fall through
           case 39: break;
@@ -840,63 +858,63 @@ public class XMLlexer implements java_cup.runtime.Scanner {
                     
                     switch(string.toString()){  /*-------------ACCIONES------------------*/
                         case "AGREGAR_COMPONENTE":
-                            return symbol(sym.AGREGAR_COMPONENTE, string.toString()); 
+                            return symbolInputWithoutObject(sym.AGREGAR_COMPONENTE, string.toString(), true); 
                         case "BORRAR_COMPONENTE":
-                            return symbol(sym.BORRAR_COMPONENTE, string.toString());
+                            return symbolInputWithoutObject(sym.BORRAR_COMPONENTE, string.toString(), true);
                         case "BORRAR_PAGINA":
-                            return symbol(sym.BORRAR_PAGINA, string.toString()); 
+                            return symbolInputWithoutObject(sym.BORRAR_PAGINA, string.toString(), true); 
                         case "BORRAR_SITIO_WEB":
-                            return symbol(sym.BORRAR_SITIO_WEB, string.toString()); 
+                            return symbolInputWithoutObject(sym.BORRAR_SITIO_WEB, string.toString(), true); 
                         case "MODIFICAR_COMPONENTE":
-                            return symbol(sym.MODIFICAR_COMPONENTE, string.toString()); 
+                            return symbolInputWithoutObject(sym.MODIFICAR_COMPONENTE, string.toString(), true); 
                         case "MODIFICAR_PAGINA":
-                            return symbol(sym.MODIFICAR_PAGINA, string.toString());
+                            return symbolInputWithoutObject(sym.MODIFICAR_PAGINA, string.toString(), true);
                         case "NUEVA_PAGINA":
-                            return symbol(sym.NUEVA_PAGINA, string.toString()); 
+                            return symbolInputWithoutObject(sym.NUEVA_PAGINA, string.toString(), true); 
                         case "NUEVO_SITIO_WEB":
-                            return symbol(sym.NUEVO_SITIO_WEB, string.toString());  
+                            return symbolInputWithoutObject(sym.NUEVO_SITIO_WEB, string.toString(), true);  
 
                         case "CLASE":            /*-------------PARAMETROS------------------*/
-                            return symbol(sym.CLASE, string.toString()); 
+                            return symbolInputWithoutObject(sym.CLASE, string.toString(), true); 
                         case "FECHA_CREACION":
-                            return symbol(sym.FECHA_CREACION, string.toString());
+                            return symbolInputWithoutObject(sym.FECHA_CREACION, string.toString(), true);
                         case "FECHA_MODIFICACION":
-                            return symbol(sym.FECHA_MODIFICACION, string.toString());
+                            return symbolInputWithoutObject(sym.FECHA_MODIFICACION, string.toString(), true);
                         case "ID":
-                            return symbol(sym.ID, string.toString());
+                            return symbolInputWithoutObject(sym.ID, string.toString(), true);
                         case "PADRE":
-                            return symbol(sym.PADRE, string.toString());
+                            return symbolInputWithoutObject(sym.PADRE, string.toString(), true);
                         case "PAGINA":
-                            return symbol(sym.PAGINA, string.toString());
+                            return symbolInputWithoutObject(sym.PAGINA, string.toString(), true);
                         case "SITIO":
-                            return symbol(sym.SITIO, string.toString());
+                            return symbolInputWithoutObject(sym.SITIO, string.toString(), true);
                         case "TITULO":
-                            return symbol(sym.TITULO, string.toString());
+                            return symbolInputWithoutObject(sym.TITULO, string.toString(), true);
                         case "USUARIO_CREACION":
-                            return symbol(sym.USUARIO_CREACION, string.toString());
+                            return symbolInputWithoutObject(sym.USUARIO_CREACION, string.toString(), true);
                         case "USUARIO_MODIFICACION":
-                            return symbol(sym.USUARIO_MODIFICACION, string.toString()); 
+                            return symbolInputWithoutObject(sym.USUARIO_MODIFICACION, string.toString(), true); 
 
                         case "ALINEACION":            /*-------------ATRIBUTOS------------------*/
-                            return symbol(sym.ALINEACION, string.toString()); 
+                            return symbolInputWithoutObject(sym.ALINEACION, string.toString(), true); 
                         case "ALTURA":
-                            return symbol(sym.ALTURA, string.toString());
+                            return symbolInputWithoutObject(sym.ALTURA, string.toString(), true);
                         case "ANCHO":
-                            return symbol(sym.ANCHO, string.toString());
+                            return symbolInputWithoutObject(sym.ANCHO, string.toString(), true);
                         case "COLOR":
-                            return symbol(sym.COLOR, string.toString());
+                            return symbolInputWithoutObject(sym.COLOR, string.toString(), true);
                         case "ETIQUETAS_MENU":
-                            return symbol(sym.ETIQUETAS_MENU, string.toString());
+                            return symbolInputWithoutObject(sym.ETIQUETAS_MENU, string.toString(), true);
                         case "ORIGEN":
-                            return symbol(sym.ORIGEN, string.toString());
+                            return symbolInputWithoutObject(sym.ORIGEN, string.toString(), true);
                         case "TEXTO":
-                            return symbol(sym.TEXTO, string.toString());
+                            return symbolInputWithoutObject(sym.TEXTO, string.toString(), true);
                         
                         default:
                             if(string.toString().matches(ID_REGEX)){
-                                return symbol(sym.IDENTIFIER, string.toString());
+                                return symbolInputWithObject(sym.IDENTIFIER, string.toString(), true);
                             }else{
-                                return symbol(sym.STRING_TKN, string.toString());
+                                return symbolInputWithObject(sym.STRING_TKN, string.toString(), true);
                             }
                     }
             }
@@ -916,38 +934,38 @@ public class XMLlexer implements java_cup.runtime.Scanner {
             { yybegin(YYINITIAL); //volver al estado de jflex
                     switch(input.toString()){  /*---------------NOMBRE DE ALINEACIONES----------------*/
                         case "CENTRAR":
-                            return symbol(sym.CENTRAR, input.toString()); 
+                            return symbolInputWithoutObject(sym.CENTRAR, input.toString(), true); 
                         case "DERECHA":
-                            return symbol(sym.DERECHA, input.toString());
+                            return symbolInputWithoutObject(sym.DERECHA, input.toString(), true);
                         case "IZQUIERDA":
-                            return symbol(sym.IZQUIERDA, input.toString());
+                            return symbolInputWithoutObject(sym.IZQUIERDA, input.toString(), true);
                         case "JUSTIFICAR":
-                            return symbol(sym.JUSTIFICAR, input.toString());
+                            return symbolInputWithoutObject(sym.JUSTIFICAR, input.toString(), true);
                             
                         case "TITULO": /*---------------NOMBRE DE CLASES----------------*/
-                            return symbol(sym.TITULO_CLASS, input.toString()); 
+                            return symbolInputWithoutObject(sym.TITULO_CLASS, input.toString(), true); 
                         case "PARRAFO":
-                            return symbol(sym.PARRAFO, input.toString());
+                            return symbolInputWithoutObject(sym.PARRAFO, input.toString(), true);
                         case "IMAGEN":
-                            return symbol(sym.IMAGEN, input.toString());
+                            return symbolInputWithoutObject(sym.IMAGEN, input.toString(), true);
                         case "VIDEO":
-                            return symbol(sym.VIDEO, input.toString());
+                            return symbolInputWithoutObject(sym.VIDEO, input.toString(), true);
                         case "MENU":
-                            return symbol(sym.MENU, input.toString());
+                            return symbolInputWithoutObject(sym.MENU, input.toString(), true);
                             
                         default:
                             break;
                     }
                     if(input.toString().matches(ID_REGEX)){
-                        return symbol(sym.IDENTIFIER, input.toString());
+                        return symbolInputWithObject(sym.IDENTIFIER, input.toString(), true);
                     } else if(input.toString().matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
-                        return symbol(sym.DATE_TKN, input.toString());
+                        return symbolInputWithObject(sym.DATE_TKN, input.toString(), true);
                     } else if(input.toString().matches("[0-9]+")){
-                        return symbol(sym.INTEGER_TKN, input.toString());
+                        return symbolInputWithObject(sym.INTEGER_TKN, input.toString(), true);
                     } else if(input.toString().matches("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})")){
-                        return symbol(sym.COLOR_HEX, input.toString());
+                        return symbolInputWithObject(sym.COLOR_HEX, input.toString(), true);
                     } else {
-                        return symbol(sym.STRING_TKN, input.toString());
+                        return symbolInputWithObject(sym.STRING_TKN, input.toString(), true);
                     }
             }
           // fall through
@@ -998,52 +1016,52 @@ public class XMLlexer implements java_cup.runtime.Scanner {
           // fall through
           case 54: break;
           case 23:
-            { return symbol(sym.VALOR);
+            { return symbol(sym.VALOR, false);
             }
           // fall through
           case 55: break;
           case 24:
-            { return symbol(sym.ACCION);
+            { return symbol(sym.ACCION, false);
             }
           // fall through
           case 56: break;
           case 25:
-            { return symbol(sym.NOMBRE);
+            { return symbol(sym.NOMBRE, false);
             }
           // fall through
           case 57: break;
           case 26:
-            { return symbol(sym.ACCIONES);
+            { return symbol(sym.ACCIONES, false);
             }
           // fall through
           case 58: break;
           case 27:
-            { return symbol(sym.ATRIBUTO);
+            { return symbol(sym.ATRIBUTO, false);
             }
           // fall through
           case 59: break;
           case 28:
-            { return symbol(sym.ETIQUETA);
+            { return symbol(sym.ETIQUETA, false);
             }
           // fall through
           case 60: break;
           case 29:
-            { return symbol(sym.ATRIBUTOS);
+            { return symbol(sym.ATRIBUTOS, true);
             }
           // fall through
           case 61: break;
           case 30:
-            { return symbol(sym.ETIQUETAS);
+            { return symbol(sym.ETIQUETAS, true);
             }
           // fall through
           case 62: break;
           case 31:
-            { return symbol(sym.PARAMETRO);
+            { return symbol(sym.PARAMETRO, false);
             }
           // fall through
           case 63: break;
           case 32:
-            { return symbol(sym.PARAMETROS);
+            { return symbol(sym.PARAMETROS, true);
             }
           // fall through
           case 64: break;
