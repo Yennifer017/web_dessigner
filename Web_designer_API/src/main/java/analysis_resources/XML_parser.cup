@@ -60,17 +60,16 @@ terminal String     STRING_TKN, COLOR_HEX;
 
 /* Non-terminals */
 non terminal        open_params, open_params_w, close_params , open_param , close_param, data, need_id_record , 
-                    need_date_record, record_params, id_param, title_param , site_param, father_param, 
-                    page_specification_p , name_class, clase_param, open_labels, close_labels, optional_labels, 
-                    optional_labels_v2 , labels , define_labels, open_attributes, close_attributes, text_attr, 
+                    need_date_record, record_params, id_param, title_param , site_param, father_param, labels , 
+                    define_labels, close_attributes, text_attr, name_class, clase_param, page_specification_p,
                     types_align, align_attr , color_attr, origin_attr, numeric_attr_name , numeric_attr , labels_attr , 
-                    optional_attributes , optional_attributes_v2 , attributes, define_attributes, define_attr_aux, 
+                    optional_attributes , attributes, define_attributes, define_attr_aux, optional_labels,
                     instruction, instruction_aux , actions_stm, more_actions , more_actions_aux, action_specific, action_stm, 
                     new_site, params_new_site, params_new_site_aux , delete_site, new_page, params_new_page, 
                     params_new_page_aux, delete_page, modify_page , modify_params , modify_params_aux, add_component , 
                     add_comp_params, add_comp_params_aux , delete_component , delete_comp_params , delete_comp_params_aux, 
                     modify_component, modify_comp_params, modify_comp_params_aux, open_attr, close_attr, params_delete_site, 
-                    delete_page_params;
+                    delete_page_params, close_action, close_action_w;
 
 
 /*------------------------------------------------------
@@ -86,6 +85,9 @@ open_params_w ::= PARAMETROS CLOSE;
 close_params ::= FINISHER PARAMETROS CLOSE;
 open_param ::= PARAMETRO NOMBRE EQUALS;
 close_param ::= OPEN FINISHER PARAMETRO CLOSE;
+
+close_action ::= OPEN FINISHER ACCION CLOSE;
+close_action_w ::= FINISHER ACCION CLOSE;
 
 data ::= DATE_TKN
             | IDENTIFIER
@@ -115,26 +117,21 @@ name_class ::= TITULO_CLASS
           | IMAGEN
           | VIDEO
           | MENU    ;
-clase_param ::= open_param CLASE CLOSE name_class close_param;
+clase_param ::= CLASE CLOSE name_class close_param;
 
 
     /*********************** labels ****************************/
-open_labels ::= ETIQUETAS CLOSE;
-close_labels ::= FINISHER ETIQUETAS CLOSE;
 
 optional_labels ::= labels OPEN
             | /* empty */ ;
-optional_labels_v2 ::= labels
-            | /* empty */ ;
             
-labels ::= open_labels OPEN define_labels close_labels;
-define_labels ::= OPEN ETIQUETA VALOR EQUALS ID FINISHER CLOSE OPEN define_labels
+labels ::= ETIQUETAS CLOSE OPEN define_labels FINISHER ETIQUETAS CLOSE;
+define_labels ::= ETIQUETA VALOR EQUALS ID FINISHER CLOSE OPEN define_labels
             | /* empty */ ;
             
             
      /**************** attributes *******************************/
           /******************** tags *****************************/
-open_attributes ::= ATRIBUTOS CLOSE ;
 close_attributes ::= FINISHER ATRIBUTOS CLOSE ;
 
 open_attr ::= ATRIBUTO NOMBRE EQUALS ;
@@ -160,10 +157,8 @@ labels_attr ::= ETIQUETAS_MENU CLOSE STRING_TKN close_attr  ;    /*CHEK THE STRI
             /******************* define attributes ******************/
 optional_attributes ::= attributes OPEN
             | /*empty*/ ;
-optional_attributes_v2 ::= attributes
-            | /*empty*/ ;
                
-attributes ::= open_attributes OPEN define_attributes close_attributes ;
+attributes ::= ATRIBUTOS CLOSE OPEN define_attributes close_attributes ;
 define_attributes ::= open_attr define_attr_aux
             | /* empty */ ;
 
@@ -187,7 +182,7 @@ more_actions ::= action_specific more_actions_aux
             | /* empty */;
 more_actions_aux ::= OPEN more_actions;
 
-action_specific ::= ACCION NOMBRE EQUALS action_stm OPEN FINISHER ACCION CLOSE ;
+action_specific ::= ACCION NOMBRE EQUALS action_stm;
 action_stm ::= new_site
             | delete_site
             | new_page 
@@ -199,20 +194,20 @@ action_stm ::= new_site
 
 /*********************** actions *********************************/
     /********************** into sites ***************************/
-new_site ::= NUEVO_SITIO_WEB CLOSE open_params OPEN params_new_site close_params ;
+new_site ::= NUEVO_SITIO_WEB CLOSE open_params OPEN params_new_site close_params close_action;
 params_new_site ::= open_param params_new_site_aux
             | /* empty */ ;
 params_new_site_aux ::= id_param OPEN params_new_site
             | record_params OPEN params_new_site ;
 
 
-delete_site ::= BORRAR_SITIO_WEB CLOSE OPEN params_delete_site ;
+delete_site ::= BORRAR_SITIO_WEB CLOSE OPEN params_delete_site close_action;
 params_delete_site ::= open_params_w OPEN open_param id_param OPEN close_params
 	    | open_param id_param ;
 
 
      /******************** into pages ******************************/
-new_page ::= NUEVA_PAGINA CLOSE OPEN optional_labels open_params_w OPEN params_new_page close_params optional_labels_v2 ; 
+new_page ::= NUEVA_PAGINA CLOSE OPEN optional_labels open_params_w OPEN params_new_page close_params OPEN optional_labels close_action_w; 
 params_new_page ::= open_param params_new_page_aux
               | /* empty */ ;
 params_new_page_aux ::= id_param OPEN params_new_page
@@ -222,19 +217,19 @@ params_new_page_aux ::= id_param OPEN params_new_page
               | record_params OPEN params_new_page ;
                
                
-delete_page ::= BORRAR_PAGINA CLOSE OPEN delete_page_params;
+delete_page ::= BORRAR_PAGINA CLOSE OPEN delete_page_params close_action;
 delete_page_params ::= open_params_w OPEN open_param id_param OPEN close_params 
 	 	| open_param id_param;
 
 
-modify_page ::= MODIFICAR_PAGINA CLOSE OPEN optional_labels open_params_w modify_params close_params optional_labels_v2 ;
+modify_page ::= MODIFICAR_PAGINA CLOSE OPEN optional_labels open_params_w OPEN modify_params close_params OPEN optional_labels close_action_w ;
 modify_params ::= open_param modify_params_aux
                 | /* empty */ ;
 modify_params_aux ::= id_param OPEN modify_params
 		| title_param OPEN modify_params ;
 		
       /************************** components ***************************/
-add_component ::= AGREGAR_COMPONENTE CLOSE OPEN optional_attributes open_params_w add_comp_params close_params optional_attributes_v2 ;
+add_component ::= AGREGAR_COMPONENTE CLOSE OPEN optional_attributes open_params_w OPEN add_comp_params close_params OPEN optional_attributes close_action_w ;
 add_comp_params ::= open_param add_comp_params_aux
                 | /* empty */ ;
 add_comp_params_aux ::= id_param OPEN add_comp_params
@@ -242,14 +237,14 @@ add_comp_params_aux ::= id_param OPEN add_comp_params
                 | clase_param OPEN add_comp_params ;
                 
                 
-delete_component ::= BORRAR_COMPONENTE CLOSE open_params OPEN delete_comp_params close_params ;
+delete_component ::= BORRAR_COMPONENTE CLOSE open_params OPEN delete_comp_params close_params close_action;
 delete_comp_params ::= open_param delete_comp_params_aux
                 | /* empty */ ;
 delete_comp_params_aux ::= id_param OPEN delete_comp_params
                 | page_specification_p OPEN delete_comp_params ;
                 
                 
-modify_component ::= MODIFICAR_COMPONENTE CLOSE OPEN optional_attributes open_params_w modify_comp_params close_params optional_attributes_v2 ;
+modify_component ::= MODIFICAR_COMPONENTE CLOSE OPEN optional_attributes open_params_w OPEN modify_comp_params close_params OPEN optional_attributes close_action_w ;
 modify_comp_params ::= open_param modify_comp_params_aux 
                 | /* empty */ ;
 modify_comp_params_aux ::= id_param OPEN modify_comp_params 
