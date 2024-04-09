@@ -14,7 +14,7 @@ public class DeleteSiteModel extends XMLmodel {
 
     @Override
     public boolean hasEnoughParams() {
-        return super.id != null;
+        return isCompleate();
     }
 
     @Override

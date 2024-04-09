@@ -1,6 +1,8 @@
 
 package compi1.web_designer_api.htmltraductor;
 
+import compi1.web_designer_api.util.FilesUtil;
+
 /**
  *
  * @author yennifer
@@ -24,6 +26,7 @@ public class HTMLgenerator {
         code += "<html>" + ENTER;
         code += SPACE.repeat(4) + "<head>" + ENTER;
         code += SPACE.repeat(8) + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" + ENTER;
+        code += SPACE.repeat(8) + "<script src=\"" + FilesUtil.AJAX_FILE_PATH + "\"></script>" + ENTER;
         code += SPACE.repeat(8) + "<title>" + title + "</title>" + ENTER;
         code += SPACE.repeat(4) + "</head>" + ENTER;
         code += SPACE.repeat(4) + "<body>" + ENTER;

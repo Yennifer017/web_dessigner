@@ -15,8 +15,11 @@ public class FilesUtil {
 
     public static final String HTML_EXTENSION = ".html";
 
+    public static final String WEB_SERVER_PATH 
+            = "/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/webapp/";
     public static final String SITES_PATH_SERVER
-            = "/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/webapp/sites";
+            = WEB_SERVER_PATH + "sites";
+    public static final String AJAX_FILE_PATH = WEB_SERVER_PATH + "resources/viewPageReq.js";
 
     /**
      * crea una carpeta
@@ -34,7 +37,6 @@ public class FilesUtil {
         String path = rootPath + getSeparator() + name;
         File directory = new File(path);
         if (!directory.exists()) {
-            System.out.println(path);
             if(directory.mkdir()){
                 return path;
             }else{
@@ -97,6 +99,29 @@ public class FilesUtil {
     public boolean deleteFile(String path) {
         File archivo = new File(path);
         return archivo.delete();
+    }
+    
+    public boolean deleteDirectory(String path){
+        File folder = new File(path);
+        if(folder.exists() && folder.isDirectory()) {
+            return deleteFolder(folder);
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean deleteFolder(File folder){
+        File[] files = folder.listFiles();
+        if(files != null) {
+            for(File file : files) {
+                if(file.isDirectory()) {
+                    deleteFolder(file);
+                } else {
+                    file.delete();
+                }
+            }
+        }
+        return folder.delete();
     }
 
     /**

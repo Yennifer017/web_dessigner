@@ -35,7 +35,7 @@ public class CreateSiteModel extends XMLmodel implements Autocompletable{
 
     @Override
     public String getMissingParams() {
-        return "Para la creacion de un sitio se necesita un id";
+        return super.getMissingParamMss(ID_PARAM);
     }
 
     @Override

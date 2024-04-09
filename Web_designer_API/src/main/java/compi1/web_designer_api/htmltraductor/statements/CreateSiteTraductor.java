@@ -33,10 +33,7 @@ public class CreateSiteTraductor extends StmTraductor {
     @Override
     protected XMLmodel getModel(List<Token> tokens, Index index) {
         CreateSiteModel model = new CreateSiteModel();
-        index.increment(); //pasar el token parametros
-        if (index.get() >= tokens.size()) {
-            throw new AssertionError("Error sintactico inesperado en createSite");
-        }
+        index.increment(); //pasar del token parametros
         Token currentTkn = tokens.get(index.get());
         while (index.get() < tokens.size() && currentTkn.getType() != sym.PARAMETROS) {
             recoveryParams(tokens, index, model);
