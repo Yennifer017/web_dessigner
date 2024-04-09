@@ -50,6 +50,15 @@ public class ResponserGen {
         }
     }
     
+    public String generateResponse(String response){
+        if(response.isEmpty() || response.isBlank()){
+            throw new AssertionError("No se puede enviar una respuesta vacia");
+        } else {
+            //TODO: ARREGLAR AQUI
+            return "";
+        }
+    }
+    
     private String getTag(int type, boolean closing){
         String tag = OPEN;
         if(closing){

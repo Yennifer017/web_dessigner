@@ -1,12 +1,17 @@
 package compi1.web_designer_api.htmltraductor.statements;
 
 import compi1.web_designer_api.exceptions.ModelException;
+import compi1.web_designer_api.exceptions.OverWrittingFileException;
+import compi1.web_designer_api.htmltraductor.HTMLgenerator;
 import compi1.web_designer_api.htmltraductor.models.CreateSiteModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.htmltraductor.sym;
+import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +19,15 @@ import java.util.List;
  * @author yennifer
  */
 public class CreateSiteTraductor extends StmTraductor {
+    
+    private FilesUtil filesUtil;
+    private HTMLgenerator htmlGen;
 
-    public CreateSiteTraductor(List<String> semanticErrors) {
-        super.semanticErrors = semanticErrors;
+    public CreateSiteTraductor() {
+        super.semanticErrors = new ArrayList<>();
+        super.name = "Crear sitio";
+        filesUtil = new FilesUtil();
+        htmlGen = new HTMLgenerator();
     }
 
     @Override
@@ -37,7 +48,31 @@ public class CreateSiteTraductor extends StmTraductor {
 
     @Override
     protected void internalTranslate(XMLmodel model) throws ModelException{
+        String sitePath = "";
+        try {
+            //sitePath = filesUtil.createDirectory("/home/yennifer/Documents", model.getId());
+            sitePath = filesUtil.createDirectory(FilesUtil.SITES_PATH_SERVER, model.getId());
+        } catch (IOException ex) {
+            semanticErrors.add("Ocurrio un error inesperado al crear el sitio <" + model.getId() + ">");
+            throw new ModelException();
+        } catch (OverWrittingFileException ex) { 
+            semanticErrors.add("El id del sitio <" + model.getId() + "> esta repetido, no se pudo crear");
+            throw new ModelException();
+        }
         
+        try {
+            filesUtil.saveAs(
+                    htmlGen.getCodePageHtml("index" + model.getId()), 
+                    FilesUtil.HTML_EXTENSION, 
+                    "index" + model.getId() , 
+                    sitePath
+            );
+            //TODO: agregar la pagina al contenedor de paginas
+        } catch (IOException | OverWrittingFileException ex) {
+            semanticErrors.add("Ocurrio un error inesperado al crear el index del sitio <" 
+                    + model.getId() + "> se recomienda borrarlo y volverlo a crear");
+            throw new ModelException();
+        }
     }
 
     @Override
@@ -50,31 +85,31 @@ public class CreateSiteTraductor extends StmTraductor {
         switch (nameParamTkn.getType()) {
             case sym.ID:
                 if(model.getId() != null){
-                    //agregar error
+                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
                 }
                 model.setId(valueParamTkn.getLexem().toString());
                 break;
             case sym.USUARIO_CREACION:
                 if(model.getUserCreateId() != null){
-                    
+                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
                 }
                 model.setUserCreateId(valueParamTkn.getLexem().toString());
                 break;
             case sym.USUARIO_MODIFICACION:
                 if(model.getUserModifyId() != null){
-                    
+                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
                 }
                 model.setUserModifyId(valueParamTkn.getLexem().toString());
                 break;
             case sym.FECHA_CREACION:
                 if(model.getDateCreated() != null){
-                    
+                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
                 }
                 model.setDateCreated(LocalDate.parse(valueParamTkn.getLexem().toString()));
                 break;
             case sym.FECHA_MODIFICACION:
                 if(model.getDateModify() != null){
-                    
+                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
                 }
                 model.setDateModify(LocalDate.parse(valueParamTkn.getLexem().toString()));
                 break;
@@ -85,8 +120,12 @@ public class CreateSiteTraductor extends StmTraductor {
 
     @Override
     public String translate(List<Token> tokens, Index index) throws ModelException {
+        semanticErrors.clear();
         CreateSiteModel model = (CreateSiteModel) this.getModel(tokens, index);
-        if (!model.hasEnoughParams()) {
+        if(!semanticErrors.isEmpty()){
+            throw new ModelException();
+        } if (!model.hasEnoughParams()) {
+            semanticErrors.add(model.getMissingParams());
             throw new ModelException();
         } else if (!model.isCompleate()) {
             model.autocompleate();

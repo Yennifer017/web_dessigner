@@ -15,10 +15,12 @@ public class XMLservice {
 
     private Mensajero mensajero;
     private ResponserGen responserGen;
+    private Traductor traductor;
 
     public XMLservice() {
         mensajero = new Mensajero();
         responserGen = new ResponserGen();
+        traductor = new Traductor();
     }
     
     public void executeXML(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -29,19 +31,12 @@ public class XMLservice {
             XMLparser parser = new XMLparser(lexer);
             parser.parse();
             if (lexer.getErrors().isEmpty() && parser.getSyntaxErrors().isEmpty()) {
-                System.out.println("Ha pasado la prueba");
-                //corroborrar y mandar errores semanticos o la respuesta
                 showTkns(lexer);
-                response.setStatus(HttpServletResponse.SC_OK);
+                mensajero.sendResponse(traductor.traducir(lexer.getTokens()), response);
             } else {
                 String responseMss = responserGen.generateError(lexer.getErrors(), ResponserGen.LEXICAL_ERRORS);
                 responseMss += responserGen.generateError(parser.getSyntaxErrors(), ResponserGen.SYNTAX_ERRORS);
-
-                /*pruebas*/
-                showTkns(lexer);
-                /*fin de pruebas*/
                 mensajero.sendResponse(responseMss, response);
-
             }
         } catch (Exception e) {
             System.out.println(e.toString());

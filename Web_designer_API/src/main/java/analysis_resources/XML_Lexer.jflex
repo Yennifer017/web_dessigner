@@ -80,28 +80,28 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
     private Symbol symbol(int type, boolean save) {
         if(save){
-          tokens.add(new Token(type, yyline+1, yycolumn+1));
+            tokens.add(new Token(yyline+1, yycolumn+1, type));
         }
         return new Symbol(type, yyline+1, yycolumn+1);
     }
 
     private Symbol symbol(int type, Object value, boolean save) {
         if(save){
-          tokens.add(new Token(value, type, yyline+1, yycolumn+1));
+            tokens.add(new Token(value, type, yyline+1, yycolumn+1));
         }
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
     
     private Symbol symbolInputWithObject(int type, Object value, boolean save){
         if(save){
-          tokens.add(new Token(value, type, yyline+1, yycolumn+1 - value.toString().length()));
+            tokens.add(new Token(value, yyline+1, yycolumn+1 - value.toString().length(), type));
         }
         return new Symbol(type, yyline+1, yycolumn+1 - value.toString().length() , value);
     }
     
     private Symbol symbolInputWithoutObject(int type, Object value, boolean save){
         if(save){
-          tokens.add(new Token(type, yyline+1, yycolumn+1- value.toString().length()));
+            tokens.add(new Token(yyline+1, yycolumn+1 - value.toString().length(), type));
         }
         return new Symbol(type, yyline+1, yycolumn+1- value.toString().length());
     }
@@ -167,25 +167,25 @@ WhiteSpace = {LineTerminator} | [ \t\f]
                             return symbolInputWithoutObject(sym.NUEVO_SITIO_WEB, string.toString(), true);  
 
                         case "CLASE":            /*-------------PARAMETROS------------------*/
-                            return symbolInputWithoutObject(sym.CLASE, string.toString(), true); 
+                            return symbolInputWithObject(sym.CLASE, string.toString(), true); 
                         case "FECHA_CREACION":
-                            return symbolInputWithoutObject(sym.FECHA_CREACION, string.toString(), true);
+                            return symbolInputWithObject(sym.FECHA_CREACION, string.toString(), true);
                         case "FECHA_MODIFICACION":
-                            return symbolInputWithoutObject(sym.FECHA_MODIFICACION, string.toString(), true);
+                            return symbolInputWithObject(sym.FECHA_MODIFICACION, string.toString(), true);
                         case "ID":
-                            return symbolInputWithoutObject(sym.ID, string.toString(), true);
+                            return symbolInputWithObject(sym.ID, string.toString(), true);
                         case "PADRE":
-                            return symbolInputWithoutObject(sym.PADRE, string.toString(), true);
+                            return symbolInputWithObject(sym.PADRE, string.toString(), true);
                         case "PAGINA":
-                            return symbolInputWithoutObject(sym.PAGINA, string.toString(), true);
+                            return symbolInputWithObject(sym.PAGINA, string.toString(), true);
                         case "SITIO":
-                            return symbolInputWithoutObject(sym.SITIO, string.toString(), true);
+                            return symbolInputWithObject(sym.SITIO, string.toString(), true);
                         case "TITULO":
-                            return symbolInputWithoutObject(sym.TITULO, string.toString(), true);
+                            return symbolInputWithObject(sym.TITULO, string.toString(), true);
                         case "USUARIO_CREACION":
-                            return symbolInputWithoutObject(sym.USUARIO_CREACION, string.toString(), true);
+                            return symbolInputWithObject(sym.USUARIO_CREACION, string.toString(), true);
                         case "USUARIO_MODIFICACION":
-                            return symbolInputWithoutObject(sym.USUARIO_MODIFICACION, string.toString(), true); 
+                            return symbolInputWithObject(sym.USUARIO_MODIFICACION, string.toString(), true); 
 
                         case "ALINEACION":            /*-------------ATRIBUTOS------------------*/
                             return symbolInputWithoutObject(sym.ALINEACION, string.toString(), true); 

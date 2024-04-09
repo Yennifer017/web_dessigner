@@ -5,7 +5,7 @@ package compi1.dessigner;
  * @author yenni
  */
 import compi1.dessigner.requests.Requester;
-import compi1.sqlemulator.util.NumberLine;
+import compi1.dessigner.util.NumberLine;
 import javax.swing.JOptionPane;
 
 public class Fronted extends javax.swing.JFrame {

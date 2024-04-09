@@ -1,4 +1,4 @@
-package compi1.sqlemulator.util;
+package compi1.dessigner.util;
 
 import java.awt.*;
 import java.beans.*;

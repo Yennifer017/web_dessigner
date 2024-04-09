@@ -35,7 +35,7 @@ public class CreateSiteModel extends XMLmodel implements Autocompletable{
 
     @Override
     public String getMissingParams() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "Para la creacion de un sitio se necesita un id";
     }
 
     @Override

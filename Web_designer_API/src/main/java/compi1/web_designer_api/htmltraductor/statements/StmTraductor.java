@@ -12,6 +12,7 @@ import java.util.List;
  * @author yennifer
  */
 public abstract class StmTraductor {
+    protected String name;
     protected List<String> semanticErrors;
     
     protected abstract XMLmodel getModel(List<Token> tokens, Index index);
@@ -20,5 +21,17 @@ public abstract class StmTraductor {
     
     public abstract String translate(List<Token> tokens, Index index) throws ModelException;
     
+    protected String getRepetedParamError(Token param){
+        return "Se esta intentando sobreescribir el parametro <" + param.getLexem().toString()
+                + "> linea: " + param.getLine() + " - columna:" + param.getColumn(); 
+    }
+    
+    public List<String> getSemanticErrors(){
+        return this.semanticErrors;
+    }
+    
+    public void addFailMss(){
+        this.semanticErrors.add("No se pudo ejecutar una instruccion " + name);
+    };
     
 }
