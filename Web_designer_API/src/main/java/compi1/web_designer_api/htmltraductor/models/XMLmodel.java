@@ -21,4 +21,12 @@ public abstract class XMLmodel {
     protected String getMissingParamMss(String nameParam){
         return " -Debe especificarse el parametro <" + nameParam + ">\n";
     }
+    
+    public String getId(){
+        return this.id;
+    }
+    
+    public void setId(String id){
+        this.id = id;
+    }
 }
