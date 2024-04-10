@@ -1,0 +1,82 @@
+package compi1.web_designer_api.htmltraductor;
+
+import java_cup.runtime.*;
+import java.util.*;
+
+/*-----------------------------------------------------------
+  CUP Specification for the Parser Class
+  -----------------------------------------------------------*/
+parser code {:
+    //fields
+    SQcmsLexer lex;
+    private List<String> errors;
+
+
+    //conect the parser with the lexer
+    public SQcmsParser(SQcmsLexer lex){
+        super(lex);
+        errors = new LinkedList<>();
+    }
+
+    //getters
+    public XMLlexer getLexer(){
+        return this.lex;
+    }
+    public List<String> getErrors(){
+        return this.errors;
+    }
+    
+    /*----------------------------------------------------
+            SOBREESCRIBIENDO LOS METODOS DE ERROR
+    ------------------------------------------------------*/
+    public void syntax_error(Symbol cur_token) {
+        String mss = "Simbolo: " + symbl_name_from_id(cur_token.sym)
+                    + ", linea: " + cur_token.left
+                    + ", columna: " + cur_token.right;
+        if (expected_token_ids().isEmpty()) {
+            mss += " -- ya no se esperaba ningun simbolo";
+        }
+        syntaxErrors.add(mss);
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        syntaxErrors.add("Errores de sintaxis severos detectados, revisa municiosamente el codigo");
+    }
+:}
+
+/*----------------------------------------------------
+     Terminals (tokens returned by the scanner). 
+------------------------------------------------------*/
+terminal        CONSULTAR, VISITAS_SITIO, VISITAS_PAGINA, PAGINAS_POPULARES, COMPONENTE
+                TODOS, TITULO, PARRAFO, IMAGEN, VIDEO, MENU, COMA, PUNTO_Y_COMA, IDENTIFIER,
+                PATH, STRING_TKN;
+
+non terminal    instructions, more_instructions, instruction, statements, view_sites, more_ids,
+                view_pages, more_paths, type;
+
+/*------------------------------------------------------
+                     THE GRAMMAR 
+--------------------------------------------------------*/
+
+start with instructions;
+
+instructions ::= instruction more_instructions;
+more_instructions ::= instruction
+        | /* empty */ ;
+
+instruction ::= CONSULTAR statements PUNTO_Y_COMA;
+statements ::= views_sites
+        | views_pages
+        | PAGINAS_POPULARES IDENTIFIER 
+        | COMPONENTE type PATH ;
+
+view_sites ::= VISITAS_SITIO IDENTIFIER more_ids ;
+more_ids ::= COMA IDENTIFIER more_ids
+        | /* empty */ ;
+
+view_pages ::= VISITAS_PAGINA PATH more_paths ;
+more_paths ::= COMA PATH more_paths
+        | /* empty */ ;
+
+type ::= TODOS | TITULO | PARRAFO | IMAGEN | VIDEO | MENU ;
+

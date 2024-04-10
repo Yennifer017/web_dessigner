@@ -20,6 +20,7 @@ public class DeleteSiteTraductor extends StmTraductor{
     private FilesUtil filesUtil;
     
     public DeleteSiteTraductor(){
+        super.name = "Borrar sitio";
         super.semanticErrors = new ArrayList<>();
         filesUtil = new FilesUtil();
     }

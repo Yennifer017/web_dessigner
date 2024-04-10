@@ -19,7 +19,7 @@ public class DeleteSiteModel extends XMLmodel {
 
     @Override
     public String getMissingParams() {
-        return super.getMissingParamMss(ID_PARAM);
+        return id == null ? super.getMissingParamMss(ID_PARAM) : "";
     }
     
 }

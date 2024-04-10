@@ -16,7 +16,7 @@ public abstract class XMLmodel {
     public abstract String getMissingParams();
     
     protected String getMissingParamMss(String nameParam){
-        return "Debe especificarse el parametro <" + nameParam + ">\n";
+        return "Debe especificarse el parametro <" + nameParam + ">";
     }
     
     public String getId(){

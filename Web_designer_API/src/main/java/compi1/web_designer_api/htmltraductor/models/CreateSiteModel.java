@@ -35,7 +35,7 @@ public class CreateSiteModel extends XMLmodel implements Autocompletable{
 
     @Override
     public String getMissingParams() {
-        return super.getMissingParamMss(ID_PARAM);
+        return id == null ? super.getMissingParamMss(ID_PARAM) : "";
     }
 
     @Override

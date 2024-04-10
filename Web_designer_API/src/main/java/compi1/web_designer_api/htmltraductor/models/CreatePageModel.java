@@ -4,12 +4,15 @@ package compi1.web_designer_api.htmltraductor.models;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author yennifer
  */
-public class NewPageModel extends XMLmodel implements Autocompletable{
+@Getter @Setter
+public class CreatePageModel extends XMLmodel implements Autocompletable{
 
     private String userCreateId, userModifyId;
     private LocalDate dateCreated, dateModify;
@@ -18,7 +21,7 @@ public class NewPageModel extends XMLmodel implements Autocompletable{
     
     private List<String> labels;
 
-    public NewPageModel() {
+    public CreatePageModel() {
         labels = new ArrayList<>();
     }
     
@@ -51,7 +54,10 @@ public class NewPageModel extends XMLmodel implements Autocompletable{
 
     @Override
     public String getMissingParams() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String mss = id == null ? super.getMissingParamMss("Id") : "";
+        mss += site == null ? super.getMissingParamMss("id sitio") : "";
+        mss += father == null ? super.getMissingParamMss("id pag padre") : "";
+        return mss;
     }
     
 }
