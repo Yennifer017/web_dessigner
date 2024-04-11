@@ -127,6 +127,7 @@ public class CreatePageTraductor extends StmTraductor {
             index.increment();
             currentTkn = tokens.get(index.get());
         }
+        index.increment(); //pasar de las etiquetas
     }
 
     @Override

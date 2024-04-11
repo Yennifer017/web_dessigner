@@ -203,7 +203,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
                             return symbolInputWithoutObject(sym.TEXTO, string.toString(), true);
                         
                         default:
-                            if(string.toString().matches(ID_REGEX)){
+                            if(string.toString().matches(ID_REGEX) && string.toString().length() < 45){
                                 return symbolInputWithObject(sym.IDENTIFIER, string.toString(), true);
                             }else{
                                 return symbolInputWithObject(sym.STRING_TKN, string.toString(), true);
@@ -236,20 +236,20 @@ WhiteSpace = {LineTerminator} | [ \t\f]
                             return symbolInputWithoutObject(sym.JUSTIFICAR, input.toString(), true);
                             
                         case "TITULO": /*---------------NOMBRE DE CLASES----------------*/
-                            return symbolInputWithoutObject(sym.TITULO_CLASS, input.toString(), true); 
+                            return symbolInputWithObject(sym.TITULO_CLASS, input.toString(), true); 
                         case "PARRAFO":
-                            return symbolInputWithoutObject(sym.PARRAFO, input.toString(), true);
+                            return symbolInputWithObject(sym.PARRAFO, input.toString(), true);
                         case "IMAGEN":
-                            return symbolInputWithoutObject(sym.IMAGEN, input.toString(), true);
+                            return symbolInputWithObject(sym.IMAGEN, input.toString(), true);
                         case "VIDEO":
-                            return symbolInputWithoutObject(sym.VIDEO, input.toString(), true);
+                            return symbolInputWithObject(sym.VIDEO, input.toString(), true);
                         case "MENU":
-                            return symbolInputWithoutObject(sym.MENU, input.toString(), true);
+                            return symbolInputWithObject(sym.MENU, input.toString(), true);
                             
                         default:
                             break;
                     }
-                    if(input.toString().matches(ID_REGEX)){
+                    if(input.toString().matches(ID_REGEX) && string.toString().length() < 45){
                         return symbolInputWithObject(sym.IDENTIFIER, input.toString(), true);
                     } else if(input.toString().matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
                         return symbolInputWithObject(sym.DATE_TKN, input.toString(), true);

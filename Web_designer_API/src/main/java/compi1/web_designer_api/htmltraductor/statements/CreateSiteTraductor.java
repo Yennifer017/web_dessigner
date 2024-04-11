@@ -3,6 +3,7 @@ package compi1.web_designer_api.htmltraductor.statements;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.exceptions.OverWrittingFileException;
 import compi1.web_designer_api.htmltraductor.HTMLgenerator;
+import compi1.web_designer_api.htmltraductor.db.DBManager;
 import compi1.web_designer_api.htmltraductor.models.CreateSiteModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.htmltraductor.sym;
@@ -47,7 +48,6 @@ public class CreateSiteTraductor extends StmTraductor {
     protected void internalTranslate(XMLmodel model) throws ModelException{
         String sitePath = "";
         try {
-            //sitePath = filesUtil.createDirectory("/home/yennifer/Documents", model.getId());
             sitePath = filesUtil.createDirectory(FilesUtil.SITES_PATH_SERVER, model.getId());
         } catch (IOException ex) {
             semanticErrors.add("Ocurrio un error inesperado al crear el sitio <" + model.getId() + ">");
@@ -61,9 +61,19 @@ public class CreateSiteTraductor extends StmTraductor {
             filesUtil.saveAs(
                     htmlGen.getCodePageHtml("index" + model.getId()), 
                     FilesUtil.HTML_EXTENSION, 
-                    "index" + model.getId() , 
+                    model.getId(), 
                     sitePath
             );
+            
+            
+            
+            
+            DBManager dBManager = new DBManager();
+            dBManager.getConnection();
+            
+            
+            
+            
             //TODO: agregar la pagina al contenedor de paginas
         } catch (IOException | OverWrittingFileException ex) {
             semanticErrors.add("Ocurrio un error inesperado al crear el index del sitio <" 

@@ -34,7 +34,11 @@ public class ModifyPageModel extends XMLmodel{
 
     @Override
     public String getMissingParams() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String mss = super.id == null ? super.getMissingParamMss("Id") : "";
+        if(labels.isEmpty() && title == null){
+            mss += "\nSe esperaba la especificacion del nuevo titulo o una lista de etiquetas";
+        }
+        return mss;
     }
     
 }

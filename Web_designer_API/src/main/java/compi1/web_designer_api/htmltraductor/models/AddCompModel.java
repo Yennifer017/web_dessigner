@@ -3,11 +3,14 @@ package compi1.web_designer_api.htmltraductor.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author yennifer
  */
+@Getter @Setter
 public class AddCompModel extends XMLmodel{
 
     private String page;
