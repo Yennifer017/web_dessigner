@@ -3,7 +3,6 @@ package compi1.web_designer_api.htmltraductor.statements;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.exceptions.OverWrittingFileException;
 import compi1.web_designer_api.htmltraductor.HTMLgenerator;
-import compi1.web_designer_api.htmltraductor.db.DBManager;
 import compi1.web_designer_api.htmltraductor.models.CreateSiteModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.htmltraductor.sym;
@@ -64,16 +63,6 @@ public class CreateSiteTraductor extends StmTraductor {
                     model.getId(), 
                     sitePath
             );
-            
-            
-            
-            
-            DBManager dBManager = new DBManager();
-            dBManager.getConnection();
-            
-            
-            
-            
             //TODO: agregar la pagina al contenedor de paginas
         } catch (IOException | OverWrittingFileException ex) {
             semanticErrors.add("Ocurrio un error inesperado al crear el index del sitio <" 

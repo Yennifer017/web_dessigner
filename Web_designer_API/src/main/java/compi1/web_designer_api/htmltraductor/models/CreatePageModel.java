@@ -32,15 +32,13 @@ public class CreatePageModel extends XMLmodel implements Autocompletable{
                 && dateCreated != null
                 && dateModify != null
                 && title != null
-                && site != null
-                && father != null;
+                && site != null;
     }
 
     @Override
     public boolean hasEnoughParams() {
         return id != null
-                && site != null
-                && father != null;
+                && site != null;
     }
 
     @Override

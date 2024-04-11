@@ -15,17 +15,17 @@ CREATE TABLE page(
     id_father INT,
     visits INT NOT NULL DEFAULT 0,
     CONSTRAINT PK_page PRIMARY KEY(id),
-    FOREIGN KEY (id_site) REFERENCES site(id),
-    FOREIGN KEY (id_father) REFERENCES page(id)
+    FOREIGN KEY (id_site) REFERENCES site(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_father) REFERENCES page(id) ON DELETE CASCADE
 );
 
 CREATE TABLE component(
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(45) NOT NULL, 
-    id_site INT NOT NULL,
+    id_page INT NOT NULL,
     class ENUM('TITULO_CLASS', 'PARRAFO', 'IMAGEN', 'VIDEO', 'MENU') NOT NULL,
     CONSTRAINT PK_component PRIMARY KEY(id),
-    FOREIGN KEY (id_site) REFERENCES site(id)
+    FOREIGN KEY (id_page) REFERENCES page(id) ON DELETE CASCADE /*cuando se elimine la pagina tambien el componente*/
 );
 
 CREATE TABLE label(

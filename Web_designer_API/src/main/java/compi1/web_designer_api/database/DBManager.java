@@ -1,5 +1,5 @@
 
-package compi1.web_designer_api.htmltraductor.db;
+package compi1.web_designer_api.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,13 +11,13 @@ import java.sql.SQLException;
  */
 public class DBManager {
     private Connection conexion;
-    private final String URL = "jdbc:mysql://localhost:3306/";
+    private final String URL = "jdbc:mariadb://localhost:3306/";
     private final String USER = "BlueDragon";
     private final String PASSWORD = "-BlueDragon17-";
 
     public Connection getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver");
             conexion = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Conexión exitosa");
             return conexion;
