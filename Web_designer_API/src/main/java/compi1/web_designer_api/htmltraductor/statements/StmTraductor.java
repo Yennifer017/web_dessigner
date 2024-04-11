@@ -5,7 +5,6 @@ import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
-import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -15,7 +14,6 @@ import java.util.List;
 public abstract class StmTraductor {
     protected String name;
     protected List<String> semanticErrors;
-    protected Connection connection;
     
     protected abstract XMLmodel getModel(List<Token> tokens, Index index);
     protected abstract void internalTranslate(XMLmodel model) throws ModelException;

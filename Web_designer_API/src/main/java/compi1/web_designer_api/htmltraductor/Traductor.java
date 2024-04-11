@@ -1,12 +1,15 @@
 package compi1.web_designer_api.htmltraductor;
 
 import compi1.web_designer_api.exceptions.ModelException;
+import compi1.web_designer_api.htmltraductor.statements.CreatePageTraductor;
 import compi1.web_designer_api.htmltraductor.statements.CreateSiteTraductor;
+import compi1.web_designer_api.htmltraductor.statements.DeletePageTraductor;
 import compi1.web_designer_api.htmltraductor.statements.DeleteSiteTraductor;
 import compi1.web_designer_api.htmltraductor.statements.StmTraductor;
 import compi1.web_designer_api.services.ResponserGen;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -19,14 +22,18 @@ public class Traductor {
 
     private CreateSiteTraductor createSiteT;
     private DeleteSiteTraductor deleteSiteT;
+    private CreatePageTraductor createPageT;
+    private DeletePageTraductor deletePageT;
 
     private ResponserGen responserGen;
 
-    public Traductor() {
+    public Traductor(Connection connection) {
         index = new Index();
 
-        createSiteT = new CreateSiteTraductor();
-        deleteSiteT = new DeleteSiteTraductor();
+        createSiteT = new CreateSiteTraductor(connection);
+        deleteSiteT = new DeleteSiteTraductor(connection);
+        createPageT = new CreatePageTraductor(connection);
+        deletePageT = new DeletePageTraductor(connection);
 
         responserGen = new ResponserGen();
     }
@@ -46,10 +53,10 @@ public class Traductor {
                     response += startTranslate(deleteSiteT, tokens);
                     break;
                 case sym.NUEVA_PAGINA:
-
+                    response += startTranslate(createPageT, tokens);
                     break;
                 case sym.BORRAR_PAGINA:
-
+                    response += startTranslate(deletePageT, tokens);
                     break;
                 case sym.MODIFICAR_PAGINA:
 

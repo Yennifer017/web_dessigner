@@ -1,12 +1,15 @@
 
 package compi1.web_designer_api.htmltraductor.statements;
 
+import compi1.web_designer_api.database.PageDB;
+import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.htmltraductor.models.DeletePageModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.htmltraductor.sym;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +18,13 @@ import java.util.List;
  * @author yennifer
  */
 public class DeletePageTraductor extends StmTraductor{
+    
+    private PageDB pageDB;
 
-    public DeletePageTraductor() {
+    public DeletePageTraductor(Connection connection) {
         super.name = "Eliminar pagina";
         super.semanticErrors = new ArrayList<>();
-        
+        pageDB = new PageDB(connection, new SiteDB(connection));
     }
     
     @Override
@@ -42,7 +47,16 @@ public class DeletePageTraductor extends StmTraductor{
 
     @Override
     protected void internalTranslate(XMLmodel model) throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(pageDB.exist(model.getId())){
+            deleteChildrenPages( (DeletePageModel) model);
+            pageDB.onDelete(model.getId());
+        } else {
+            semanticErrors.add("El id de la pagina <" + model.getId() + "> no existe, no se puede eliminar");
+        }
+    }
+    
+    private void deleteChildrenPages(DeletePageModel model){
+        
     }
 
     @Override

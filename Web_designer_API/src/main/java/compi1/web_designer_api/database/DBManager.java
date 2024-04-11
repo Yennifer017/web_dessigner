@@ -11,7 +11,7 @@ import java.sql.SQLException;
  */
 public class DBManager {
     private Connection conexion;
-    private final String URL = "jdbc:mariadb://localhost:3306/";
+    private final String URL = "jdbc:mariadb://localhost:3306/WEB_DESSIGNER";
     private final String USER = "BlueDragon";
     private final String PASSWORD = "-BlueDragon17-";
 

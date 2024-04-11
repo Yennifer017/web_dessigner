@@ -1,6 +1,7 @@
 
 package compi1.web_designer_api.htmltraductor.statements;
 
+import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.htmltraductor.models.DeleteSiteModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
@@ -8,6 +9,7 @@ import compi1.web_designer_api.htmltraductor.sym;
 import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +20,14 @@ import java.util.List;
 public class DeleteSiteTraductor extends StmTraductor{
     
     private FilesUtil filesUtil;
+    private SiteDB siteDB;
     
-    public DeleteSiteTraductor(){
+    
+    public DeleteSiteTraductor(Connection connection){
         super.name = "Borrar sitio";
         super.semanticErrors = new ArrayList<>();
         filesUtil = new FilesUtil();
+        siteDB = new SiteDB(connection);
     }
 
     @Override
@@ -46,8 +51,17 @@ public class DeleteSiteTraductor extends StmTraductor{
     @Override
     protected void internalTranslate(XMLmodel model) throws ModelException {
         String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() + model.getId();
-        //eliminar paginas hijas del registro
-        if(!filesUtil.deleteDirectory(path)){
+        if(siteDB.exist(model.getId())){
+            if(!siteDB.onDelete(model.getId())){
+                semanticErrors.add("Error inesperado, no se pudo eliminar el sitio de la base de datos,"
+                        + " id <" + model.getId() + ">");
+                throw new ModelException();
+            } else if(!filesUtil.deleteDirectory(path)){
+                semanticErrors.add("Error inesperado, no se pudieron elminar los archivos del sitio con "
+                        + "id <" + model.getId() + ">");
+                throw new ModelException();
+            }
+        } else {
             semanticErrors.add("No se pudo eliminar el sitio, id <" + model.getId() + ">invalido");
             throw new ModelException();
         }

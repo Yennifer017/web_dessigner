@@ -1,15 +1,24 @@
 package compi1.web_designer_api.htmltraductor.statements;
 
+import compi1.web_designer_api.database.PageDB;
+import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.exceptions.ModelException;
+import compi1.web_designer_api.exceptions.OverWrittingFileException;
+import compi1.web_designer_api.htmltraductor.HTMLgenerator;
 import compi1.web_designer_api.htmltraductor.models.CreatePageModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.htmltraductor.sym;
 import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,12 +27,20 @@ import java.util.List;
 public class CreatePageTraductor extends StmTraductor {
 
     private FilesUtil filesUtil;
-    public CreatePageTraductor(){
+    private HTMLgenerator htmlGen;
+    private SiteDB siteDB;
+    private PageDB pageDB;
+
+    public CreatePageTraductor(Connection connection) {
         super.semanticErrors = new ArrayList<>();
         super.name = "Crear pagina";
         filesUtil = new FilesUtil();
+        htmlGen = new HTMLgenerator();
+
+        this.siteDB = new SiteDB(connection);
+        this.pageDB = new PageDB(connection, siteDB);
     }
-    
+
     @Override
     protected XMLmodel getModel(List<Token> tokens, Index index) {
         CreatePageModel model = new CreatePageModel();
@@ -50,7 +67,24 @@ public class CreatePageTraductor extends StmTraductor {
 
     @Override
     protected void internalTranslate(XMLmodel model) throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        CreatePageModel cModel = (CreatePageModel) model;
+        String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() + cModel.getSite();
+        String content = htmlGen.getCodePageHtml(cModel.getTitle());
+        try {
+            pageDB.insertIntoDB(cModel);
+            registLabels(cModel);
+            filesUtil.saveAs(content, FilesUtil.HTML_EXTENSION, model.getId(), path);
+        } catch (SQLException ex) {
+            semanticErrors.add("Error inesperado, no se pudo agregar a la base de datos la pagina <"
+                + model.getId() + ">");
+        } catch (IOException | OverWrittingFileException ex) {
+            semanticErrors.add("Error inesperado, no se pudo crear la pagina <"
+                + model.getId() + ">, se recomienda tratar de eliminarla");
+        }
+    }
+    
+    private void registLabels(CreatePageModel model){
+        //TODO: dont be lazy, do anything, lazy method;
     }
 
     @Override
@@ -62,31 +96,22 @@ public class CreatePageTraductor extends StmTraductor {
             index.increment();
             Token valueParamTkn = tokens.get(index.get());
             index.increment(); //pasar al siguiente parametro o salir
-            
+
             switch (nameParamTkn.getType()) {
                 case sym.ID:
-                    if (model.getId() != null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
-                    }
-                    model.setId(valueParamTkn.getLexem().toString());
+                    recoveryId(model, nameParamTkn, valueParamTkn);
                     break;
                 case sym.TITULO:
-                    if (model.getTitle()!= null) {
+                    if (model.getTitle() != null) {
                         semanticErrors.add(super.getRepetedParamError(nameParamTkn));
                     }
                     model.setTitle(valueParamTkn.getLexem().toString());
                     break;
                 case sym.SITIO:
-                    if (model.getSite()!= null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
-                    }
-                    model.setSite(valueParamTkn.getLexem().toString());
+                    recoverySite(model, nameParamTkn, valueParamTkn);
                     break;
                 case sym.PADRE:
-                    if (model.getFather()!= null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
-                    }
-                    model.setFather(valueParamTkn.getLexem().toString());
+                    recoveryFather(model, nameParamTkn, valueParamTkn);
                     break;
                 case sym.USUARIO_CREACION:
                     if (model.getUserCreateId() != null) {
@@ -120,9 +145,45 @@ public class CreatePageTraductor extends StmTraductor {
         index.increment(); //salir de parametros
     }
 
+    private void recoveryId(CreatePageModel model, Token nameParamTkn, Token valueParamTkn) {
+        if (model.getId() != null) {
+            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+        } else {
+            model.setId(valueParamTkn.getLexem().toString());
+            if (pageDB.exist(model.getId())) {
+                semanticErrors.add("El id para la pagina <" + model.getId()
+                        + "> ya existe, no se puede usar");
+            }
+        }
+    }
+
+    private void recoverySite(CreatePageModel model, Token nameParamTkn, Token valueParamTkn) {
+        if (model.getSite() != null) {
+            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+        } else {
+            model.setSite(valueParamTkn.getLexem().toString());
+            if (!siteDB.exist(model.getSite())) {
+                semanticErrors.add("El id del sitio <" + model.getSite()
+                        + "> no existe, la pagina no se puede crear");
+            }
+        }
+    }
+
+    private void recoveryFather(CreatePageModel model, Token nameParamTkn, Token valueParamTkn) {
+        if (model.getFather() != null) {
+            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+        } else {
+            model.setFather(valueParamTkn.getLexem().toString());
+            if (!pageDB.exist(model.getFather())) {
+                semanticErrors.add("El id de la pagina padre <" + model.getSite()
+                        + "> no existe, la pagina no se puede crear");
+            }
+        }
+    }
+
     private void recoveryLabels(List<Token> tokens, Index index, CreatePageModel model) {
         Token currentTkn = tokens.get(index.get());
-        while (currentTkn.getType() != sym.ETIQUETAS) {            
+        while (currentTkn.getType() != sym.ETIQUETAS) {
             model.getLabels().add(currentTkn.getLexem().toString());
             index.increment();
             currentTkn = tokens.get(index.get());
@@ -134,12 +195,12 @@ public class CreatePageTraductor extends StmTraductor {
     public String translate(List<Token> tokens, Index index) throws ModelException {
         super.semanticErrors.clear();
         CreatePageModel model = (CreatePageModel) this.getModel(tokens, index);
-        if(!semanticErrors.isEmpty()){
+        if (!semanticErrors.isEmpty()) {
             throw new ModelException();
-        }else if(!model.hasEnoughParams()){
+        } else if (!model.hasEnoughParams()) {
             semanticErrors.add(model.getMissingParams());
             throw new ModelException();
-        }else if(model.isCompleate()){
+        } else if (model.isCompleate()) {
             model.autocompleate();
         }
         this.internalTranslate(model);

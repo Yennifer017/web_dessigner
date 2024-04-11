@@ -13,12 +13,26 @@ import java.io.IOException;
  */
 public class FilesUtil {
 
+    /**
+     * Extension para archivos html, incluye el punto
+     */
     public static final String HTML_EXTENSION = ".html";
 
+    /**
+     * el path del servidor web
+     */
     public static final String WEB_SERVER_PATH 
             = "/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/webapp/";
+    
+    /**
+     * El path donde se almacenan los sitios web, no incluye el separador al final
+     */
     public static final String SITES_PATH_SERVER
             = WEB_SERVER_PATH + "sites";
+    
+    /**
+     * El path del archivo js para las paginas web creadas predeterminado.
+     */
     public static final String AJAX_FILE_PATH = WEB_SERVER_PATH + "resources/viewPageReq.js";
 
     /**

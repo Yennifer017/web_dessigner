@@ -2,6 +2,7 @@ package compi1.web_designer_api.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -16,24 +17,49 @@ public class SiteDB {
         this.connection = connection;
     }
 
-    public void insertIntoDB(String name) {
+    public boolean insertIntoDB(String name) {
         String query = "INSERT INTO site (name) VALUES (?);";
         try {
             PreparedStatement insert = connection.prepareStatement(query);
             insert.setString(1, name);
             insert.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println(e);
+            return false;
         }
     }
 
-    public void onDelete(String name) {
-        String query = "DELETE FROM site WHERE id=?;";
+    public boolean onDelete(String name) {
+        String query = "DELETE FROM site WHERE name = ?;";
+        try {
+            PreparedStatement delete = connection.prepareStatement(query);
+            delete.setString(1, name);
+            int row = delete.executeUpdate();
+            return row != 0;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     public int getId(String name) {
         String query = "SELECT id FROM site WHERE name = ? ;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
         return 0;
+    }
+    
+    public boolean exist(String name){
+        return this.getId(name) != 0;
     }
 
 }

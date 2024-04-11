@@ -1,5 +1,6 @@
 package compi1.web_designer_api.services;
 
+import compi1.web_designer_api.database.DBManager;
 import compi1.web_designer_api.htmltraductor.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +21,7 @@ public class XMLservice {
     public XMLservice() {
         mensajero = new Mensajero();
         responserGen = new ResponserGen();
-        traductor = new Traductor();
+        traductor = new Traductor(new DBManager().getConnection());
     }
     
     public void executeXML(HttpServletRequest request, HttpServletResponse response) throws IOException {

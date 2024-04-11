@@ -1,5 +1,7 @@
 package compi1.web_designer_api.htmltraductor.statements;
 
+import compi1.web_designer_api.database.PageDB;
+import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.exceptions.OverWrittingFileException;
 import compi1.web_designer_api.htmltraductor.HTMLgenerator;
@@ -10,6 +12,8 @@ import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +26,17 @@ public class CreateSiteTraductor extends StmTraductor {
     
     private FilesUtil filesUtil;
     private HTMLgenerator htmlGen;
+    private SiteDB siteDB;
+    private PageDB pageDB;
 
-    public CreateSiteTraductor() {
+    public CreateSiteTraductor(Connection connection) {
         super.semanticErrors = new ArrayList<>();
         super.name = "Crear sitio";
         filesUtil = new FilesUtil();
         htmlGen = new HTMLgenerator();
+        
+        siteDB = new SiteDB(connection);
+        pageDB = new PageDB(connection, siteDB);
     }
 
     @Override
@@ -63,12 +72,18 @@ public class CreateSiteTraductor extends StmTraductor {
                     model.getId(), 
                     sitePath
             );
-            //TODO: agregar la pagina al contenedor de paginas
+            siteDB.insertIntoDB(model.getId());
+            pageDB.insertIntoDB(model.getId(), model.getId());
         } catch (IOException | OverWrittingFileException ex) {
             semanticErrors.add("Ocurrio un error inesperado al crear el index del sitio <" 
                     + model.getId() + "> se recomienda borrarlo y volverlo a crear");
             throw new ModelException();
-        }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            semanticErrors.add("Ocurrio un error inesperado al agregar el index del sitio <" 
+                    + model.getId() + "> a la base de datos");
+            throw new ModelException();
+        } 
     }
 
     @Override
