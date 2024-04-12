@@ -1,4 +1,3 @@
-
 package compi1.web_designer_api.database;
 
 import java.sql.Connection;
@@ -11,13 +10,14 @@ import java.sql.SQLException;
  * @author yennifer
  */
 public class LabelDB {
-    
+
     private Connection connection;
-    public LabelDB(Connection connection){
+
+    public LabelDB(Connection connection) {
         this.connection = connection;
     }
-    
-    public int getId(String name){
+
+    public int getId(String name) {
         try {
             String query = "SELECT id FROM label WHERE name = ?";
             PreparedStatement ps = connection.prepareStatement(query);
@@ -31,8 +31,8 @@ public class LabelDB {
         }
         return 0;
     }
-    
-    public void insertIntoDB(String name){
+
+    public void insertIntoDB(String name) {
         try {
             String query = "INSERT INTO label (name) VALUES (?)";
             PreparedStatement insert = connection.prepareStatement(query);
@@ -42,22 +42,36 @@ public class LabelDB {
             System.out.println(e);
         }
     }
-    
-    public boolean exist(String name){
+
+    public boolean exist(String name) {
         return getId(name) != 0;
     }
-    
+
     /**
      * Relaciona una etiqueta a una pagina web
+     *
      * @param nameLabel
      * @param idPage
+     * @throws java.sql.SQLException
      */
-    public void addLabel(String nameLabel, int idPage) throws SQLException{
+    public void addLabel(String nameLabel, int idPage) throws SQLException {
         int idLabel = this.getId(nameLabel);
         String query = "INSERT INTO page_label (id_label, id_page) VALUES (?, ?);";
         PreparedStatement insert = connection.prepareStatement(query);
         insert.setInt(1, idLabel);
         insert.setInt(2, idPage);
         insert.executeUpdate();
+    }
+
+    public void deleteAllInPage(int idPage) {
+        String query = "DELETE FROM page_label WHERE id_page = ?";
+        try {
+            PreparedStatement insert = connection.prepareStatement(query);
+            insert.setInt(1, idPage);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+            System.out.println(e);
+        }
     }
 }

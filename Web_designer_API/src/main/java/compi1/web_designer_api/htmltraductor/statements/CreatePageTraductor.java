@@ -46,22 +46,25 @@ public class CreatePageTraductor extends StmTraductor {
     protected XMLmodel getModel(List<Token> tokens, Index index) {
         CreatePageModel model = new CreatePageModel();
         Token currentTkn = tokens.get(index.get()); //params or labels
-        index.increment(); //pasar la etiqueta
 
         boolean inStatement = true;
         while (index.get() < tokens.size() && inStatement) {
             switch (currentTkn.getType()) {
                 case sym.PARAMETROS:
+                    index.increment();
                     recoveryParams(tokens, index, model);
                     break;
                 case sym.ETIQUETAS:
+                    index.increment();
                     recoveryLabels(tokens, index, model);
                     break;
                 default:
                     inStatement = false;
                     break;
             }
-            currentTkn = tokens.get(index.get());
+            if(index.get() < tokens.size()){
+                currentTkn = tokens.get(index.get()); //params, labels or finish
+            }
         }
 
         return model;

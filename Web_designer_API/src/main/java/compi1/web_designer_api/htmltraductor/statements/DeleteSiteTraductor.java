@@ -53,12 +53,13 @@ public class DeleteSiteTraductor extends StmTraductor{
         String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() + model.getId();
         if(siteDB.exist(model.getId())){
             boolean deletedFromDB = siteDB.onDelete(model.getId());
-            boolean deleteFromFiles = filesUtil.deleteDirectory(path);
             if(!deletedFromDB){
                 semanticErrors.add("Error inesperado, no se pudo eliminar el sitio de la base de datos,"
                         + " id <" + model.getId() + ">");
                 throw new ModelException();
-            } else if(!deleteFromFiles){
+            } 
+            boolean deleteFromFiles = filesUtil.deleteDirectory(path);
+            if(!deleteFromFiles){
                 semanticErrors.add("Error inesperado, no se pudieron eliminar los archivos del sitio con "
                         + "id <" + model.getId() + ">");
                 throw new ModelException();

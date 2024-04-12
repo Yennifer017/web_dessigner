@@ -31,10 +31,20 @@ public class FilesUtil {
             = WEB_SERVER_PATH + "sites";
     
     /**
+     * La ruta para acceder al servidor, no incluye el separador final
+     */
+    public static final String WEB_ROUTE = "http://localhost:8080/Web_designer_API";
+    
+    /**
      * El path del archivo js para las paginas web creadas predeterminado.
      */
-    public static final String AJAX_FILE_PATH = WEB_SERVER_PATH + "resources/viewPageReq.js";
+    public static final String AJAX_FILE_PATH = WEB_ROUTE + "/resources/viewPageReq.js";
 
+    /**
+     * El path del archivo css para estilos
+     */
+    public static final String STYLESHEET_PATH = WEB_ROUTE + "/resources/styles.css";
+    
     /**
      * crea una carpeta
      *

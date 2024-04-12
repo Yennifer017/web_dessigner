@@ -39,5 +39,5 @@ CREATE TABLE page_label(
     id_page INT NOT NULL,
     CONSTRAINT PK_pagelabel PRIMARY KEY(id_label, id_page),
     FOREIGN KEY (id_label) REFERENCES label(id),
-    FOREIGN KEY (id_page) REFERENCES page(id)
+    FOREIGN KEY (id_page) REFERENCES page(id) ON DELETE CASCADE
 );

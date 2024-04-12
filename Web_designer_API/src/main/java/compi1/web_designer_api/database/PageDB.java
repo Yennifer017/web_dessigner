@@ -123,5 +123,12 @@ public class PageDB {
         }
         return 0;
     }
+    
+    public void updateVisit(String namePage) throws SQLException{
+        String query = "UPDATE page SET visits=visits+1 WHERE name = ? ;";
+        PreparedStatement update = connection.prepareStatement(query);
+        update.setString(1, namePage);
+        update.executeUpdate();
+    }
 
 }

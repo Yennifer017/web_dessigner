@@ -1,6 +1,7 @@
 
 package compi1.web_designer_api.servlets;
 
+import compi1.web_designer_api.services.CountVisitService;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,6 +15,11 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ViewerCount", urlPatterns = {"/ViewerCount"})
 public class ViewerCount extends HttpServlet {
+    
+    private CountVisitService service;
+    public ViewerCount(){
+        service = new CountVisitService();
+    }
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -26,9 +32,7 @@ public class ViewerCount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //String id = request.getParameter("id");
-        System.out.println("Se ha simulado contabilizar la visita, id");
+        service.countVisit(request, response);
     }
-
 
 }

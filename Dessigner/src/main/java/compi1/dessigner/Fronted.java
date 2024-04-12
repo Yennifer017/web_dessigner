@@ -5,6 +5,7 @@ package compi1.dessigner;
  * @author yenni
  */
 import compi1.dessigner.requests.Requester;
+import compi1.dessigner.util.FilesUtil;
 import compi1.dessigner.util.NumberLine;
 import javax.swing.JOptionPane;
 
@@ -13,6 +14,7 @@ public class Fronted extends javax.swing.JFrame {
     //FIELDS
     private NumberLine numConsole, numDisplayFile;
     private Requester requester;
+    private FilesUtil filesUtil;
 
 
     /**
@@ -23,6 +25,7 @@ public class Fronted extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         initNumeracion();
         requester = new Requester(console);
+        filesUtil = new FilesUtil();
     }
 
 
@@ -308,7 +311,7 @@ public class Fronted extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openFileOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileOpActionPerformed
-
+        display.setText(filesUtil.readTextFile(filesUtil.getPath()));
     }//GEN-LAST:event_openFileOpActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized

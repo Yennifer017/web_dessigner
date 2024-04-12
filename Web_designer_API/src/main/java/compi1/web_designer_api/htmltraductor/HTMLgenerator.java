@@ -14,6 +14,7 @@ public class HTMLgenerator {
     
     public static final String END_COMPONENTS = "<!--END-->";
     public static final String COMPONENT_INIT = "<!--COMP:\"";
+    public static final String TITLE_INDICATOR = "<!--TITLE-->";
     
     
     public String getCodePageHtml(String title){
@@ -26,7 +27,9 @@ public class HTMLgenerator {
         code += "<html>" + ENTER;
         code += SPACE.repeat(4) + "<head>" + ENTER;
         code += SPACE.repeat(8) + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" + ENTER;
+        code += SPACE.repeat(8) + "<link rel=\"stylesheet\" href=\"" + FilesUtil.STYLESHEET_PATH + "\">" + ENTER;
         code += SPACE.repeat(8) + "<script src=\"" + FilesUtil.AJAX_FILE_PATH + "\"></script>" + ENTER;
+        code += TITLE_INDICATOR + ENTER;
         code += SPACE.repeat(8) + "<title>" + title + "</title>" + ENTER;
         code += SPACE.repeat(4) + "</head>" + ENTER;
         code += SPACE.repeat(4) + "<body>" + ENTER;
@@ -34,6 +37,10 @@ public class HTMLgenerator {
         code += SPACE.repeat(4) + "</body>" + ENTER;
         code += "</html>";
         return code;
+    }
+    
+    public String getCodeTitle(String title){
+        return SPACE.repeat(8) + "<title>" + title + "</title>" + ENTER;
     }
     
     

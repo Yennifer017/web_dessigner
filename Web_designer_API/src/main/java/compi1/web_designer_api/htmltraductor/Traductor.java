@@ -1,10 +1,14 @@
 package compi1.web_designer_api.htmltraductor;
 
 import compi1.web_designer_api.exceptions.ModelException;
+import compi1.web_designer_api.htmltraductor.statements.AddCompTraduct;
 import compi1.web_designer_api.htmltraductor.statements.CreatePageTraductor;
 import compi1.web_designer_api.htmltraductor.statements.CreateSiteTraductor;
+import compi1.web_designer_api.htmltraductor.statements.DeleteCompTraduc;
 import compi1.web_designer_api.htmltraductor.statements.DeletePageTraductor;
 import compi1.web_designer_api.htmltraductor.statements.DeleteSiteTraductor;
+import compi1.web_designer_api.htmltraductor.statements.ModifyCompTraduc;
+import compi1.web_designer_api.htmltraductor.statements.ModifyPageTraductor;
 import compi1.web_designer_api.htmltraductor.statements.StmTraductor;
 import compi1.web_designer_api.services.ResponserGen;
 import compi1.web_designer_api.util.Index;
@@ -24,6 +28,10 @@ public class Traductor {
     private DeleteSiteTraductor deleteSiteT;
     private CreatePageTraductor createPageT;
     private DeletePageTraductor deletePageT;
+    private ModifyPageTraductor modifyPageT;
+    private AddCompTraduct addCompT;
+    private DeleteCompTraduc deleteCompT;
+    private ModifyCompTraduc modifyCompT;
 
     private ResponserGen responserGen;
 
@@ -34,14 +42,18 @@ public class Traductor {
         deleteSiteT = new DeleteSiteTraductor(connection);
         createPageT = new CreatePageTraductor(connection);
         deletePageT = new DeletePageTraductor(connection);
-
+        modifyPageT = new ModifyPageTraductor(connection);
+        addCompT = new AddCompTraduct();
+        deleteCompT = new DeleteCompTraduc();
+        modifyCompT = new ModifyCompTraduc();
+        
         responserGen = new ResponserGen();
     }
 
     public String traducir(List<Token> tokens) {
         String response = "";
         index.setIndex(0);
-        for (index.get(); index.get() < tokens.size(); index.increment()) {
+        for (index.get(); index.get() < tokens.size(); ) {
             Token currentTkn = tokens.get(index.get());
             index.increment(); //para pasar al siguiente token
 
@@ -59,19 +71,18 @@ public class Traductor {
                     response += startTranslate(deletePageT, tokens);
                     break;
                 case sym.MODIFICAR_PAGINA:
-
+                    response += startTranslate(modifyPageT, tokens);
                     break;
                 case sym.AGREGAR_COMPONENTE:
-
+                    response += startTranslate(addCompT, tokens);
                     break;
                 case sym.BORRAR_COMPONENTE:
-
+                    response += startTranslate(deleteCompT, tokens);
                     break;
                 case sym.MODIFICAR_COMPONENTE:
-
+                    response += startTranslate(modifyCompT, tokens);
                     break;
                 default:
-
             }
         }
         return response;
