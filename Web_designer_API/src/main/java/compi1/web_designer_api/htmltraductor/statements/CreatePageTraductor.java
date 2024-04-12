@@ -1,5 +1,6 @@
 package compi1.web_designer_api.htmltraductor.statements;
 
+import compi1.web_designer_api.database.LabelDB;
 import compi1.web_designer_api.database.PageDB;
 import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.exceptions.ModelException;
@@ -17,8 +18,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -30,6 +29,7 @@ public class CreatePageTraductor extends StmTraductor {
     private HTMLgenerator htmlGen;
     private SiteDB siteDB;
     private PageDB pageDB;
+    private LabelDB labelDB;
 
     public CreatePageTraductor(Connection connection) {
         super.semanticErrors = new ArrayList<>();
@@ -39,6 +39,7 @@ public class CreatePageTraductor extends StmTraductor {
 
         this.siteDB = new SiteDB(connection);
         this.pageDB = new PageDB(connection, siteDB);
+        this.labelDB = new LabelDB(connection);
     }
 
     @Override
@@ -60,6 +61,7 @@ public class CreatePageTraductor extends StmTraductor {
                     inStatement = false;
                     break;
             }
+            currentTkn = tokens.get(index.get());
         }
 
         return model;
@@ -75,16 +77,32 @@ public class CreatePageTraductor extends StmTraductor {
             registLabels(cModel);
             filesUtil.saveAs(content, FilesUtil.HTML_EXTENSION, model.getId(), path);
         } catch (SQLException ex) {
+            System.out.println(ex);
             semanticErrors.add("Error inesperado, no se pudo agregar a la base de datos la pagina <"
                 + model.getId() + ">");
+            throw new ModelException();
         } catch (IOException | OverWrittingFileException ex) {
+            System.out.println(ex);
             semanticErrors.add("Error inesperado, no se pudo crear la pagina <"
                 + model.getId() + ">, se recomienda tratar de eliminarla");
+            throw new ModelException();
         }
     }
     
     private void registLabels(CreatePageModel model){
-        //TODO: dont be lazy, do anything, lazy method;
+        if(!model.getLabels().isEmpty()){
+            int idPage = pageDB.getId(model.getId());
+            for (String label : model.getLabels()) {
+                if(!labelDB.exist(label)){
+                    labelDB.insertIntoDB(label);
+                }
+                try {
+                    labelDB.addLabel(label, idPage);
+                } catch (SQLException ex) {
+                    System.out.println(ex);
+                }
+            }
+        }
     }
 
     @Override

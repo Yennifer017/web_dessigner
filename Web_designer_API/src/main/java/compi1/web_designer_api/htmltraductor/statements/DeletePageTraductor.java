@@ -3,13 +3,16 @@ package compi1.web_designer_api.htmltraductor.statements;
 
 import compi1.web_designer_api.database.PageDB;
 import compi1.web_designer_api.database.SiteDB;
+import compi1.web_designer_api.database.models.Page;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.htmltraductor.models.DeletePageModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.htmltraductor.sym;
+import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +23,15 @@ import java.util.List;
 public class DeletePageTraductor extends StmTraductor{
     
     private PageDB pageDB;
+    private SiteDB siteDB;
+    private FilesUtil filesUtil;
 
     public DeletePageTraductor(Connection connection) {
         super.name = "Eliminar pagina";
         super.semanticErrors = new ArrayList<>();
-        pageDB = new PageDB(connection, new SiteDB(connection));
+        filesUtil = new FilesUtil();
+        siteDB = new SiteDB(connection);
+        pageDB = new PageDB(connection, siteDB);
     }
     
     @Override
@@ -48,15 +55,33 @@ public class DeletePageTraductor extends StmTraductor{
     @Override
     protected void internalTranslate(XMLmodel model) throws ModelException {
         if(pageDB.exist(model.getId())){
-            deleteChildrenPages( (DeletePageModel) model);
-            pageDB.onDelete(model.getId());
+            try {
+                int idSite = pageDB.getIdSite(model.getId());
+                String sitePath = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() 
+                        + siteDB.getName(idSite);
+                onDeletePage(sitePath, model.getId());
+                pageDB.onDelete(model.getId());
+            } catch (SQLException e) {
+                System.out.println(e);
+                semanticErrors.add("Error inesperado al tratar de eliminar la pagina <" + model.getId()
+                        + "> por favor contacta con adminsitracion");
+                throw new ModelException("error inesperado");
+            }
         } else {
             semanticErrors.add("El id de la pagina <" + model.getId() + "> no existe, no se puede eliminar");
+            throw new ModelException();
         }
     }
     
-    private void deleteChildrenPages(DeletePageModel model){
-        
+    private void onDeletePage(String sitePath, String namePage) throws SQLException{
+        String pathFather = sitePath + FilesUtil.getSeparator() + namePage + FilesUtil.HTML_EXTENSION;
+        List<Page> childrenPages = pageDB.getChildren(namePage);
+        if(!childrenPages.isEmpty()){
+            for (Page child : childrenPages) {
+                onDeletePage(sitePath, child.getName());
+            }
+        }
+        filesUtil.deleteFile(pathFather);
     }
 
     @Override

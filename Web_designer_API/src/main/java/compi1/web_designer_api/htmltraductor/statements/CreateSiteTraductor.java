@@ -56,12 +56,10 @@ public class CreateSiteTraductor extends StmTraductor {
     protected void internalTranslate(XMLmodel model) throws ModelException{
         String sitePath = "";
         try {
+            siteDB.insertIntoDB(model.getId());
             sitePath = filesUtil.createDirectory(FilesUtil.SITES_PATH_SERVER, model.getId());
-        } catch (IOException ex) {
+        } catch (IOException | OverWrittingFileException ex) {
             semanticErrors.add("Ocurrio un error inesperado al crear el sitio <" + model.getId() + ">");
-            throw new ModelException();
-        } catch (OverWrittingFileException ex) { 
-            semanticErrors.add("El id del sitio <" + model.getId() + "> esta repetido, no se pudo crear");
             throw new ModelException();
         }
         
@@ -72,7 +70,6 @@ public class CreateSiteTraductor extends StmTraductor {
                     model.getId(), 
                     sitePath
             );
-            siteDB.insertIntoDB(model.getId());
             pageDB.insertIntoDB(model.getId(), model.getId());
         } catch (IOException | OverWrittingFileException ex) {
             semanticErrors.add("Ocurrio un error inesperado al crear el index del sitio <" 
@@ -81,7 +78,8 @@ public class CreateSiteTraductor extends StmTraductor {
         } catch (SQLException ex) {
             System.out.println(ex);
             semanticErrors.add("Ocurrio un error inesperado al agregar el index del sitio <" 
-                    + model.getId() + "> a la base de datos");
+                    + model.getId() + "> a la base de datos, se recomienda borrar el sitio "
+                    + "y volverlo a crear o crear una pagina personalizada que sea el index");
             throw new ModelException();
         } 
     }
@@ -95,10 +93,7 @@ public class CreateSiteTraductor extends StmTraductor {
         index.increment();
         switch (nameParamTkn.getType()) {
             case sym.ID:
-                if(model.getId() != null){
-                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
-                }
-                model.setId(valueParamTkn.getLexem().toString());
+                recoveryId(model, nameParamTkn, valueParamTkn);
                 break;
             case sym.USUARIO_CREACION:
                 if(model.getUserCreateId() != null){
@@ -126,6 +121,18 @@ public class CreateSiteTraductor extends StmTraductor {
                 break;
             default:
                 throw new AssertionError("No se esperaba eso, error sintactico");
+        }
+    }
+    
+    private void recoveryId(CreateSiteModel model, Token nameParamTkn, Token valueParamTkn){
+        if (model.getId() != null) {
+            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+        } else {
+            model.setId(valueParamTkn.getLexem().toString());
+            if (siteDB.exist(model.getId())) {
+                semanticErrors.add("El id para la pagina <" + model.getId()
+                        + "> ya existe, no se puede usar");
+            }
         }
     }
 

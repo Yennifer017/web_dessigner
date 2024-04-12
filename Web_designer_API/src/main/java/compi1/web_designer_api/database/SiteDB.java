@@ -57,9 +57,21 @@ public class SiteDB {
         }
         return 0;
     }
-    
-    public boolean exist(String name){
+
+    public boolean exist(String name) {
         return this.getId(name) != 0;
+    }
+
+    public String getName(int id) throws SQLException {
+        String query = "SELECT name FROM site WHERE id = ? ;";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString(1);
+        } else {
+            throw new SQLException("No se encontro el id");
+        }
     }
 
 }

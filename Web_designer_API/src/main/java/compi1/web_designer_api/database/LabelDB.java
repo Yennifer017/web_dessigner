@@ -49,8 +49,15 @@ public class LabelDB {
     
     /**
      * Relaciona una etiqueta a una pagina web
+     * @param nameLabel
+     * @param idPage
      */
-    public void addLabel(){
-        
+    public void addLabel(String nameLabel, int idPage) throws SQLException{
+        int idLabel = this.getId(nameLabel);
+        String query = "INSERT INTO page_label (id_label, id_page) VALUES (?, ?);";
+        PreparedStatement insert = connection.prepareStatement(query);
+        insert.setInt(1, idLabel);
+        insert.setInt(2, idPage);
+        insert.executeUpdate();
     }
 }
