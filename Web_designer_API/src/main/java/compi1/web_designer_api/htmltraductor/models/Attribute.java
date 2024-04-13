@@ -13,6 +13,6 @@ import lombok.Setter;
 @Getter @Setter @AllArgsConstructor
 
 public class Attribute {
-    private int codeName;
+    private Token typeAttrTkn;
     private Token contentTkn; 
 }

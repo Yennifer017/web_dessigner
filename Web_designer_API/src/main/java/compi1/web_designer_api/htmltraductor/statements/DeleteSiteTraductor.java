@@ -1,4 +1,3 @@
-
 package compi1.web_designer_api.htmltraductor.statements;
 
 import compi1.web_designer_api.database.SiteDB;
@@ -17,13 +16,12 @@ import java.util.List;
  *
  * @author yennifer
  */
-public class DeleteSiteTraductor extends StmTraductor{
-    
+public class DeleteSiteTraductor extends StmTraductor {
+
     private FilesUtil filesUtil;
     private SiteDB siteDB;
-    
-    
-    public DeleteSiteTraductor(Connection connection){
+
+    public DeleteSiteTraductor(Connection connection) {
         super.name = "Borrar sitio";
         super.semanticErrors = new ArrayList<>();
         filesUtil = new FilesUtil();
@@ -34,10 +32,10 @@ public class DeleteSiteTraductor extends StmTraductor{
     protected XMLmodel getModel(List<Token> tokens, Index index) {
         DeleteSiteModel model = new DeleteSiteModel();
         Token currentTkn = tokens.get(index.get());
-        if(currentTkn.getType() == sym.PARAMETROS){
+        if (currentTkn.getType() == sym.PARAMETROS) {
             index.increment(); //pasar de parametros
             currentTkn = tokens.get(index.get());
-            while (currentTkn.getType() != sym.PARAMETROS) {                
+            while (currentTkn.getType() != sym.PARAMETROS) {
                 recoveryParams(tokens, index, model);
                 currentTkn = tokens.get(index.get());
             }
@@ -51,21 +49,16 @@ public class DeleteSiteTraductor extends StmTraductor{
     @Override
     protected void internalTranslate(XMLmodel model) throws ModelException {
         String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() + model.getId();
-        if(siteDB.exist(model.getId())){
-            boolean deletedFromDB = siteDB.onDelete(model.getId());
-            if(!deletedFromDB){
-                semanticErrors.add("Error inesperado, no se pudo eliminar el sitio de la base de datos,"
-                        + " id <" + model.getId() + ">");
-                throw new ModelException();
-            } 
-            boolean deleteFromFiles = filesUtil.deleteDirectory(path);
-            if(!deleteFromFiles){
-                semanticErrors.add("Error inesperado, no se pudieron eliminar los archivos del sitio con "
-                        + "id <" + model.getId() + ">");
-                throw new ModelException();
-            }
-        } else {
-            semanticErrors.add("No se pudo eliminar el sitio, id <" + model.getId() + ">invalido");
+        boolean deletedFromDB = siteDB.onDelete(model.getId());
+        if (!deletedFromDB) {
+            semanticErrors.add("Error inesperado, no se pudo eliminar el sitio de la base de datos,"
+                    + " id <" + model.getId() + ">");
+            throw new ModelException();
+        }
+        boolean deleteFromFiles = filesUtil.deleteDirectory(path);
+        if (!deleteFromFiles) {
+            semanticErrors.add("Error inesperado, no se pudieron eliminar los archivos del sitio con "
+                    + "id <" + model.getId() + ">");
             throw new ModelException();
         }
     }
@@ -77,8 +70,11 @@ public class DeleteSiteTraductor extends StmTraductor{
         index.increment();
         Token valueParamTkn = tokens.get(index.get());
         index.increment();
-        if(nameParamTkn.getType() == sym.ID){
+        if (nameParamTkn.getType() == sym.ID) {
             model.setId(valueParamTkn.getLexem().toString());
+            if (!siteDB.exist(model.getId())) {
+                super.addNoFoundError(valueParamTkn, " no se puede eliminar el sitio");
+            }
         }
     }
 
@@ -86,14 +82,14 @@ public class DeleteSiteTraductor extends StmTraductor{
     public String translate(List<Token> tokens, Index index) throws ModelException {
         super.semanticErrors.clear();
         DeleteSiteModel model = (DeleteSiteModel) this.getModel(tokens, index);
-        if(!semanticErrors.isEmpty()){
+        if (!semanticErrors.isEmpty()) {
             throw new ModelException();
-        }else if(!model.hasEnoughParams()){
+        } else if (!model.hasEnoughParams()) {
             semanticErrors.add(model.getMissingParams());
             throw new ModelException();
         }
         internalTranslate(model);
         return "Sitio <" + model.getId() + "> eliminado exitosamente";
     }
-    
+
 }

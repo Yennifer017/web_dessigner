@@ -6,4 +6,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Apr 11, 2024, 8:26:34 PM
     Author     : yennifer
 */
-
+.centrar{
+  text-align: CENTER;
+}
+.izquierda{
+  text-align: LEFT;
+}
+.derecha{
+  text-align: CENTER;
+}
+.justificar{
+  text-align: JUSTIFY;
+}

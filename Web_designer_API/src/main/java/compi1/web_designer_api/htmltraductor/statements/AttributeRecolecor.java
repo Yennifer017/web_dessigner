@@ -12,9 +12,9 @@ import java.util.List;
  *
  * @author yennifer
  */
-public class AttributeTrans {
+public class AttributeRecolecor {
     
-    protected AttributeTrans(){
+    protected AttributeRecolecor(){
     }
     
     public List<Attribute> recoveryAttributes(List<Token> tokens, Index index)
@@ -26,7 +26,7 @@ public class AttributeTrans {
             index.increment();
             Token valueTkn = tokens.get(index.get());
             index.increment();
-            attributes.add(new Attribute(typeTkn.getType(), valueTkn));
+            attributes.add(new Attribute(typeTkn, valueTkn));
             currentTkn = tokens.get(index.get());
         }
         return attributes;

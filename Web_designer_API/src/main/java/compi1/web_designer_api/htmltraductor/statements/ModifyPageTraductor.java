@@ -143,7 +143,7 @@ public class ModifyPageTraductor extends StmTraductor {
                     break;
                 case sym.TITULO:
                     if (model.getTitle() != null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                        super.addRepetedParamError(nameParamTkn);
                     } else {
                         model.setTitle(valueParamTkn.getLexem().toString());
                     }
@@ -160,7 +160,7 @@ public class ModifyPageTraductor extends StmTraductor {
 
     private void recoveryId(ModifyPageModel model, Token nameParamTkn, Token valueParamTkn) {
         if (model.getId() != null) {
-            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+            super.addRepetedParamError(nameParamTkn);
         } else {
             model.setId(valueParamTkn.getLexem().toString());
             if (!pageDB.exist(model.getId())) {

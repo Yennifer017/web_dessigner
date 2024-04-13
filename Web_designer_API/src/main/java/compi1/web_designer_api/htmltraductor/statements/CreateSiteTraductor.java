@@ -97,25 +97,25 @@ public class CreateSiteTraductor extends StmTraductor {
                 break;
             case sym.USUARIO_CREACION:
                 if(model.getUserCreateId() != null){
-                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                    super.addRepetedParamError(nameParamTkn);
                 }
                 model.setUserCreateId(valueParamTkn.getLexem().toString());
                 break;
             case sym.USUARIO_MODIFICACION:
                 if(model.getUserModifyId() != null){
-                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                    super.addRepetedParamError(nameParamTkn);
                 }
                 model.setUserModifyId(valueParamTkn.getLexem().toString());
                 break;
             case sym.FECHA_CREACION:
                 if(model.getDateCreated() != null){
-                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                    super.addRepetedParamError(nameParamTkn);
                 }
                 model.setDateCreated(LocalDate.parse(valueParamTkn.getLexem().toString()));
                 break;
             case sym.FECHA_MODIFICACION:
                 if(model.getDateModify() != null){
-                    semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                    super.addRepetedParamError(nameParamTkn);
                 }
                 model.setDateModify(LocalDate.parse(valueParamTkn.getLexem().toString()));
                 break;
@@ -126,12 +126,11 @@ public class CreateSiteTraductor extends StmTraductor {
     
     private void recoveryId(CreateSiteModel model, Token nameParamTkn, Token valueParamTkn){
         if (model.getId() != null) {
-            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+            super.addRepetedParamError(nameParamTkn);
         } else {
             model.setId(valueParamTkn.getLexem().toString());
             if (siteDB.exist(model.getId())) {
-                semanticErrors.add("El id para la pagina <" + model.getId()
-                        + "> ya existe, no se puede usar");
+                super.addOverWrittingError(valueParamTkn, " del sitio");
             }
         }
     }

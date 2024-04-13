@@ -43,7 +43,7 @@ public class Traductor {
         createPageT = new CreatePageTraductor(connection);
         deletePageT = new DeletePageTraductor(connection);
         modifyPageT = new ModifyPageTraductor(connection);
-        addCompT = new AddCompTraduct();
+        addCompT = new AddCompTraduct(connection);
         deleteCompT = new DeleteCompTraduc();
         modifyCompT = new ModifyCompTraduc();
         

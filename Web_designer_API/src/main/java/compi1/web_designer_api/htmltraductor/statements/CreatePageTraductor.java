@@ -124,7 +124,7 @@ public class CreatePageTraductor extends StmTraductor {
                     break;
                 case sym.TITULO:
                     if (model.getTitle() != null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                        super.addRepetedParamError(nameParamTkn);
                     }
                     model.setTitle(valueParamTkn.getLexem().toString());
                     break;
@@ -136,25 +136,25 @@ public class CreatePageTraductor extends StmTraductor {
                     break;
                 case sym.USUARIO_CREACION:
                     if (model.getUserCreateId() != null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                        super.addRepetedParamError(nameParamTkn);
                     }
                     model.setUserCreateId(valueParamTkn.getLexem().toString());
                     break;
                 case sym.USUARIO_MODIFICACION:
                     if (model.getUserModifyId() != null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                        super.addRepetedParamError(nameParamTkn);
                     }
                     model.setUserModifyId(valueParamTkn.getLexem().toString());
                     break;
                 case sym.FECHA_CREACION:
                     if (model.getDateCreated() != null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                        super.addRepetedParamError(nameParamTkn);
                     }
                     model.setDateCreated(LocalDate.parse(valueParamTkn.getLexem().toString()));
                     break;
                 case sym.FECHA_MODIFICACION:
                     if (model.getDateModify() != null) {
-                        semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+                        super.addRepetedParamError(nameParamTkn);
                     }
                     model.setDateModify(LocalDate.parse(valueParamTkn.getLexem().toString()));
                     break;
@@ -168,36 +168,34 @@ public class CreatePageTraductor extends StmTraductor {
 
     private void recoveryId(CreatePageModel model, Token nameParamTkn, Token valueParamTkn) {
         if (model.getId() != null) {
-            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+            super.addRepetedParamError(nameParamTkn);
         } else {
             model.setId(valueParamTkn.getLexem().toString());
             if (pageDB.exist(model.getId())) {
-                semanticErrors.add("El id para la pagina <" + model.getId()
-                        + "> ya existe, no se puede usar");
+                super.addOverWrittingError(valueParamTkn, " de la pagina no se puede usar");
             }
         }
     }
 
     private void recoverySite(CreatePageModel model, Token nameParamTkn, Token valueParamTkn) {
         if (model.getSite() != null) {
-            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+            super.addRepetedParamError(nameParamTkn);
         } else {
             model.setSite(valueParamTkn.getLexem().toString());
             if (!siteDB.exist(model.getSite())) {
-                semanticErrors.add("El id del sitio <" + model.getSite()
-                        + "> no existe, la pagina no se puede crear");
+                super.addNoFoundError(nameParamTkn, " la pagina no se puede crear");
             }
         }
     }
 
     private void recoveryFather(CreatePageModel model, Token nameParamTkn, Token valueParamTkn) {
         if (model.getFather() != null) {
-            semanticErrors.add(super.getRepetedParamError(nameParamTkn));
+            super.addRepetedParamError(nameParamTkn);
         } else {
             model.setFather(valueParamTkn.getLexem().toString());
             if (!pageDB.exist(model.getFather())) {
-                semanticErrors.add("El id de la pagina padre <" + model.getSite()
-                        + "> no existe, la pagina no se puede crear");
+                super.addNoFoundError(nameParamTkn, 
+                        " la pagina no se puede crear sin una pagina padre valida");
             }
         }
     }

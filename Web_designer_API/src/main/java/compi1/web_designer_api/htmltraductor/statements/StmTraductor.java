@@ -21,11 +21,6 @@ public abstract class StmTraductor {
     
     public abstract String translate(List<Token> tokens, Index index) throws ModelException;
     
-    protected String getRepetedParamError(Token param){
-        return "Se esta intentando sobreescribir el parametro <" + param.getLexem().toString()
-                + "> linea: " + param.getLine() + " - columna:" + param.getColumn(); 
-    }
-    
     public List<String> getSemanticErrors(){
         return this.semanticErrors;
     }
@@ -33,5 +28,33 @@ public abstract class StmTraductor {
     public void addFailMss(){
         this.semanticErrors.add("No se pudo ejecutar una instruccion " + name);
     };
+    
+    //ERRORS REPORT
+ 
+    protected void addRepetedParamError(Token param){
+        this.semanticErrors.add(
+                "Se esta intentando sobreescribir el parametro <" + param.getLexem().toString()
+                + "> linea: " + param.getLine() + " - columna:" + param.getColumn()
+        ); 
+    }
+    
+    /** 
+     *  mensaje: El id <_id_> no existe, _mss_
+     * @param param
+     * @param mss
+     */
+    protected void addNoFoundError(Token param, String mss){
+        this.semanticErrors.add("El id <" + param.getLexem().toString() + "> no existe," 
+                + mss + " Linea: " + param.getLine() + " - columna: " + param.getColumn());
+    }
+    /** 
+     *  mensaje: El id <_id_> _mss_ , ya existe 
+     * @param param
+     * @param mss
+     */
+    protected void addOverWrittingError(Token param, String mss) throws NullPointerException{
+        this.semanticErrors.add("El id <" + param.getLexem().toString() + ">" + mss 
+                + ", ya existe. Linea: " + param.getLine() + " - columna: " + param.getColumn());
+    }
     
 }
