@@ -1,22 +1,31 @@
+
 package compi1.web_designer_api.htmltraductor.models.comp;
 
+import compi1.web_designer_api.exceptions.IncompleateCompException;
 import compi1.web_designer_api.exceptions.InvalidAttributeException;
 import compi1.web_designer_api.htmltraductor.HTMLgenerator;
 import compi1.web_designer_api.htmltraductor.models.Attribute;
 import compi1.web_designer_api.htmltraductor.sym;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author yennifer
  */
-public class TitleComp extends ComponentHtml {
+@Getter @Setter
+public class DisplayHtmlComp extends ComponentHtml{
+    
+    public static String TITLE_HTML_LABEL = "h1", PARAGRAPH_HTML_LABEL = "p";
 
     private String text;
     private String align;
     private String color;
+    private String label;
 
-    public TitleComp() {
+    public DisplayHtmlComp(String htmlLabel) {
         super.htmlGen = new HTMLgenerator();
+        this.label = htmlLabel;
         initPermitedAttrs();
     }
 
@@ -30,7 +39,7 @@ public class TitleComp extends ComponentHtml {
 
     @Override
     public boolean canCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return text != null;
     }
 
     @Override
@@ -40,7 +49,7 @@ public class TitleComp extends ComponentHtml {
                 this.text = attribute.getContentTkn().getLexem().toString();
                 break;
             case sym.ALINEACION:
-                this.align = attribute.getContentTkn().getLexem().toString();
+                this.align = attribute.getContentTkn().getLexem().toString().toLowerCase();
                 break;
             case sym.COLOR:
                 this.color = attribute.getContentTkn().getLexem().toString();
@@ -51,13 +60,16 @@ public class TitleComp extends ComponentHtml {
     }
 
     @Override
-    public String getHtmlCode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getHtmlCode() throws IncompleateCompException{
+        if(canCreate()){
+            return htmlGen.getCodeForDisplay(this);
+        }else{
+            throw new IncompleateCompException();
+        }
     }
 
     @Override
     public String getMissingAttributes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return text == null ? "Texto" : "";
     }
-
 }

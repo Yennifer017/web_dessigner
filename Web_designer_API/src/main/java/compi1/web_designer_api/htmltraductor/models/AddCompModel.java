@@ -37,7 +37,7 @@ public class AddCompModel extends XMLmodel{
 
     @Override
     public String getMissingParams() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
     
 }

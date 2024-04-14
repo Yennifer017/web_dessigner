@@ -3,16 +3,29 @@ package compi1.web_designer_api.htmltraductor.statements;
 import compi1.web_designer_api.database.ComponentDB;
 import compi1.web_designer_api.database.PageDB;
 import compi1.web_designer_api.database.SiteDB;
+import compi1.web_designer_api.database.models.ComponentModelDB;
+import compi1.web_designer_api.exceptions.IncompleateCompException;
 import compi1.web_designer_api.exceptions.ModelException;
+import compi1.web_designer_api.htmltraductor.HTMLgenerator;
 import compi1.web_designer_api.htmltraductor.models.AddCompModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
+import compi1.web_designer_api.htmltraductor.models.comp.ComponentHtml;
+import compi1.web_designer_api.htmltraductor.models.comp.MenuComp;
 import compi1.web_designer_api.htmltraductor.sym;
 import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,6 +39,7 @@ public class AddCompTraduct extends StmTraductor {
     private PageDB pageDB;
     private ComponentDB componentDB;
     private ComponentCreator componentCreator;
+    private List<String> warnings;
 
     public AddCompTraduct(Connection connection) {
         super.semanticErrors = new ArrayList<>();
@@ -37,6 +51,7 @@ public class AddCompTraduct extends StmTraductor {
         this.pageDB = new PageDB(connection, siteDB);
         this.componentDB = new ComponentDB(connection);
         this.componentCreator = new ComponentCreator();
+        this.warnings = new ArrayList<>();
     }
 
     @Override
@@ -71,6 +86,28 @@ public class AddCompTraduct extends StmTraductor {
         AddCompModel model = (AddCompModel) xmlModel;
         int idPage = pageDB.getId(model.getPage());
         if(!componentDB.exist(idPage, model.getId())){
+            ComponentHtml component = componentCreator.createModel(
+                    model.getClassCode(), model.getAttributes(), warnings, model.getId()
+            );
+            if(component.canCreate()){
+                try {
+                    ComponentModelDB componentModel = new ComponentModelDB(
+                            idPage, model.getId(), model.get
+                    );
+                    componentDB.insertIntoDB(componentModel);
+                    addComponentToFile(model, component);
+                } catch (SQLException ex) {
+                    //agregar accion
+                    throw new ModelException();
+                } catch (IOException ex) {
+                    //agregar accion
+                    throw new ModelException();
+                } catch (IncompleateCompException ex) {
+                    Logger.getLogger(AddCompTraduct.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                semanticErrors.add("Faltan los atributos:" + component.getMissingAttributes());
+            }
             
         }else {
             semanticErrors.add("No se puede agregar <" + model.getId() 
@@ -79,8 +116,40 @@ public class AddCompTraduct extends StmTraductor {
         }
     }
     
-    private void rewriteHtmlFile(){
-        //agregar el componente en el html
+    private void addComponentToFile(AddCompModel model, ComponentHtml component) 
+            throws SQLException, FileNotFoundException, IOException, IncompleateCompException{
+        StringBuilder contenido = new StringBuilder();
+        String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() 
+                + siteDB.getName(pageDB.getIdSite(model.getId())) + FilesUtil.getSeparator()
+                + model.getId() + FilesUtil.HTML_EXTENSION;
+        File archivo = new File(path); //creando el archivo
+        FileReader lector = new FileReader(archivo); //lector del archivo
+        BufferedReader buffer = new BufferedReader(lector); //para leer mas rapido el archivo
+        String linea;
+        boolean inEndOfBody = false;
+        while ((linea = buffer.readLine()) != null) {
+            if (linea.equals(HTMLgenerator.END_COMPONENTS)) {
+                inEndOfBody = true;
+            }
+            if (inEndOfBody) {
+                if(component instanceof MenuComp){
+                    getMenuHTML();
+                }else{
+                    contenido.append(component.getHtmlCode())
+                            .append(HTMLgenerator.END_COMPONENTS);
+                }
+                inEndOfBody = false;
+            } else {
+                contenido.append(linea).append("\n");
+            }
+        }
+        buffer.close();
+        lector.close();
+        filesUtil.saveFile(contenido.toString(), archivo);
+    }
+    
+    private String getMenuHTML(){
+        
     }
 
     @Override
@@ -140,9 +209,20 @@ public class AddCompTraduct extends StmTraductor {
     @Override
     public String translate(List<Token> tokens, Index index) throws ModelException {
         super.semanticErrors.clear();
+        this.warnings.clear();
         AddCompModel model = (AddCompModel) getModel(tokens, index);
-        //crear el componente y asegurarse que no este vacio
+        if(!semanticErrors.isEmpty()){
+            throw new ModelException();
+        } else if(!model.isCompleate()){
+            semanticErrors.add(model.getMissingParams());
+            throw new ModelException();
+        }
+        internalTranslate(model);
         return "Componente <" + model.getId() + "> agregado exitosamente";
+    }
+    
+    public List<String> getWarnings(){
+        return this.warnings;
     }
 
 }

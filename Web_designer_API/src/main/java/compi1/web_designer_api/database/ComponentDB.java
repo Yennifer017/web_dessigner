@@ -1,7 +1,7 @@
 
 package compi1.web_designer_api.database;
 
-import compi1.web_designer_api.database.models.Component;
+import compi1.web_designer_api.database.models.ComponentModelDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ public class ComponentDB {
         this.connection = connection;
     }
     
-    public void insertIntoDB(Component component) throws SQLException{
+    public void insertIntoDB(ComponentModelDB component) throws SQLException{
         String query = "INSERT INTO component (name, id_page, class) VALUES (?, ?, ?);";
         PreparedStatement insert = connection.prepareStatement(query);
         insert.setString(1, component.getName());
@@ -27,18 +27,18 @@ public class ComponentDB {
     }
     
     public boolean exist(int idPage, String name){
-        Component component = new Component(idPage, name);
+        ComponentModelDB component = new ComponentModelDB(idPage, name);
         return getId(component) != 0;
     }
     
-    public boolean exist(Component component){
+    public boolean exist(ComponentModelDB component){
         return getId(component) != 0;
     }
     
-    public Component get(int id){
+    public ComponentModelDB get(int id){
         String query = "SELECT * FROM component WHERE id = ?";
         
-        Component component = new Component();
+        ComponentModelDB component = new ComponentModelDB();
         return null;
     }
     
@@ -49,7 +49,7 @@ public class ComponentDB {
         delete.executeUpdate();
     }
     
-    public void updateClass(Component component) throws SQLException{
+    public void updateClass(ComponentModelDB component) throws SQLException{
         String query = "UPDATE FROM component WHERE name = ? AND id_page = ? SET class = ? ;";
         PreparedStatement update = connection.prepareStatement(query);
         update.setString(1, component.getName());
@@ -58,7 +58,7 @@ public class ComponentDB {
         update.executeUpdate();
     }
     
-    public int getId(Component component){
+    public int getId(ComponentModelDB component){
         String query = "SELECT id FROM component WHERE name = ? AND id_page = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(query);

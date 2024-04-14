@@ -10,17 +10,17 @@ import lombok.Setter;
  * @author yennifer
  */
 @Getter @Setter @NoArgsConstructor
-public class Component {
+public class ComponentModelDB {
     private int id, idPage, classId;
     private String name, className;
     
-    public Component(int idPage, String name, String className){
+    public ComponentModelDB(int idPage, String name, String className){
         this.idPage = idPage;
         this.name = name;
         this.className = className;
     }
     
-    public Component(int idPage, String name){
+    public ComponentModelDB(int idPage, String name){
         this.idPage = idPage;
         this.name = name;
     }

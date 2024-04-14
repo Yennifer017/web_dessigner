@@ -141,7 +141,7 @@ public class CreateSiteTraductor extends StmTraductor {
         CreateSiteModel model = (CreateSiteModel) this.getModel(tokens, index);
         if(!semanticErrors.isEmpty()){
             throw new ModelException();
-        } if (!model.hasEnoughParams()) {
+        } else if (!model.hasEnoughParams()) {
             semanticErrors.add(model.getMissingParams());
             throw new ModelException();
         } else if (!model.isCompleate()) {
