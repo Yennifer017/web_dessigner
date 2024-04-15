@@ -87,7 +87,7 @@ public class DeletePageTraductor extends StmTraductor {
         if (nameParamTkn.getType() == sym.ID) {
             xmlmodel.setId(valueParamTkn.getLexem().toString());
             if (!pageDB.exist(xmlmodel.getId())) {
-                super.addNoFoundError(nameParamTkn, " no se puede eliminar");
+                super.addNoFoundError(valueParamTkn, " no se puede eliminar");
             }
         }
     }

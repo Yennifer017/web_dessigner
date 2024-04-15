@@ -98,8 +98,13 @@ public class AddCompTraduct extends StmTraductor {
                     ComponentModelDB componentModel = new ComponentModelDB(
                             idPage, model.getId(), model.getClassTkn().getLexem().toString()
                     );
-                    componentDB.insertIntoDB(componentModel);
+                    if(!(component instanceof MenuComp)){
+                        componentDB.insertIntoDB(componentModel);
+                    }
                     addComponentToFile(model, component);
+                    if(component instanceof MenuComp){
+                        componentDB.insertIntoDB(componentModel);
+                    }
                 } catch (SQLException ex) {
                     System.out.println(ex);
                     semanticErrors.add("Ocurrio un erro inesperado al escribir/consultar "
@@ -147,15 +152,17 @@ public class AddCompTraduct extends StmTraductor {
                 inEndOfBody = true;
             }
             if (inEndOfBody) {
+                contenido.append(HTMLgenerator.COMPONENT_INIT)
+                        .append(model.getId())
+                        .append(HTMLgenerator.COMPONENT_END)
+                        .append("\n");
                 if(component instanceof MenuComp){
                     MenuComp menuComp = (MenuComp) component;
-                    contenido.append(menuComp.getHtmlCode(pageDB, labelDB))
-                            .append(HTMLgenerator.END_COMPONENTS);
+                    contenido.append(menuComp.getHtmlCode(pageDB, labelDB));
                 }else{
-                    contenido.append(component.getHtmlCode())
-                            .append(HTMLgenerator.END_COMPONENTS);
+                    contenido.append(component.getHtmlCode());
                 }
-                contenido.append("\n");
+                contenido.append(HTMLgenerator.END_COMPONENTS).append("\n");
                 inEndOfBody = false;
             } else {
                 contenido.append(linea).append("\n");
@@ -217,7 +224,6 @@ public class AddCompTraduct extends StmTraductor {
                 super.addNoFoundError(valueParamTkn, " no se puede agregar el componente a una pagina invalida");
             }
         }
-        
     }
 
     @Override

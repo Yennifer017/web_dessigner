@@ -44,8 +44,8 @@ public class Traductor {
         deletePageT = new DeletePageTraductor(connection);
         modifyPageT = new ModifyPageTraductor(connection);
         addCompT = new AddCompTraduct(connection);
-        deleteCompT = new DeleteCompTraduc();
-        modifyCompT = new ModifyCompTraduc();
+        deleteCompT = new DeleteCompTraduc(connection);
+        modifyCompT = new ModifyCompTraduc(connection);
         
         responserGen = new ResponserGen();
     }

@@ -1,10 +1,14 @@
 
 package compi1.web_designer_api.htmltraductor.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author yennifer
  */
+@Getter @Setter
 public class DeleteCompModel extends XMLmodel{
 
     private String page;
@@ -21,7 +25,9 @@ public class DeleteCompModel extends XMLmodel{
 
     @Override
     public String getMissingParams() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String mss = id == null ? super.getMissingParamMss("id") : "";
+        mss += page == null ? super.getMissingParamMss("id de la pagina") : "";
+        return mss;
     }
     
 }

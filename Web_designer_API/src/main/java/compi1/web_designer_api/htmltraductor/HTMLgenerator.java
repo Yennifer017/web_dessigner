@@ -64,8 +64,8 @@ public class HTMLgenerator {
         code += getIdCodeHtml(media.getId());
         code += " src=\"" + media.getOrigin() + "\"";
         code += getAlignCode(media.getAlign());
-        code += "style=\"width:" + media.getWidth() + "px; height:" + media.getHeight() + "px;";
-        code += "/>";
+        code += " style=\"width:" + media.getWidth() + "px; height:" + media.getHeight() + "px;\"";
+        code += "/>" + ENTER;
         return code;
     }
 

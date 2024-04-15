@@ -49,6 +49,14 @@ public class ComponentDB {
         delete.executeUpdate();
     }
     
+    public void deleteComponent(String name, int idPage) throws SQLException{
+        String query = "DELETE FROM component WHERE name = ? AND id_page = ?";
+        PreparedStatement delete = connection.prepareStatement(query);
+        delete.setString(1, name);
+        delete.setInt(2, idPage);
+        delete.executeUpdate();
+    }
+    
     public void updateClass(ComponentModelDB component) throws SQLException{
         String query = "UPDATE FROM component WHERE name = ? AND id_page = ? SET class = ? ;";
         PreparedStatement update = connection.prepareStatement(query);
@@ -63,12 +71,13 @@ public class ComponentDB {
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, component.getName());
-            ps.setInt(1, component.getIdPage());
+            ps.setInt(2, component.getIdPage());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
+            System.out.println(e);
         }
         return 0;
     }

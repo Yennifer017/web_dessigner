@@ -29,7 +29,7 @@ public class PageDB {
 
     public void insertIntoDB(CreatePageModel model) throws SQLException {
         String query;
-        if (model.getFather() != null) {
+        if (model.getFather() == null) {
             query = "INSERT INTO page (name, id_site) VALUES (?, ?);";
         } else {
             query = "INSERT INTO page (name, id_site, id_father) VALUES (?, ?, ?);";
@@ -38,8 +38,8 @@ public class PageDB {
         insert.setString(1, model.getId());
         int idSite = siteDB.getId(model.getSite());
         insert.setInt(2, idSite);
-        if (model.getFather() == null) {
-            int idIndex = this.getId(model.getSite());
+        if (model.getFather() != null) {
+            int idIndex = this.getId(model.getFather());
             insert.setInt(3, idIndex);
         }
         insert.executeUpdate();

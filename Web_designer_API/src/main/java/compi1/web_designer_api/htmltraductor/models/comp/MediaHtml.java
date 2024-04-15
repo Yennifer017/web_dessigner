@@ -54,7 +54,7 @@ public class MediaHtml extends ComponentHtml {
 
     @Override
     public void set(Attribute attribute) throws InvalidAttributeException, NumberFormatException {
-        switch (attribute.getContentTkn().getType()) {
+        switch (attribute.getTypeAttrTkn().getType()) {
             case sym.ORIGEN:
                 this.origin = attribute.getContentTkn().getLexem().toString();
                 break;

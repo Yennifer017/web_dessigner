@@ -8,16 +8,17 @@
 }
 body {
     margin: 0;
-    font-size: 20px;
     background-color: rgb(238, 238, 238);
 }
 
 p {
-    padding: 20px;
-    margin: 20px;
+    padding: 20px 5%;
+    margin: 20px 5%;
     line-height: 1.8rem;
 }
 h1 {
+    font-size: 25px;
+    padding: 10px 5%;
     font-family: verdana;
     font-weight: 600;
     font-size: 2rem;
