@@ -20,7 +20,7 @@ public class HTMLgenerator {
     public static final String END_COMPONENTS = "<!--END-->";
     public static final String COMPONENT_INIT = "<!--COMP:";
     public static final String TITLE_INDICATOR = "<!--TITLE-->";
-    public static final String COMPONENT_END = "\"-->";
+    public static final String COMPONENT_END = "-->";
 
     public String getCodePageHtml(String title) {
         if (title == null) {

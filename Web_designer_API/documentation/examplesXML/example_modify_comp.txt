@@ -1,0 +1,27 @@
+<acciones>
+	<accion nombre="MODIFICAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$miTitulo]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="CLASE">
+				[TITULO]
+			</parametro>
+		</parametros>
+		<ATRIBUTOS>
+			<atributo nombre="TEXTO">
+				[Nuevo texto aqui >:)]
+			</ATRIBUTO>
+			<atributo nombre="ALINEACION">
+				[DERECHA]
+			</ATRIBUTO>
+			<atributo nombre="COLOR">
+				[#FF00FF]
+			</ATRIBUTO>
+		</atributos>
+	</accion>
+	
+</acciones>

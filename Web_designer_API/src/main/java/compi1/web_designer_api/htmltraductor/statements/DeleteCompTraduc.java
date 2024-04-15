@@ -93,10 +93,10 @@ public class DeleteCompTraduc extends StmTraductor {
         while ((linea = buffer.readLine()) != null) {
             if (linea.equals(HTMLgenerator.COMPONENT_INIT + model.getId() + HTMLgenerator.COMPONENT_END)) {
                 inComponent = true;
-            }
-            if(inComponent && linea.startsWith(HTMLgenerator.COMPONENT_INIT)){ //otro componente
+            } else if(inComponent && 
+                    (linea.startsWith(HTMLgenerator.COMPONENT_INIT) || linea.startsWith(HTMLgenerator.END_COMPONENTS))){
                 inComponent = false;
-            }
+            }   
             if(!inComponent){
                 contenido.append(linea).append("\n");
             }

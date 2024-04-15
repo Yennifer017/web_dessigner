@@ -58,11 +58,11 @@ public class ComponentDB {
     }
     
     public void updateClass(ComponentModelDB component) throws SQLException{
-        String query = "UPDATE FROM component WHERE name = ? AND id_page = ? SET class = ? ;";
+        String query = "UPDATE component SET class = ? WHERE (name = ? AND id_page = ?);";
         PreparedStatement update = connection.prepareStatement(query);
-        update.setString(1, component.getName());
-        update.setInt(2, component.getIdPage());
-        update.setString(3, component.getClassName());
+        update.setString(1, component.getClassName());
+        update.setString(2, component.getName());
+        update.setInt(3, component.getIdPage());
         update.executeUpdate();
     }
     

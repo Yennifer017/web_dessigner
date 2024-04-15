@@ -25,6 +25,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,11 +46,14 @@ public class ModifyCompTraduc extends StmTraductor {
     private ComponentCreator componentCreator;
 
     public ModifyCompTraduc(Connection connection) {
+        super.semanticErrors = new ArrayList<>();
+        super.name = "Modificar Componente";
         componentDB = new ComponentDB(connection);
         filesUtil = new FilesUtil();
         siteDB = new SiteDB(connection);
         pageDB = new PageDB(connection, siteDB);
         labelDB = new LabelDB(connection);
+        attrRecover = new AttributeRecolecor();
         componentCreator = new ComponentCreator();
     }
 
@@ -95,6 +99,7 @@ public class ModifyCompTraduc extends StmTraductor {
                     componentDB.updateClass(componentModelDB);
                     modifyComponentInFile(model, component);
                 } catch (SQLException ex) {
+                    System.out.println(ex);
                     semanticErrors.add("Ocurrio un error inesperado al consultar"
                             + "/actualizar en la base de datos");
                     throw new ModelException();
@@ -161,7 +166,7 @@ public class ModifyCompTraduc extends StmTraductor {
     protected void recoveryParams(List<Token> tokens, Index index, XMLmodel xmlmodel) {
         Token currentTkn = tokens.get(index.get());
         while (currentTkn.getType() != sym.PARAMETROS) {
-            AddCompModel model = (AddCompModel) xmlmodel;
+            ModifyCompModel model = (ModifyCompModel) xmlmodel;
             Token nameParamTkn = tokens.get(index.get());
             index.increment();
             Token valueParamTkn = tokens.get(index.get());
@@ -190,7 +195,7 @@ public class ModifyCompTraduc extends StmTraductor {
         index.increment(); //salir de parametros
     }
 
-    private void recoveryId(AddCompModel model, Token nameParamTkn, Token valueParamTkn) {
+    private void recoveryId(ModifyCompModel model, Token nameParamTkn, Token valueParamTkn) {
         if (model.getId() != null) {
             super.addRepetedParamError(nameParamTkn);
         } else {
@@ -198,7 +203,7 @@ public class ModifyCompTraduc extends StmTraductor {
         }
     }
 
-    private void recoveryPageId(AddCompModel model, Token nameParamTkn, Token valueParamTkn) {
+    private void recoveryPageId(ModifyCompModel model, Token nameParamTkn, Token valueParamTkn) {
         if (model.getPage() != null) {
             super.addRepetedParamError(nameParamTkn);
         } else {
