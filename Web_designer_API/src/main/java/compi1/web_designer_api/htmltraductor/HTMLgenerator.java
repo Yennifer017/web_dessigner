@@ -1,8 +1,11 @@
 package compi1.web_designer_api.htmltraductor;
 
+import compi1.web_designer_api.database.models.Page;
+import compi1.web_designer_api.exceptions.NoCodeException;
 import compi1.web_designer_api.htmltraductor.models.comp.DisplayHtmlComp;
 import compi1.web_designer_api.htmltraductor.models.comp.MediaHtml;
 import compi1.web_designer_api.util.FilesUtil;
+import java.util.List;
 
 /**
  *
@@ -12,6 +15,7 @@ public class HTMLgenerator {
 
     private static final String SPACE = " ";
     private static final String ENTER = "\n";
+    private static final String MENU_CSS_CLASS = "menu";
 
     public static final String END_COMPONENTS = "<!--END-->";
     public static final String COMPONENT_INIT = "<!--COMP:";
@@ -83,6 +87,24 @@ public class HTMLgenerator {
     
     private String getIdCodeHtml(String id){
         return " id=\"" + id + "\"";
+    }
+    
+    public String getCodeForMenu(String finalPath, List<Page> pages, String id) throws NoCodeException{
+        if(pages.isEmpty()){
+            throw new NoCodeException();
+        }
+        String code = SPACE.repeat(8) + "<div class=\"" + MENU_CSS_CLASS + "\">" + ENTER;
+        code += SPACE.repeat(12) + "<ul>" + ENTER; 
+        for (Page page : pages) {
+            code += SPACE.repeat(16) + "<li><a href=\">";
+            code += finalPath;
+            code += page.getName();
+            code += "\">";
+            code += page.getName() + "</a></li>" + ENTER;
+        }
+        code += SPACE.repeat(12) + "</ul>" + ENTER; 
+        code += SPACE.repeat(8) + "</div>" + ENTER;
+        return code;
     }
 
 }

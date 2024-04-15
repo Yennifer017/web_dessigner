@@ -23,7 +23,7 @@ CREATE TABLE component(
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(45) NOT NULL, 
     id_page INT NOT NULL,
-    class ENUM('TITULO_CLASS', 'PARRAFO', 'IMAGEN', 'VIDEO', 'MENU') NOT NULL,
+    class ENUM('TITULO', 'PARRAFO', 'IMAGEN', 'VIDEO', 'MENU') NOT NULL,
     CONSTRAINT PK_component PRIMARY KEY(id),
     FOREIGN KEY (id_page) REFERENCES page(id) ON DELETE CASCADE /*cuando se elimine la pagina tambien el componente*/
 );

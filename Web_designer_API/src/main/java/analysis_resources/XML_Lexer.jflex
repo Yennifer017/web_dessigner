@@ -93,17 +93,19 @@ WhiteSpace = {LineTerminator} | [ \t\f]
     }
     
     private Symbol symbolInputWithObject(int type, Object value, boolean save){
+        int col = yycolumn+1 - value.toString().length() > 0 ? yycolumn+1 - value.toString().length() : yycolumn+1;
         if(save){
-            tokens.add(new Token(value, yyline+1, yycolumn+1 - value.toString().length(), type));
+            tokens.add(new Token(value, yyline+1, col, type));
         }
-        return new Symbol(type, yyline+1, yycolumn+1 - value.toString().length() , value);
+        return new Symbol(type, yyline+1, col , value);
     }
     
     private Symbol symbolInputWithoutObject(int type, Object value, boolean save){
+        int col = yycolumn+1 - value.toString().length() > 0 ? yycolumn+1 - value.toString().length() : yycolumn+1;
         if(save){
-            tokens.add(new Token(yyline+1, yycolumn+1 - value.toString().length(), type));
+            tokens.add(new Token(yyline+1, col, type));
         }
-        return new Symbol(type, yyline+1, yycolumn+1- value.toString().length());
+        return new Symbol(type, yyline+1, col);
     }
 
     private void addError(String message) {
@@ -227,13 +229,13 @@ WhiteSpace = {LineTerminator} | [ \t\f]
                     yybegin(YYINITIAL); //volver al estado de jflex
                     switch(input.toString()){  /*---------------NOMBRE DE ALINEACIONES----------------*/
                         case "CENTRAR":
-                            return symbolInputWithoutObject(sym.CENTRAR, input.toString(), true); 
+                            return symbolInputWithObject(sym.CENTRAR, input.toString(), true); 
                         case "DERECHA":
-                            return symbolInputWithoutObject(sym.DERECHA, input.toString(), true);
+                            return symbolInputWithObject(sym.DERECHA, input.toString(), true);
                         case "IZQUIERDA":
-                            return symbolInputWithoutObject(sym.IZQUIERDA, input.toString(), true);
+                            return symbolInputWithObject(sym.IZQUIERDA, input.toString(), true);
                         case "JUSTIFICAR":
-                            return symbolInputWithoutObject(sym.JUSTIFICAR, input.toString(), true);
+                            return symbolInputWithObject(sym.JUSTIFICAR, input.toString(), true);
                             
                         case "TITULO": /*---------------NOMBRE DE CLASES----------------*/
                             return symbolInputWithObject(sym.TITULO_CLASS, input.toString(), true); 
@@ -251,6 +253,8 @@ WhiteSpace = {LineTerminator} | [ \t\f]
                     }
                     if(input.toString().matches(ID_REGEX) && string.toString().length() < 45){
                         return symbolInputWithObject(sym.IDENTIFIER, input.toString(), true);
+                    } if(input.toString().matches(ID_REGEX + "(\\|" + ID_REGEX + ")*")){
+                        return symbolInputWithObject(sym.NAV_INPUT, input.toString(), true);
                     } else if(input.toString().matches("[0-9][0-9][0-9][0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])")){
                         return symbolInputWithObject(sym.DATE_TKN, input.toString(), true);
                     } else if(input.toString().matches("[0-9]+")){

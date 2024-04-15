@@ -7,7 +7,6 @@ import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.htmltraductor.models.DeleteCompModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
-import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
 import java.util.List;
@@ -37,7 +36,7 @@ public class DeleteCompTraduc extends StmTraductor{
     }
     
     private void deleteCompInFile(DeleteCompModel model){
-        StringBuilder contenido = new StringBuilder();
+        /*StringBuilder contenido = new StringBuilder();
         String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() 
                 + siteDB.getName(pageDB.getIdSite(model.getId())) + FilesUtil.getSeparator()
                 + model.getId() + FilesUtil.HTML_EXTENSION;
@@ -60,7 +59,7 @@ public class DeleteCompTraduc extends StmTraductor{
         }
         buffer.close();
         lector.close();
-        filesUtil.saveFile(contenido.toString(), archivo);
+        filesUtil.saveFile(contenido.toString(), archivo);*/
     }
 
     @Override

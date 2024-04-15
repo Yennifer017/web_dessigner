@@ -44,7 +44,7 @@ public class DisplayHtmlComp extends ComponentHtml{
 
     @Override
     public void set(Attribute attribute) throws InvalidAttributeException {
-        switch (attribute.getContentTkn().getType()) {
+        switch (attribute.getTypeAttrTkn().getType()) {
             case sym.TEXTO:
                 this.text = attribute.getContentTkn().getLexem().toString();
                 break;

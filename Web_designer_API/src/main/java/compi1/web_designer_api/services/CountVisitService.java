@@ -20,6 +20,7 @@ public class CountVisitService {
     private PageDB pageDB;
     
     public CountVisitService(){
+        dbManager = new DBManager();
         connection = dbManager.getConnection();
         pageDB = new PageDB(connection, new SiteDB(connection));
     }

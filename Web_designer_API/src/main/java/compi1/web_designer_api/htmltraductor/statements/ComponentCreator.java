@@ -25,7 +25,7 @@ public class ComponentCreator {
                     try {
                         component.set(attribute);
                     } catch (InvalidAttributeException ex) {
-                        //controlado
+                        System.out.println(ex); //controlado
                     }
                 } else {
                     warnings.add("attributo inutilizado");
@@ -38,7 +38,7 @@ public class ComponentCreator {
     
     private ComponentHtml getEmptyModel(int type){
         switch (type) {
-            case sym.TITULO:
+            case sym.TITULO_CLASS:
                 return new DisplayHtmlComp(DisplayHtmlComp.TITLE_HTML_LABEL);
             case sym.PARRAFO:
                 return new DisplayHtmlComp(DisplayHtmlComp.PARAGRAPH_HTML_LABEL);
@@ -49,6 +49,7 @@ public class ComponentCreator {
             case sym.MENU:
                 return new MenuComp();
             default:
+                System.out.println("Error al crear un componente");
                 throw new AssertionError();
         }
     }

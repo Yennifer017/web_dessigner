@@ -53,7 +53,7 @@ terminal            ACCION, ACCIONES, ATRIBUTO, ATRIBUTOS, ETIQUETA, ETIQUETAS, 
                     FECHA_MODIFICACION, ID, PADRE, PAGINA, SITIO, TITULO, USUARIO_CREACION, USUARIO_MODIFICACION, 
                     ALINEACION, ALTURA, ANCHO, COLOR, ETIQUETAS_MENU, ORIGEN, TEXTO, TITULO_CLASS, PARRAFO, IMAGEN, 
                     VIDEO, MENU, CENTRAR, DERECHA, IZQUIERDA, JUSTIFICAR, OPEN, FINISHER, CLOSE, EQUALS, DATE_TKN, 
-                    IDENTIFIER;
+                    IDENTIFIER, NAV_INPUT;
 
 terminal Integer    INTEGER_TKN;
 terminal String     STRING_TKN, COLOR_HEX;
@@ -69,7 +69,7 @@ non terminal        open_params, open_params_w, close_params , open_param , clos
                     params_new_page_aux, delete_page, modify_page , modify_params , modify_params_aux, add_component , 
                     add_comp_params, add_comp_params_aux , delete_component , delete_comp_params , delete_comp_params_aux, 
                     modify_component, modify_comp_params, modify_comp_params_aux, open_attr, close_attr, params_delete_site, 
-                    delete_page_params, close_action, close_action_w;
+                    delete_page_params, close_action, close_action_w, for_menu;
 
 
 /*------------------------------------------------------
@@ -94,7 +94,8 @@ data ::= DATE_TKN
             | COLOR
             | INTEGER_TKN
             | STRING_TKN
-            | types_align;
+            | types_align
+            | NAV_INPUT;
 
     /***********for the record, its not recursive********/
 need_id_record ::= USUARIO_CREACION
@@ -152,7 +153,9 @@ origin_attr ::= ORIGEN CLOSE STRING_TKN close_attr ;            /*CHEK THE STRIN
 numeric_attr_name ::= ALTURA
             | ANCHO ;
 numeric_attr ::= numeric_attr_name CLOSE INTEGER_TKN close_attr ;
-labels_attr ::= ETIQUETAS_MENU CLOSE STRING_TKN close_attr  ;    /*CHEK THE STRING*/
+
+labels_attr ::= ETIQUETAS_MENU CLOSE for_menu close_attr  ;
+for_menu ::= IDENTIFIER | NAV_INPUT;
 
             /******************* define attributes ******************/
 optional_attributes ::= attributes OPEN

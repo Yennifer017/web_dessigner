@@ -1,11 +1,13 @@
 package compi1.web_designer_api.htmltraductor.statements;
 
 import compi1.web_designer_api.database.ComponentDB;
+import compi1.web_designer_api.database.LabelDB;
 import compi1.web_designer_api.database.PageDB;
 import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.database.models.ComponentModelDB;
 import compi1.web_designer_api.exceptions.IncompleateCompException;
 import compi1.web_designer_api.exceptions.ModelException;
+import compi1.web_designer_api.exceptions.NoCodeException;
 import compi1.web_designer_api.htmltraductor.HTMLgenerator;
 import compi1.web_designer_api.htmltraductor.models.AddCompModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
@@ -38,6 +40,7 @@ public class AddCompTraduct extends StmTraductor {
     private SiteDB siteDB;
     private PageDB pageDB;
     private ComponentDB componentDB;
+    private LabelDB labelDB;
     private ComponentCreator componentCreator;
     private List<String> warnings;
 
@@ -50,6 +53,7 @@ public class AddCompTraduct extends StmTraductor {
         this.siteDB = new SiteDB(connection);
         this.pageDB = new PageDB(connection, siteDB);
         this.componentDB = new ComponentDB(connection);
+        this.labelDB = new LabelDB(connection);
         this.componentCreator = new ComponentCreator();
         this.warnings = new ArrayList<>();
     }
@@ -87,26 +91,35 @@ public class AddCompTraduct extends StmTraductor {
         int idPage = pageDB.getId(model.getPage());
         if(!componentDB.exist(idPage, model.getId())){
             ComponentHtml component = componentCreator.createModel(
-                    model.getClassCode(), model.getAttributes(), warnings, model.getId()
+                    model.getClassTkn().getType(), model.getAttributes(), warnings, model.getId()
             );
             if(component.canCreate()){
                 try {
                     ComponentModelDB componentModel = new ComponentModelDB(
-                            idPage, model.getId(), model.get
+                            idPage, model.getId(), model.getClassTkn().getLexem().toString()
                     );
                     componentDB.insertIntoDB(componentModel);
                     addComponentToFile(model, component);
                 } catch (SQLException ex) {
-                    //agregar accion
+                    System.out.println(ex);
+                    semanticErrors.add("Ocurrio un erro inesperado al escribir/consultar "
+                            + "en la base de datos al tratar de crear un componente");
                     throw new ModelException();
                 } catch (IOException ex) {
-                    //agregar accion
+                    System.out.println(ex);
+                    semanticErrors.add("Ocurrio un error inesperado al intentar "
+                            + "sobreescribir el html y agregar un componente.");
                     throw new ModelException();
                 } catch (IncompleateCompException ex) {
                     Logger.getLogger(AddCompTraduct.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoCodeException ex) {
+                    semanticErrors.add("Los filtros para crear el menu no retornaron ninguna pagina,"
+                            + " no se puede crear el menu.");
+                    throw new ModelException();
                 }
             }else{
                 semanticErrors.add("Faltan los atributos:" + component.getMissingAttributes());
+                throw new ModelException();
             }
             
         }else {
@@ -117,11 +130,13 @@ public class AddCompTraduct extends StmTraductor {
     }
     
     private void addComponentToFile(AddCompModel model, ComponentHtml component) 
-            throws SQLException, FileNotFoundException, IOException, IncompleateCompException{
+            throws SQLException, FileNotFoundException, IOException, IncompleateCompException, NoCodeException{
         StringBuilder contenido = new StringBuilder();
         String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() 
-                + siteDB.getName(pageDB.getIdSite(model.getId())) + FilesUtil.getSeparator()
-                + model.getId() + FilesUtil.HTML_EXTENSION;
+                + siteDB.getName(pageDB.getIdSite(model.getPage())) 
+                + FilesUtil.getSeparator()
+                + model.getPage() + FilesUtil.HTML_EXTENSION;
+        System.out.println(path);
         File archivo = new File(path); //creando el archivo
         FileReader lector = new FileReader(archivo); //lector del archivo
         BufferedReader buffer = new BufferedReader(lector); //para leer mas rapido el archivo
@@ -133,11 +148,14 @@ public class AddCompTraduct extends StmTraductor {
             }
             if (inEndOfBody) {
                 if(component instanceof MenuComp){
-                    getMenuHTML();
+                    MenuComp menuComp = (MenuComp) component;
+                    contenido.append(menuComp.getHtmlCode(pageDB, labelDB))
+                            .append(HTMLgenerator.END_COMPONENTS);
                 }else{
                     contenido.append(component.getHtmlCode())
                             .append(HTMLgenerator.END_COMPONENTS);
                 }
+                contenido.append("\n");
                 inEndOfBody = false;
             } else {
                 contenido.append(linea).append("\n");
@@ -146,10 +164,6 @@ public class AddCompTraduct extends StmTraductor {
         buffer.close();
         lector.close();
         filesUtil.saveFile(contenido.toString(), archivo);
-    }
-    
-    private String getMenuHTML(){
-        
     }
 
     @Override
@@ -171,10 +185,10 @@ public class AddCompTraduct extends StmTraductor {
                     recoveryPageId(model, nameParamTkn, valueParamTkn);
                     break;
                 case sym.CLASE:
-                    if (model.getClassCode() > 0) {
+                    if (model.getClassTkn() != null) {
                         super.addRepetedParamError(nameParamTkn);
                     }else{
-                        model.setClassCode(valueParamTkn.getType());
+                        model.setClassTkn(valueParamTkn);
                     }
                     
                     break;

@@ -23,16 +23,16 @@ public class sym {
   public static final int CENTRAR = 42;
   public static final int TITULO_CLASS = 37;
   public static final int TITULO = 27;
-  public static final int STRING_TKN = 53;
+  public static final int STRING_TKN = 54;
   public static final int PADRE = 24;
   public static final int ID = 23;
-  public static final int COLOR_HEX = 54;
+  public static final int COLOR_HEX = 55;
   public static final int NUEVA_PAGINA = 18;
   public static final int EOF = 0;
   public static final int BORRAR_COMPONENTE = 13;
   public static final int CLASE = 20;
   public static final int error = 1;
-  public static final int INTEGER_TKN = 52;
+  public static final int INTEGER_TKN = 53;
   public static final int FECHA_MODIFICACION = 22;
   public static final int ATRIBUTOS = 5;
   public static final int BORRAR_SITIO_WEB = 15;
@@ -43,6 +43,7 @@ public class sym {
   public static final int FECHA_CREACION = 21;
   public static final int NUEVO_SITIO_WEB = 19;
   public static final int USUARIO_CREACION = 28;
+  public static final int NAV_INPUT = 52;
   public static final int VALOR = 11;
   public static final int DERECHA = 43;
   public static final int IMAGEN = 39;
@@ -116,6 +117,7 @@ public class sym {
   "EQUALS",
   "DATE_TKN",
   "IDENTIFIER",
+  "NAV_INPUT",
   "INTEGER_TKN",
   "STRING_TKN",
   "COLOR_HEX"

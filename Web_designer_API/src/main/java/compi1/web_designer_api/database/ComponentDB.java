@@ -26,8 +26,8 @@ public class ComponentDB {
         insert.executeUpdate();
     }
     
-    public boolean exist(int idPage, String name){
-        ComponentModelDB component = new ComponentModelDB(idPage, name);
+    public boolean exist(int idPage, String nameComp){
+        ComponentModelDB component = new ComponentModelDB(idPage, nameComp);
         return getId(component) != 0;
     }
     

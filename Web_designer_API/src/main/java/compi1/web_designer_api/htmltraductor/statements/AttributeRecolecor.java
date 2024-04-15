@@ -29,6 +29,7 @@ public class AttributeRecolecor {
             attributes.add(new Attribute(typeTkn, valueTkn));
             currentTkn = tokens.get(index.get());
         }
+        index.increment(); //salir de atributos
         return attributes;
     }
     

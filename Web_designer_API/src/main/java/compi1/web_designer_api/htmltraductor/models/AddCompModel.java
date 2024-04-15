@@ -1,6 +1,7 @@
 
 package compi1.web_designer_api.htmltraductor.models;
 
+import compi1.web_designer_api.util.Token;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -14,19 +15,18 @@ import lombok.Setter;
 public class AddCompModel extends XMLmodel{
 
     private String page;
-    private int classCode;
+    private Token classTkn;
     private List<Attribute> attributes;
     
     public AddCompModel(){
         attributes = new ArrayList<>();
-        classCode = -1;
     }
     
     @Override
     public boolean isCompleate() {
         return super.id != null
                 && page != null
-                && classCode > 0
+                && classTkn != null
                 && !attributes.isEmpty();
     }
 
@@ -37,7 +37,11 @@ public class AddCompModel extends XMLmodel{
 
     @Override
     public String getMissingParams() {
-        
+        String mss = id == null ? super.getMissingParamMss("id") : "";
+        mss += page ==  null ? super.getMissingParamMss("id de la pagina") : "";
+        mss += classTkn == null ? super.getMissingParamMss("clase de componente") : "";
+        mss += attributes.isEmpty() ? super.getMissingParamMss("atributos") : "";
+        return mss;
     }
     
 }
