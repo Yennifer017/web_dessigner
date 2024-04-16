@@ -905,7 +905,7 @@ public class XMLlexer implements java_cup.runtime.Scanner {
                             return symbolInputWithoutObject(sym.ANCHO, string.toString(), true);
                         case "COLOR":
                             return symbolInputWithoutObject(sym.COLOR, string.toString(), true);
-                        case "ETIQUETAS_MENU":
+                        case "ETIQUETAS":
                             return symbolInputWithoutObject(sym.ETIQUETAS_MENU, string.toString(), true);
                         case "ORIGEN":
                             return symbolInputWithoutObject(sym.ORIGEN, string.toString(), true);

@@ -47,15 +47,15 @@ parser code {:
 /*----------------------------------------------------
      Terminals (tokens returned by the scanner). 
 ------------------------------------------------------*/
-terminal        CONSULTAR, VISITAS_SITIO, VISITAS_PAGINA, PAGINAS_POPULARES, COMPONENTE
+terminal        CONSULTAR, VISITAS_SITIO, VISITAS_PAGINA, PAGINAS_POPULARES, COMPONENTE,
                 TODOS, TITULO, PARRAFO, IMAGEN, VIDEO, MENU, COMA, PUNTO_Y_COMA, IDENTIFIER,
                 PATH, STRING_TKN;
 
 non terminal    instructions, more_instructions, instruction, statements, view_sites, more_ids,
-                view_pages, more_paths, type;
+                view_pages, more_paths, type, popular_pages, components_view;
 
 /*------------------------------------------------------
-                     THE GRAMMAR 
+                     THE GRAMMAR
 --------------------------------------------------------*/
 
 start with instructions;
@@ -65,10 +65,10 @@ more_instructions ::= instruction
         | /* empty */ ;
 
 instruction ::= CONSULTAR statements PUNTO_Y_COMA;
-statements ::= views_sites
-        | views_pages
-        | PAGINAS_POPULARES IDENTIFIER 
-        | COMPONENTE type PATH ;
+statements ::= view_sites
+        | view_pages
+        | popular_pages
+        | components_view;
 
 view_sites ::= VISITAS_SITIO IDENTIFIER more_ids ;
 more_ids ::= COMA IDENTIFIER more_ids
@@ -80,3 +80,6 @@ more_paths ::= COMA PATH more_paths
 
 type ::= TODOS | TITULO | PARRAFO | IMAGEN | VIDEO | MENU ;
 
+popular_pages ::= PAGINAS_POPULARES IDENTIFIER;
+
+components_view ::= COMPONENTE type PATH;

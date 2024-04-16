@@ -23,6 +23,11 @@ h1 {
     font-weight: 600;
     font-size: 2rem;
 }
+video {
+    padding: 25px;
+    display: block;
+    margin: 0 auto;
+}
 .centrar{
     text-align: center;
     display: block;
@@ -42,4 +47,40 @@ h1 {
     text-align: JUSTIFY;
     display: block;
     margin: 0 0;
+}
+
+
+.menu {
+    background-color: #f5f5f5;
+    padding: 20px 50px;
+    margin: 10px 5%;
+    border-radius: 5px;
+    border-style: dotted;
+    border-width: 2px;
+}
+
+.menu p {
+    font-size: 16px;
+    color: #333;
+    padding: 0;
+    margin: 10px 10px;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu ul li {
+    margin-bottom: 5px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.menu ul li a:hover {
+    color: #0056b3;
 }

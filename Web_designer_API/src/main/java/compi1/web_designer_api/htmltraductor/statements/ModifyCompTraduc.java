@@ -9,7 +9,6 @@ import compi1.web_designer_api.exceptions.IncompleateCompException;
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.exceptions.NoCodeException;
 import compi1.web_designer_api.htmltraductor.HTMLgenerator;
-import compi1.web_designer_api.htmltraductor.models.AddCompModel;
 import compi1.web_designer_api.htmltraductor.models.ModifyCompModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.htmltraductor.models.comp.ComponentHtml;
@@ -55,6 +54,7 @@ public class ModifyCompTraduc extends StmTraductor {
         labelDB = new LabelDB(connection);
         attrRecover = new AttributeRecolecor();
         componentCreator = new ComponentCreator();
+        warnings = new ArrayList<>();
     }
 
     @Override
@@ -96,8 +96,13 @@ public class ModifyCompTraduc extends StmTraductor {
                     ComponentModelDB componentModelDB = new ComponentModelDB(
                             idPage, model.getId(), model.getClassTkn().getLexem().toString()
                     );
-                    componentDB.updateClass(componentModelDB);
+                    if(!(component instanceof MenuComp)){ //porque puede tirar noCodeException
+                        componentDB.updateClass(componentModelDB);
+                    }
                     modifyComponentInFile(model, component);
+                    if(component instanceof MenuComp){
+                        componentDB.updateClass(componentModelDB);
+                    }
                 } catch (SQLException ex) {
                     System.out.println(ex);
                     semanticErrors.add("Ocurrio un error inesperado al consultar"
@@ -148,10 +153,8 @@ public class ModifyCompTraduc extends StmTraductor {
                 }
                 contenido.append("\n");
                 find = true;
-            }
-            if (find && linea.startsWith(HTMLgenerator.COMPONENT_INIT)) { //antes del otro componente
+            } else if (find && linea.startsWith(HTMLgenerator.COMPONENT_INIT)) { //antes del otro componente
                 find = false;
-
             }
             if (!find) {
                 contenido.append(linea).append("\n");

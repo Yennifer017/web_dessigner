@@ -31,7 +31,7 @@ public class MenuComp extends ComponentHtml{
     protected final void initPermitedAttrs() {
         super.permitedAttrs = new Integer[2];
         permitedAttrs[0] = sym.PADRE;
-        permitedAttrs[1] = sym.ETIQUETAS;
+        permitedAttrs[1] = sym.ETIQUETAS_MENU;
     }
 
     @Override
@@ -41,11 +41,11 @@ public class MenuComp extends ComponentHtml{
 
     @Override
     public void set(Attribute attribute) throws InvalidAttributeException {
-        switch (attribute.getContentTkn().getType()) {
+        switch (attribute.getTypeAttrTkn().getType()) {
             case sym.PADRE:
                 this.father = attribute.getContentTkn().getLexem().toString();
                 break;
-            case sym.ETIQUETAS:
+            case sym.ETIQUETAS_MENU:
                 this.labels = attribute.getContentTkn().getLexem().toString().toLowerCase();
                 break;
             default:
@@ -61,17 +61,21 @@ public class MenuComp extends ComponentHtml{
     public String getHtmlCode(PageDB pageDB, LabelDB labelDB) throws NoCodeException, SQLException{
         List<Page> pages = new ArrayList<>();
         String path = "";
+        String mss = "";
         if(father != null && labels != null){
-            path = FilesUtil.WEB_SERVER_SITES + father + FilesUtil.getSeparator();
+            path = FilesUtil.WEB_ROUTE_SITES + father + FilesUtil.getSeparator();
             pages = pageDB.getFiltredPages(labels.split("\\|"), father);
+            mss = "Paginas con el padre: " + father + " y con las etiquetas:[" + labels + "]";
         }else if(father != null){
-            path = FilesUtil.WEB_SERVER_SITES + father + FilesUtil.getSeparator();
-            pages = pageDB.getChildren(super.id);
+            path = FilesUtil.WEB_ROUTE_SITES + father + FilesUtil.getSeparator();
+            pages = pageDB.getChildren(father);
+            mss = "Paginas con el padre: " + father;
         }else if(labels != null){
-            path = FilesUtil.WEB_SERVER_SITES;
+            path = FilesUtil.WEB_ROUTE_SITES;
             pages = pageDB.getFiltredPages(labels.split("\\|"));
+            mss = "Paginas con las etiquetas:[" + labels + "]";
         }
-        return super.htmlGen.getCodeForMenu(path, pages, super.id);
+        return super.htmlGen.getCodeForMenu(path, pages, super.id, mss);
     }
 
     @Override

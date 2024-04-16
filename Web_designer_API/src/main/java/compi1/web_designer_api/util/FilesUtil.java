@@ -42,6 +42,11 @@ public class FilesUtil {
     public static final String WEB_ROUTE = "http://localhost:8080/Web_designer_API";
     
     /**
+     * La ruta para acceder al sitio web, incluye el separador al final
+     */
+    public static final String WEB_ROUTE_SITES = WEB_ROUTE + "/sites/";
+    
+    /**
      * El path del archivo js para las paginas web creadas predeterminado.
      */
     public static final String AJAX_FILE_PATH = WEB_ROUTE + "/resources/viewPageReq.js";

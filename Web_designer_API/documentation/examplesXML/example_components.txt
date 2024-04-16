@@ -95,5 +95,22 @@
 			</ATRIBUTO>
 		</atributos>
 	</accion>
-	
+	<accion nombre="AGREGAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$menu]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="CLASE">
+				[MENU]
+			</parametro>
+		</parametros>
+		<ATRIBUTOS>
+			<atributo nombre="PADRE">
+				[$sitio]
+			</ATRIBUTO>
+		</atributos>
+	</accion>
 </acciones>

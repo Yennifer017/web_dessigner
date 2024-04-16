@@ -11,10 +11,13 @@
 	</accion>	
 	<accion nombre="BORRAR_COMPONENTE">
 		<parametros>
-			<parametro nombre="ID">
+			<parametro nombre="PAGINA">
 				[$pagina]
 			</parametro>
-		</parametros>
+			<parametro nombre="ID">
+				[$menu]
+			</parametro>
+		</PARAMEtros>
 	</accion>
 	
 </acciones>

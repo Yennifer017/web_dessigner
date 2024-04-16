@@ -89,16 +89,18 @@ public class HTMLgenerator {
         return " id=\"" + id + "\"";
     }
     
-    public String getCodeForMenu(String finalPath, List<Page> pages, String id) throws NoCodeException{
+    public String getCodeForMenu(String finalPath, List<Page> pages, String id, String mss) throws NoCodeException{
         if(pages.isEmpty()){
             throw new NoCodeException();
         }
-        String code = SPACE.repeat(8) + "<div class=\"" + MENU_CSS_CLASS + "\">" + ENTER;
+        String code = SPACE.repeat(8) + "<div class=\"" + MENU_CSS_CLASS + "\" ";
+        code += "id=\"" + id + "\">" + ENTER;
+        code += SPACE.repeat(12) + "<p>" + mss + "</p>" + ENTER;
         code += SPACE.repeat(12) + "<ul>" + ENTER; 
         for (Page page : pages) {
-            code += SPACE.repeat(16) + "<li><a href=\">";
+            code += SPACE.repeat(16) + "<li><a href=\"";
             code += finalPath;
-            code += page.getName();
+            code += page.getName() + FilesUtil.HTML_EXTENSION;
             code += "\">";
             code += page.getName() + "</a></li>" + ENTER;
         }
