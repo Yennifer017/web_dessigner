@@ -7,7 +7,13 @@ package compi1.dessigner;
 import compi1.dessigner.requests.Requester;
 import compi1.dessigner.util.FilesUtil;
 import compi1.dessigner.util.NumberLine;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class Fronted extends javax.swing.JFrame {
 
@@ -16,7 +22,6 @@ public class Fronted extends javax.swing.JFrame {
     private Requester requester;
     private FilesUtil filesUtil;
 
-
     /**
      * Creates new form Fronted
      */
@@ -24,10 +29,10 @@ public class Fronted extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         initNumeracion();
+        init();
         requester = new Requester(console);
         filesUtil = new FilesUtil();
     }
-
 
     private void initNumeracion() {
         numDisplayFile = new NumberLine(display);
@@ -37,10 +42,42 @@ public class Fronted extends javax.swing.JFrame {
         numDisplayFile.updateColumna(columnaDisplay);
     }
 
-
     private void showInesperatedError() {
-        JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado",
+        JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado al guardar un archivo",
                 "Error", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void init() {
+        Timer timer = new Timer(300, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(filesUtil.getCurrentPath() != null && filesUtil.isOpenFile()){
+                    System.out.println("changed");
+                    filesUtil.setChanged(true);
+                    filesUtil.setOpenFile(true);
+                } else if(filesUtil.getCurrentPath() != null && !filesUtil.isOpenFile()) {
+                    filesUtil.setOpenFile(true);
+                }
+            }
+        });
+        timer.setRepeats(false);
+        
+        display.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                timer.restart();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                timer.restart();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
     }
 
     /**
@@ -69,7 +106,6 @@ public class Fronted extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openFileOp = new javax.swing.JMenuItem();
-        newFileOp = new javax.swing.JMenuItem();
         saveOp = new javax.swing.JMenuItem();
         saveAsOp = new javax.swing.JMenuItem();
         CloseFileOp = new javax.swing.JMenuItem();
@@ -181,7 +217,7 @@ public class Fronted extends javax.swing.JFrame {
                     .addGroup(interfazPanelLayout.createSequentialGroup()
                         .addComponent(archivoTxt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fileNameDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fileNameDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -231,16 +267,6 @@ public class Fronted extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openFileOp);
-
-        newFileOp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        newFileOp.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
-        newFileOp.setText("Nuevo archivo");
-        newFileOp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newFileOpActionPerformed(evt);
-            }
-        });
-        fileMenu.add(newFileOp);
 
         saveOp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         saveOp.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
@@ -327,11 +353,14 @@ public class Fronted extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openFileOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileOpActionPerformed
-        display.setText(filesUtil.readTextFile(filesUtil.getPath()));
+        String path = filesUtil.getPath();
+        filesUtil.setCurrentPath(path);
+        fileNameDisplay.setText(path);
+        display.setText(filesUtil.readTextFile(path));
     }//GEN-LAST:event_openFileOpActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
- 
+
     }//GEN-LAST:event_formComponentResized
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
@@ -356,20 +385,61 @@ public class Fronted extends javax.swing.JFrame {
     }//GEN-LAST:event_creditsOpActionPerformed
 
     private void saveOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveOpActionPerformed
-
+        if (filesUtil.getCurrentPath() != null) {
+            try {
+                filesUtil.saveFile(display.getText(), filesUtil.getCurrentPath());
+                filesUtil.setChanged(false);
+            } catch (IOException ex) {
+                showInesperatedError();
+            }
+        } else {
+            try {
+                String newCurrent = filesUtil.saveAs(display.getText(), ".xml");
+                filesUtil.setCurrentPath(newCurrent);
+                display.setText(filesUtil.readTextFile(newCurrent));
+            } catch (IOException e) {
+                showInesperatedError();
+            }
+        }
     }//GEN-LAST:event_saveOpActionPerformed
 
     private void saveAsOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsOpActionPerformed
-        JOptionPane.showMessageDialog(null, "Sera implementado en la v 1.2");
+        boolean execute = true;
+        if(filesUtil.getCurrentPath() != null && filesUtil.isChanged()){
+            int option = JOptionPane.showConfirmDialog(null, 
+                        "El documento ha sido modificado, se perdera lo que no has guardado, deseas continuar?");
+            execute = option == 0;
+        }
+        
+        if(execute){
+            try {
+                String newPath = filesUtil.saveAs(display.getText(), ".xml");
+                fileNameDisplay.setText(newPath);
+                filesUtil.setCurrentPath(newPath);
+                filesUtil.setChanged(false);
+            } catch (IOException ex) {
+                showInesperatedError();
+            }
+        }
     }//GEN-LAST:event_saveAsOpActionPerformed
 
     private void CloseFileOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseFileOpActionPerformed
-
+        if(filesUtil.getCurrentPath() != null){
+            boolean close = true;
+            if(filesUtil.isChanged()){
+                int option = JOptionPane.showConfirmDialog(null, 
+                        "El documento ha sido modificado, de verdad quieres cerrarlo?");
+                close = option == 0;
+            }
+            if(close){
+                fileNameDisplay.setText("[none]");
+                filesUtil.setCurrentPath(null);
+                display.setText("");
+                filesUtil.setChanged(false);
+                filesUtil.setOpenFile(false);
+            }
+        }
     }//GEN-LAST:event_CloseFileOpActionPerformed
-
-    private void newFileOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newFileOpActionPerformed
-
-    }//GEN-LAST:event_newFileOpActionPerformed
 
     private void clearEditorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearEditorBtnActionPerformed
         display.setText("");
@@ -415,7 +485,6 @@ public class Fronted extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JMenuBar menu;
-    private javax.swing.JMenuItem newFileOp;
     private javax.swing.JMenuItem newTerminalOp;
     private javax.swing.JMenuItem openFileOp;
     private javax.swing.JMenuItem saveAsOp;
