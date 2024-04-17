@@ -19,24 +19,35 @@ import javax.swing.JTextPane;
 public class Requester {
 
     private JTextPane console;
-    private final String API_URL = "http://localhost:8080/";
-    private final String XML_EXECUTOR_URL = "Web_designer_API/Executor";
-    private final String POST_METHOD = "POST";
+    private static final String API_URL = "http://localhost:8080/";
+    private final String NO_CONNECTION_MSS 
+            = "No se pudo establecer contacto con el servidor, intentalo de nuevo mas tarde.";
+    
+    public static final String XML_EXECUTOR_URL = API_URL + "Web_designer_API/Executor";
+    public static final String SQcms_EXECUTOR_URL = API_URL + "Web_designer_API/ConsultStatistics";
+    
+    public static final String POST_METHOD = "POST";
+    public static final String GET_METHOD = "GET";
 
     public Requester(JTextPane console) {
         this.console = console;
     }
 
-    public void reqExecute(String text) {
+    public void request(String textBody, String pathToRequest, String method) {
         try {
-            HttpURLConnection connection = sendRequest(text, API_URL + XML_EXECUTOR_URL, POST_METHOD);
+            HttpURLConnection connection = sendRequest(textBody, pathToRequest, method);
             int responseCode = connection.getResponseCode();
-            String responseBody = getResponseBody(connection);
-            console.setText(responseBody);
-            
+            if(responseCode >= 500){
+                console.setText(NO_CONNECTION_MSS);
+            }else{
+                String responseBody = getResponseBody(connection);
+                console.setText(responseBody);
+            }
         } catch (MalformedURLException ex) {
+            console.setText(NO_CONNECTION_MSS);
             Logger.getLogger(Requester.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            console.setText(NO_CONNECTION_MSS);
             Logger.getLogger(Requester.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

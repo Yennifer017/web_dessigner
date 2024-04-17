@@ -5,13 +5,14 @@ import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
+import compi1.web_designer_api.util.Transladable;
 import java.util.List;
 
 /**
  *
  * @author yennifer
  */
-public abstract class StmTraductor {
+public abstract class StmTraductor implements Transladable{
     protected String name;
     protected List<String> semanticErrors;
     
@@ -19,12 +20,12 @@ public abstract class StmTraductor {
     protected abstract void internalTranslate(XMLmodel model) throws ModelException;
     protected abstract void recoveryParams(List<Token> tokens, Index index, XMLmodel xmlmodel);
     
-    public abstract String translate(List<Token> tokens, Index index) throws ModelException;
-    
+    @Override
     public List<String> getSemanticErrors(){
         return this.semanticErrors;
     }
     
+    @Override
     public void addFailMss(){
         this.semanticErrors.add("No se pudo ejecutar una instruccion " + name);
     };

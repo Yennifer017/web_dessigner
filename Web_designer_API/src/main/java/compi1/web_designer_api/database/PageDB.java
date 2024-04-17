@@ -212,5 +212,21 @@ public class PageDB {
         update.setString(1, namePage);
         update.executeUpdate();
     }
+    
+    public boolean corresponds(String namePage, String nameSite){
+        try {
+            String query = "SELECT page.id FROM page "
+                    + "JOIN site ON page.id_site = site.id " 
+                    + "WHERE page.name = ? AND site.name = ?;";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, namePage);
+            ps.setString(2, nameSite);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 
 }

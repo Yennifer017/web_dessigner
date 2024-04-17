@@ -1,4 +1,4 @@
-package compi1.web_designer_api.htmltraductor;
+package compi1.web_designer_api.sqcmstraductor;
 
 import java_cup.runtime.*;
 import java.util.*;
@@ -19,7 +19,7 @@ parser code {:
     }
 
     //getters
-    public XMLlexer getLexer(){
+    public SQcmsLexer getLexer(){
         return this.lex;
     }
     public List<String> getErrors(){
@@ -36,11 +36,11 @@ parser code {:
         if (expected_token_ids().isEmpty()) {
             mss += " -- ya no se esperaba ningun simbolo";
         }
-        syntaxErrors.add(mss);
+        errors.add(mss);
     }
 
     public void unrecovered_syntax_error(Symbol cur_token) {
-        syntaxErrors.add("Errores de sintaxis severos detectados, revisa municiosamente el codigo");
+        errors.add("Errores de sintaxis severos detectados, revisa municiosamente el codigo");
     }
 :}
 

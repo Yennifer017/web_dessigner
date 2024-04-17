@@ -73,6 +73,8 @@ public class Fronted extends javax.swing.JFrame {
         saveOp = new javax.swing.JMenuItem();
         saveAsOp = new javax.swing.JMenuItem();
         CloseFileOp = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        newTerminalOp = new javax.swing.JMenuItem();
         Information = new javax.swing.JMenu();
         helpOp = new javax.swing.JMenuItem();
         creditsOp = new javax.swing.JMenuItem();
@@ -272,6 +274,20 @@ public class Fronted extends javax.swing.JFrame {
 
         menu.add(fileMenu);
 
+        jMenu1.setText("Terminal");
+
+        newTerminalOp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        newTerminalOp.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
+        newTerminalOp.setText("Nueva terminal");
+        newTerminalOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTerminalOpActionPerformed(evt);
+            }
+        });
+        jMenu1.add(newTerminalOp);
+
+        menu.add(jMenu1);
+
         Information.setText("Informacion");
 
         helpOp.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
@@ -360,16 +376,21 @@ public class Fronted extends javax.swing.JFrame {
     }//GEN-LAST:event_clearEditorBtnActionPerformed
 
     private void ExecuteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteBtnActionPerformed
-        requester.reqExecute(display.getText());
+        requester.request(display.getText(), Requester.XML_EXECUTOR_URL, Requester.POST_METHOD);
     }//GEN-LAST:event_ExecuteBtnActionPerformed
 
     private void ExecuteConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteConsultaActionPerformed
-        // TODO add your handling code here:
+        requester.request(display.getText(), Requester.SQcms_EXECUTOR_URL, Requester.POST_METHOD);
     }//GEN-LAST:event_ExecuteConsultaActionPerformed
 
     private void displayCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_displayCaretUpdate
         numDisplayFile.updateColumna(columnaDisplay);
     }//GEN-LAST:event_displayCaretUpdate
+
+    private void newTerminalOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTerminalOpActionPerformed
+        Terminal terminal = new Terminal();
+        terminal.setVisible(true);
+    }//GEN-LAST:event_newTerminalOpActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -391,9 +412,11 @@ public class Fronted extends javax.swing.JFrame {
     private javax.swing.JMenuItem helpOp;
     private javax.swing.JPanel interfazPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenuItem newFileOp;
+    private javax.swing.JMenuItem newTerminalOp;
     private javax.swing.JMenuItem openFileOp;
     private javax.swing.JMenuItem saveAsOp;
     private javax.swing.JMenuItem saveOp;

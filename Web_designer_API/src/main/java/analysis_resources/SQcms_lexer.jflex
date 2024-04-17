@@ -78,7 +78,9 @@ WhiteSpace = {LineTerminator} | [ \t\f]
     StringBuffer input;
 
     private Symbol symbol(int type, boolean save) {
-        tokens.add(new Token(yyline+1, yycolumn+1, type));
+        if(save){
+            tokens.add(new Token(yyline+1, yycolumn+1, type));
+        }
         return new Symbol(type, yyline+1, yycolumn+1);
     }
 
@@ -90,17 +92,19 @@ WhiteSpace = {LineTerminator} | [ \t\f]
     }
     
     private Symbol symbolInputWithObject(int type, Object value, boolean save){
+        int col = yycolumn+1 - value.toString().length() > 0 ? yycolumn+1 - value.toString().length() : yycolumn+1;
         if(save){
-            tokens.add(new Token(value, yyline+1, yycolumn+1 - value.toString().length(), type));
+            tokens.add(new Token(value, yyline+1, col, type));
         }
-        return new Symbol(type, yyline+1, yycolumn+1 - value.toString().length() , value);
+        return new Symbol(type, yyline+1, col , value);
     }
     
     private Symbol symbolInputWithoutObject(int type, Object value, boolean save){
+        int col = yycolumn+1 - value.toString().length() > 0 ? yycolumn+1 - value.toString().length() : yycolumn+1;
         if(save){
-            tokens.add(new Token(yyline+1, yycolumn+1 - value.toString().length(), type));
+            tokens.add(new Token(yyline+1, col, type));
         }
-        return new Symbol(type, yyline+1, yycolumn+1- value.toString().length());
+        return new Symbol(type, yyline+1, col);
     }
 
     private void addError(String message) {
@@ -131,7 +135,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
     <YYINITIAL> {
         /* symbols */
         ","             { return symbol(sym.COMA, false); }
-        ";"             { return symbol(sym.PUNTO_Y_COMA, false); }
+        ";"             { return symbol(sym.PUNTO_Y_COMA, true); }
 
         \"              { string.setLength(0); yybegin(STRING); }   
 
