@@ -68,14 +68,15 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\1\0\1\1\1\3\22\0\1\1"+
-    "\1\0\1\4\11\0\1\5\16\0\1\6\5\0\1\7"+
-    "\1\0\1\10\1\11\1\12\1\13\1\14\1\0\1\15"+
-    "\2\0\1\16\1\17\1\20\1\21\1\22\1\0\1\23"+
-    "\1\24\1\25\1\26\1\27\5\0\1\30\2\0\1\31"+
-    "\1\0\1\7\1\0\1\10\1\11\1\12\1\13\1\14"+
-    "\1\0\1\15\2\0\1\16\1\17\1\20\1\21\1\22"+
-    "\1\0\1\23\1\24\1\25\1\26\1\27\271\0\2\15"+
-    "\115\0\1\24\u0180\0";
+    "\1\0\1\4\1\0\1\5\7\0\1\6\1\5\2\0"+
+    "\12\7\1\0\1\10\5\0\1\11\1\7\1\12\1\13"+
+    "\1\14\1\15\1\16\1\7\1\17\2\7\1\20\1\21"+
+    "\1\22\1\23\1\24\1\7\1\25\1\26\1\27\1\30"+
+    "\1\31\4\7\1\0\1\32\2\0\1\33\1\0\1\11"+
+    "\1\7\1\12\1\13\1\14\1\15\1\16\1\7\1\17"+
+    "\2\7\1\20\1\21\1\22\1\23\1\24\1\7\1\25"+
+    "\1\26\1\27\1\30\1\31\4\7\265\0\2\34\115\0"+
+    "\1\35\u0180\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[768];
@@ -102,14 +103,14 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\2\2\1\3\1\4\1\5\6\1\1\6"+
-    "\1\7\1\10\7\0\1\11\1\12\1\13\1\14\15\0"+
-    "\1\15\14\0\1\16\1\17\3\0\1\20\2\0\1\21"+
-    "\4\0\1\22\6\0\1\23\3\0\1\24\13\0\1\25"+
-    "\1\0\1\26\2\0\1\27";
+    "\2\0\1\1\2\2\1\3\1\4\1\5\1\6\6\1"+
+    "\1\7\1\10\1\11\7\0\1\12\1\13\1\14\1\15"+
+    "\15\0\1\16\14\0\1\17\1\20\3\0\1\21\2\0"+
+    "\1\22\4\0\1\23\6\0\1\24\3\0\1\25\13\0"+
+    "\1\26\1\0\1\27\2\0\1\30";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[96];
+    int [] result = new int[97];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -134,21 +135,22 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\32\0\64\0\64\0\116\0\64\0\64\0\64"+
-    "\0\150\0\202\0\234\0\266\0\320\0\352\0\u0104\0\64"+
-    "\0\u011e\0\u0138\0\u0152\0\u016c\0\u0186\0\u01a0\0\u01ba\0\u01d4"+
-    "\0\64\0\64\0\64\0\64\0\u01ee\0\u0208\0\u0222\0\u023c"+
-    "\0\u0256\0\u0270\0\u028a\0\u02a4\0\u02be\0\u02d8\0\u02f2\0\u030c"+
-    "\0\u0326\0\64\0\u0340\0\u035a\0\u0374\0\u038e\0\u03a8\0\u03c2"+
-    "\0\u03dc\0\u03f6\0\u0410\0\u042a\0\u0444\0\u045e\0\64\0\64"+
-    "\0\u0478\0\u0492\0\u04ac\0\64\0\u04c6\0\u04e0\0\64\0\u04fa"+
-    "\0\u0514\0\u052e\0\u0548\0\64\0\u0562\0\u057c\0\u0596\0\u05b0"+
-    "\0\u05ca\0\u05e4\0\64\0\u05fe\0\u0618\0\u0632\0\64\0\u064c"+
-    "\0\u0666\0\u0680\0\u069a\0\u06b4\0\u06ce\0\u06e8\0\u0702\0\u071c"+
-    "\0\u0736\0\u0750\0\64\0\u076a\0\64\0\u0784\0\u079e\0\64";
+    "\0\0\0\36\0\74\0\74\0\132\0\74\0\170\0\74"+
+    "\0\74\0\226\0\264\0\322\0\360\0\u010e\0\u012c\0\u014a"+
+    "\0\74\0\u0168\0\u0186\0\u01a4\0\u01c2\0\u01e0\0\u01fe\0\u021c"+
+    "\0\u023a\0\74\0\74\0\74\0\74\0\u0258\0\u0276\0\u0294"+
+    "\0\u02b2\0\u02d0\0\u02ee\0\u030c\0\u032a\0\u0348\0\u0366\0\u0384"+
+    "\0\u03a2\0\u03c0\0\74\0\u03de\0\u03fc\0\u041a\0\u0438\0\u0456"+
+    "\0\u0474\0\u0492\0\u04b0\0\u04ce\0\u04ec\0\u050a\0\u0528\0\74"+
+    "\0\74\0\u0546\0\u0564\0\u0582\0\74\0\u05a0\0\u05be\0\74"+
+    "\0\u05dc\0\u05fa\0\u0618\0\u0636\0\74\0\u0654\0\u0672\0\u0690"+
+    "\0\u06ae\0\u06cc\0\u06ea\0\74\0\u0708\0\u0726\0\u0744\0\74"+
+    "\0\u0762\0\u0780\0\u079e\0\u07bc\0\u07da\0\u07f8\0\u0816\0\u0834"+
+    "\0\u0852\0\u0870\0\u088e\0\74\0\u08ac\0\74\0\u08ca\0\u08e8"+
+    "\0\74";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[96];
+    int [] result = new int[97];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -172,32 +174,37 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\3\2\4\1\5\1\6\1\7\1\10\1\3\1\11"+
-    "\4\3\1\12\1\3\1\13\2\3\1\14\2\3\1\15"+
-    "\1\3\1\16\2\3\2\17\2\3\1\20\23\17\1\21"+
-    "\1\17\34\0\1\4\50\0\1\22\27\0\1\23\24\0"+
-    "\1\24\26\0\1\25\37\0\1\26\3\0\1\27\25\0"+
-    "\1\30\14\0\2\17\3\0\23\17\1\0\1\17\4\0"+
-    "\1\31\13\0\1\32\2\0\1\33\1\0\1\34\23\0"+
-    "\1\35\1\36\20\0\1\37\42\0\1\40\25\0\1\41"+
-    "\6\0\1\42\33\0\1\43\15\0\1\44\31\0\1\45"+
-    "\12\0\1\46\27\0\1\47\33\0\1\50\21\0\1\51"+
-    "\43\0\1\52\20\0\1\53\37\0\1\54\34\0\1\55"+
-    "\24\0\1\56\22\0\1\57\34\0\1\60\35\0\1\61"+
-    "\36\0\1\62\15\0\1\63\37\0\1\64\20\0\1\65"+
-    "\40\0\1\66\37\0\1\67\26\0\1\70\35\0\1\71"+
-    "\24\0\1\72\27\0\1\73\33\0\1\74\20\0\1\75"+
-    "\35\0\1\76\37\0\1\77\17\0\1\100\34\0\1\101"+
-    "\44\0\1\102\30\0\1\103\26\0\1\104\34\0\1\105"+
-    "\25\0\1\106\20\0\1\107\53\0\1\110\31\0\1\111"+
-    "\25\0\1\112\27\0\1\113\30\0\1\114\31\0\1\115"+
-    "\1\0\1\116\17\0\1\117\40\0\1\120\17\0\1\121"+
-    "\37\0\1\122\36\0\1\123\23\0\1\124\42\0\1\125"+
-    "\32\0\1\126\20\0\1\127\31\0\1\130\32\0\1\131"+
-    "\33\0\1\132\32\0\1\133\17\0\1\134\31\0\1\135"+
-    "\45\0\1\136\20\0\1\137\43\0\1\140\5\0";
+    "\1\3\1\12\4\3\1\13\1\3\1\14\2\3\1\15"+
+    "\2\3\1\16\1\3\1\17\1\3\1\7\1\13\1\3"+
+    "\2\20\2\3\1\21\25\20\1\22\3\20\40\0\1\4"+
+    "\40\0\1\7\1\0\1\7\1\0\21\7\1\0\1\7"+
+    "\25\0\1\23\33\0\1\24\30\0\1\25\32\0\1\26"+
+    "\43\0\1\27\3\0\1\30\10\0\1\27\20\0\1\31"+
+    "\14\0\1\31\1\0\2\20\3\0\25\20\1\0\3\20"+
+    "\4\0\1\32\15\0\1\33\2\0\1\34\1\0\1\35"+
+    "\27\0\1\36\1\37\24\0\1\40\46\0\1\41\31\0"+
+    "\1\42\6\0\1\43\37\0\1\44\21\0\1\45\35\0"+
+    "\1\46\12\0\1\47\6\0\1\47\24\0\1\50\37\0"+
+    "\1\51\6\0\1\51\16\0\1\52\47\0\1\53\24\0"+
+    "\1\54\14\0\1\54\26\0\1\55\40\0\1\56\30\0"+
+    "\1\57\26\0\1\60\40\0\1\61\14\0\1\61\24\0"+
+    "\1\62\42\0\1\63\21\0\1\64\43\0\1\65\24\0"+
+    "\1\66\44\0\1\67\43\0\1\70\6\0\1\70\23\0"+
+    "\1\71\41\0\1\72\30\0\1\73\33\0\1\74\37\0"+
+    "\1\75\24\0\1\76\41\0\1\77\43\0\1\100\23\0"+
+    "\1\101\40\0\1\102\50\0\1\103\34\0\1\104\6\0"+
+    "\1\104\23\0\1\105\40\0\1\106\6\0\1\106\22\0"+
+    "\1\107\24\0\1\110\57\0\1\111\35\0\1\112\31\0"+
+    "\1\113\33\0\1\114\34\0\1\115\35\0\1\116\1\0"+
+    "\1\117\6\0\1\117\14\0\1\120\44\0\1\121\23\0"+
+    "\1\122\43\0\1\123\14\0\1\123\25\0\1\124\27\0"+
+    "\1\125\46\0\1\126\36\0\1\127\24\0\1\130\14\0"+
+    "\1\130\20\0\1\131\14\0\1\131\21\0\1\132\37\0"+
+    "\1\133\36\0\1\134\23\0\1\135\35\0\1\136\51\0"+
+    "\1\137\24\0\1\140\47\0\1\141\6\0\1\141";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[1976];
+    int [] result = new int[2310];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -240,13 +247,13 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\2\11\1\1\3\11\7\1\1\11\1\1\7\0"+
-    "\4\11\15\0\1\11\14\0\2\11\3\0\1\11\2\0"+
-    "\1\11\4\0\1\11\6\0\1\11\3\0\1\11\13\0"+
-    "\1\11\1\0\1\11\2\0\1\11";
+    "\2\0\2\11\1\1\1\11\1\1\2\11\7\1\1\11"+
+    "\1\1\7\0\4\11\15\0\1\11\14\0\2\11\3\0"+
+    "\1\11\2\0\1\11\4\0\1\11\6\0\1\11\3\0"+
+    "\1\11\13\0\1\11\1\0\1\11\2\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[96];
+    int [] result = new int[97];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -363,7 +370,7 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
 
     private Symbol symbol(int type, Object value, boolean save) {
         if(save){
-            tokens.add(new Token(value, type, yyline+1, yycolumn+1));
+            tokens.add(new Token(value, yyline+1, yycolumn+1, type));
         }
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
@@ -822,33 +829,38 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
             { addError("Simbolo invalido <"+ yytext()+">");
             }
           // fall through
-          case 24: break;
+          case 25: break;
           case 2:
             { /* ignore */
             }
           // fall through
-          case 25: break;
+          case 26: break;
           case 3:
             { string.setLength(0); yybegin(STRING);
             }
           // fall through
-          case 26: break;
-          case 4:
-            { return symbol(sym.COMA, false);
-            }
-          // fall through
           case 27: break;
-          case 5:
-            { return symbol(sym.PUNTO_Y_COMA, true);
+          case 4:
+            { return symbol(sym.IDENTIFIER, yytext(), true);
             }
           // fall through
           case 28: break;
-          case 6:
-            { string.append( yytext() );
+          case 5:
+            { return symbol(sym.COMA, false);
             }
           // fall through
           case 29: break;
+          case 6:
+            { return symbol(sym.PUNTO_Y_COMA, true);
+            }
+          // fall through
+          case 30: break;
           case 7:
+            { string.append( yytext() );
+            }
+          // fall through
+          case 31: break;
+          case 8:
             { yybegin(YYINITIAL); //volver al estado de jflex
                     
                 if(string.toString().matches(ID_REGEX)){
@@ -860,87 +872,87 @@ public class SQcmsLexer implements java_cup.runtime.Scanner {
                 }
             }
           // fall through
-          case 30: break;
-          case 8:
+          case 32: break;
+          case 9:
             { string.append('\\');
             }
           // fall through
-          case 31: break;
-          case 9:
+          case 33: break;
+          case 10:
             { string.append('\"');
             }
           // fall through
-          case 32: break;
-          case 10:
+          case 34: break;
+          case 11:
             { string.append('\n');
             }
           // fall through
-          case 33: break;
-          case 11:
+          case 35: break;
+          case 12:
             { string.append('\r');
             }
           // fall through
-          case 34: break;
-          case 12:
+          case 36: break;
+          case 13:
             { string.append('\t');
             }
           // fall through
-          case 35: break;
-          case 13:
+          case 37: break;
+          case 14:
             { return symbol(sym.MENU, true);
             }
           // fall through
-          case 36: break;
-          case 14:
+          case 38: break;
+          case 15:
             { return symbol(sym.TODOS, true);
             }
           // fall through
-          case 37: break;
-          case 15:
+          case 39: break;
+          case 16:
             { return symbol(sym.VIDEO, true);
             }
           // fall through
-          case 38: break;
-          case 16:
+          case 40: break;
+          case 17:
             { return symbol(sym.IMAGEN, true);
             }
           // fall through
-          case 39: break;
-          case 17:
+          case 41: break;
+          case 18:
             { return symbol(sym.TITULO, true);
             }
           // fall through
-          case 40: break;
-          case 18:
+          case 42: break;
+          case 19:
             { return symbol(sym.PARRAFO, true);
             }
           // fall through
-          case 41: break;
-          case 19:
+          case 43: break;
+          case 20:
             { return symbol(sym.CONSULTAR, false);
             }
           // fall through
-          case 42: break;
-          case 20:
+          case 44: break;
+          case 21:
             { return symbol(sym.COMPONENTE, true);
             }
           // fall through
-          case 43: break;
-          case 21:
+          case 45: break;
+          case 22:
             { return symbol(sym.VISITAS_SITIO, true);
             }
           // fall through
-          case 44: break;
-          case 22:
+          case 46: break;
+          case 23:
             { return symbol(sym.VISITAS_PAGINA, true);
             }
           // fall through
-          case 45: break;
-          case 23:
+          case 47: break;
+          case 24:
             { return symbol(sym.PAGINAS_POPULARES, true);
             }
           // fall through
-          case 46: break;
+          case 48: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

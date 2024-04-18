@@ -1,0 +1,23 @@
+<acciones>
+	<accion nombre="BORRAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$miTitulo]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+		</parametros>
+	</accion>	
+	<accion nombre="BORRAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="ID">
+				[$menu]
+			</parametro>
+		</PARAMEtros>
+	</accion>
+	
+</acciones>

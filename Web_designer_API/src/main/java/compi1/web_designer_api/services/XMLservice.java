@@ -32,7 +32,7 @@ public class XMLservice {
             XMLparser parser = new XMLparser(lexer);
             parser.parse();
             if (lexer.getErrors().isEmpty() && parser.getSyntaxErrors().isEmpty()) {
-                showTkns(lexer);
+                //showTkns(lexer);
                 mensajero.sendResponse(traductor.traducir(lexer.getTokens()), response);
             } else {
                 String responseMss = responserGen.generateError(lexer.getErrors(), ResponserGen.LEXICAL_ERRORS);
@@ -41,8 +41,7 @@ public class XMLservice {
             }
         } catch (Exception e) {
             System.out.println(e.toString());
-            e.printStackTrace();
-            System.out.println("manejo de exception");
+            response.setStatus(500);
         }
     }
 

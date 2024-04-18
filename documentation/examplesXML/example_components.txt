@@ -1,0 +1,116 @@
+<acciones>
+	<accion nombre="AGREGAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$miTitulo]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="CLASE">
+				[TITULO]
+			</parametro>
+		</parametros>
+		<ATRIBUTOS>
+			<atributo nombre="TEXTO">
+				[Mi pagina :v]
+			</ATRIBUTO>
+			<atributo nombre="ALINEACION">
+				[CENTRAR]
+			</ATRIBUTO>
+			<atributo nombre="COLOR">
+				[#FF0000]
+			</ATRIBUTO>
+		</atributos>
+	</accion>
+	<accion nombre="AGREGAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$miParrafo]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="CLASE">
+				[PARRAFO]
+			</parametro>
+		</parametros>
+		<ATRIBUTOS>
+			<atributo nombre="TEXTO">
+				[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lobortis nisl ac velit consequat, a finibus ex iaculis. Nam et tristique quam. Aliquam dictum purus at massa venenatis suscipit. Maecenas ullamcorper finibus dui, id vehicula massa mollis nec. Aenean eu nulla luctus, lacinia sapien a, consequat dui. Nullam ultrices semper semper. Nunc a dolor in dolor fermentum tristique vitae et enim. Praesent vitae ultrices eros, non auctor purus. Nam pharetra, odio ac dictum convallis, leo quam suscipit ante, vitae pellentesque mauris metus vel ex. Phasellus congue dictum velit. Donec accumsan, eros vel feugiat pretium, lorem eros rhoncus nunc, non imperdiet augue orci ut velit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut cursus pulvinar sapien eu ultricies. Nullam id tortor id ante placerat cursus a nec orci. Aliquam nec mauris egestas, egestas dolor vel, convallis enim. Donec nec luctus orci. Nulla laoreet ex leo, in hendrerit mi condimentum eu. Integer ac leo vitae tortor suscipit efficitur. Donec feugiat mauris ac enim pulvinar, quis varius nulla iaculis. Maecenas porttitor quis nulla id pharetra. In ut faucibus neque. Praesent varius feugiat libero, nec aliquam sem. Sed rutrum, ipsum non efficitur ultricies, nisl justo egestas nisl, non varius lectus felis id nibh. Sed laoreet turpis nunc, vitae mattis elit dignissim quis. In vulputate lacus ut ipsum placerat efficitur. Vestibulum tempor lorem sit amet libero elementum molestie. Quisque molestie fermentum dui, eu sagittis ligula lacinia eleifend.]
+			</ATRIBUTO>
+			<atributo nombre="ALINEACION">
+				[JUSTIFICAR]
+			</ATRIBUTO>
+		</atributos>
+	</accion>
+	<accion nombre="AGREGAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$imagen]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="CLASE">
+				[IMAGEN]
+			</parametro>
+		</parametros>
+		<ATRIBUTOS>
+			<atributo nombre="ORIGEN">
+				[https://www.kasandbox.org/programming-images/creatures/Hopper-Happy.png]
+			</ATRIBUTO>
+			<atributo nombre="ALINEACION">
+				[CENTRAR]
+			</ATRIBUTO>
+			<atributo nombre="ALTURA">
+				[150]
+			</ATRIBUTO>
+			<atributo nombre="ANCHO">
+				[200]
+			</ATRIBUTO>
+		</atributos>
+	</accion>
+	<accion nombre="AGREGAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$video]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="CLASE">
+				[VIDEO]
+			</parametro>
+		</parametros>
+		<ATRIBUTOS>
+			<atributo nombre="ORIGEN">
+				[https://www.youtube.com/embed/ItVMPaioZQE?si=4ZfdPRENOgVkolv8]
+			</ATRIBUTO>
+			<atributo nombre="ALTURA">
+				[500]
+			</ATRIBUTO>
+			<atributo nombre="ANCHO">
+				[750]
+			</ATRIBUTO>
+		</atributos>
+	</accion>
+	<accion nombre="AGREGAR_COMPONENTE">
+		<parametros>
+			<parametro nombre="ID">
+				[$menu]
+			</parametro>
+			<parametro nombre="PAGINA">
+				[$pagina]
+			</parametro>
+			<parametro nombre="CLASE">
+				[MENU]
+			</parametro>
+		</parametros>
+		<ATRIBUTOS>
+			<atributo nombre="PADRE">
+				[$sitio]
+			</ATRIBUTO>
+		</atributos>
+	</accion>
+</acciones>

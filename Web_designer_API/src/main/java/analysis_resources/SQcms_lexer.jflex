@@ -36,7 +36,7 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
 
 /* constants */
-/* nothing here */
+IdRegex = (_|-|\$)([a-zA-Z]|[0-9]|_|-|\$)*
 
 /*---------------------------------------------------
                 estados del lexer
@@ -86,7 +86,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
     private Symbol symbol(int type, Object value, boolean save) {
         if(save){
-            tokens.add(new Token(value, type, yyline+1, yycolumn+1));
+            tokens.add(new Token(value, yyline+1, yycolumn+1, type));
         }
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
@@ -130,7 +130,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
     <YYINITIAL> "PARRAFO"           { return symbol(sym.PARRAFO, true); }
     <YYINITIAL> "IMAGEN"            { return symbol(sym.IMAGEN, true); }
     <YYINITIAL> "VIDEO"             { return symbol(sym.VIDEO, true); }
-    <YYINITIAL> "MENU"              { return symbol(sym.MENU, true); }
+    <YYINITIAL> "MENU"              { return symbol(sym.MENU, true); }                
     
     <YYINITIAL> {
         /* symbols */
@@ -143,6 +143,8 @@ WhiteSpace = {LineTerminator} | [ \t\f]
         {WhiteSpace} 	{/* ignore */}
     }
 
+    <YYINITIAL> {IdRegex}           { return symbol(sym.IDENTIFIER, yytext(), true);} 
+     
     <STRING> {
         \"  {   
                 yybegin(YYINITIAL); //volver al estado de jflex

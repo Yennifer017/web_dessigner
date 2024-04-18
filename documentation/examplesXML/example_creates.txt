@@ -1,0 +1,86 @@
+<acciones>
+	<accion nombre="NUEVO_SITIO_WEB">
+		<parametros>
+			<parametro nombre="ID">
+				[$sitio]
+			</parametro>
+			<parametro nombre="USUARIO_CREACION">
+				[$BlueDragon]
+			</parametro>
+			<parametro nombre="FECHA_CREACION">
+				[2024-04-08]
+			</parametro>
+			<parametro nombre="FECHA_MODIFICACION">
+				[2024-04-08]
+			</parametro>
+			<parametro nombre="USUARIO_MODIFICACION">
+				[$BlueDragon]
+			</parametro>
+		</parametros>
+	</accion>
+	<accion nombre="NUEVA_PAGINA">
+		<parametros>
+			<parametro nombre="ID">
+				[$pagina]
+			</parametro>
+			<parametro nombre="TITULO">
+				[mi pagina :D]
+			</parametro>
+			<parametro nombre="SITIO">
+				[$sitio]
+			</parametro>
+			<parametro nombre="PADRE">
+				[$sitio]
+			</parametro>
+			<parametro nombre="USUARIO_MODIFICACION">
+				[$BlueDragon]
+			</parametro>
+		</parametros>
+		<etiquetas>
+			<etiqueta valor="$etiqueta1"/>
+			<etiqueta valor="$etiqueta2"/>
+		</etiquetas>
+	</accion>
+	<accion nombre="NUEVA_PAGINA">
+		<parametros>
+			<parametro nombre="ID">
+				[$pagina2]
+			</parametro>
+			<parametro nombre="TITULO">
+				[mi pagina 2 :)]
+			</parametro>
+			<parametro nombre="SITIO">
+				[$sitio]
+			</parametro>
+			<parametro nombre="PADRE">
+				[$sitio]
+			</parametro>
+			<parametro nombre="USUARIO_MODIFICACION">
+				[$BlueDragon]
+			</parametro>
+		</parametros>
+		<etiquetas>
+			<etiqueta valor="$etiqueta2"/>
+			<etiqueta valor="$etiqueta3"/>
+		</etiquetas>
+	</accion>
+	<accion nombre="NUEVO_SITIO_WEB">
+		<parametros>
+			<parametro nombre="ID">
+				[$sitio2]
+			</parametro>
+			<parametro nombre="USUARIO_CREACION">
+				[$BlueDragon]
+			</parametro>
+			<parametro nombre="FECHA_CREACION">
+				[2024-04-08]
+			</parametro>
+			<parametro nombre="FECHA_MODIFICACION">
+				[2024-04-08]
+			</parametro>
+			<parametro nombre="USUARIO_MODIFICACION">
+				[$BlueDragon]
+			</parametro>
+		</parametros>
+	</accion>
+</acciones>

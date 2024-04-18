@@ -1,4 +1,3 @@
-
 package compi1.web_designer_api.sqcmstraductor.statements;
 
 import compi1.web_designer_api.database.SiteDB;
@@ -16,22 +15,22 @@ import java.util.List;
  *
  * @author yennifer
  */
-public class PopularPages extends StatementSQcms{
+public class PopularPages extends StatementSQcms {
 
     private String nameSite;
     private SiteDB siteDB;
-    
-    public PopularPages(Connection connection){
+
+    public PopularPages(Connection connection) {
         super.semanticErrors = new ArrayList<>();
-        super.statisticsDB =  new StatisticsDB(connection);
+        super.statisticsDB = new StatisticsDB(connection);
         siteDB = new SiteDB(connection);
     }
-    
+
     @Override
     public void recoveryInformation(List<Token> tokens, Index index) {
         Token currentTkn = tokens.get(index.get());
         nameSite = currentTkn.getLexem().toString();
-        if(!siteDB.exist(nameSite)){
+        if (!siteDB.exist(nameSite)) {
             super.addNoFoundError(currentTkn, "no se puede consultar el sitio");
         }
         index.increment(); //pasar al punto y coma
@@ -39,19 +38,21 @@ public class PopularPages extends StatementSQcms{
 
     @Override
     public String translate(List<Token> tokens, Index index) throws ModelException {
+        super.semanticErrors.clear();
         nameSite = null;
-        if(!semanticErrors.isEmpty()){
+        recoveryInformation(tokens, index);
+        if (!semanticErrors.isEmpty()) {
             throw new ModelException();
         }
         String mss = "Top 10 paginas populares del sitio <" + nameSite + ">\n";
         try {
             List<Page> pages = statisticsDB.getPopularPages(nameSite);
-            if(pages.isEmpty()){
+            if (pages.isEmpty()) {
                 mss += "Sin informacion para mostrar";
-            }else{
+            } else {
                 for (int i = 0; i < pages.size(); i++) {
                     Page page = pages.get(i);
-                    mss += i + "-";
+                    mss += (i + 1) + "-";
                     mss += "Pagina: <" + page.getName() + ">\t";
                     mss += "Visitas: " + page.getVisits() + "\n";
                 }
@@ -61,5 +62,5 @@ public class PopularPages extends StatementSQcms{
         }
         return mss;
     }
-    
+
 }

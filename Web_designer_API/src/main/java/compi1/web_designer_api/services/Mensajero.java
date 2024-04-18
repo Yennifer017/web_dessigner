@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  *
@@ -13,7 +14,8 @@ import java.io.IOException;
 public class Mensajero {
     
     public String getRequestBody(HttpServletRequest request) throws IOException {
-        BufferedReader reader = request.getReader();
+        request.setCharacterEncoding("UTF-8");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {

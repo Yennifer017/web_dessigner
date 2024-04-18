@@ -1,0 +1,15 @@
+<acciones>
+	<accion nombre="MODIFICAR_PAGINA">
+		<parametros>
+			<parametro nombre="ID">
+				[$pagina]
+			</parametro>
+			<parametro nombre="TITULO">
+				[NUEVO TITULO :V]
+			</parametro>
+		</parametros>
+		<etiquetas>
+			<etiqueta valor="$nueva_etiqueta"/>
+		</etiquetas>
+	</ACCION>
+</acciones>

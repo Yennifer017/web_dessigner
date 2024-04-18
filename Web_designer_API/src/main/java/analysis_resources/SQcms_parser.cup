@@ -52,7 +52,7 @@ terminal        CONSULTAR, VISITAS_SITIO, VISITAS_PAGINA, PAGINAS_POPULARES, COM
                 PATH, STRING_TKN;
 
 non terminal    instructions, more_instructions, instruction, statements, view_sites, more_ids,
-                view_pages, more_paths, type, popular_pages, components_view;
+                view_pages, more_paths, type, popular_pages, components_view, path_acepted;
 
 /*------------------------------------------------------
                      THE GRAMMAR
@@ -74,12 +74,14 @@ view_sites ::= VISITAS_SITIO IDENTIFIER more_ids ;
 more_ids ::= COMA IDENTIFIER more_ids
         | /* empty */ ;
 
-view_pages ::= VISITAS_PAGINA PATH more_paths ;
-more_paths ::= COMA PATH more_paths
+view_pages ::= VISITAS_PAGINA path_acepted more_paths ;
+more_paths ::= COMA path_acepted more_paths
         | /* empty */ ;
 
 type ::= TODOS | TITULO | PARRAFO | IMAGEN | VIDEO | MENU ;
 
 popular_pages ::= PAGINAS_POPULARES IDENTIFIER;
 
-components_view ::= COMPONENTE type PATH;
+components_view ::= COMPONENTE type path_acepted;
+
+path_acepted ::= PATH | IDENTIFIER ;

@@ -3,7 +3,10 @@ package compi1.web_designer_api.sqcmstraductor;
 
 import compi1.web_designer_api.exceptions.ModelException;
 import compi1.web_designer_api.services.ResponserGen;
+import compi1.web_designer_api.sqcmstraductor.statements.PopularPages;
 import compi1.web_designer_api.sqcmstraductor.statements.StatementSQcms;
+import compi1.web_designer_api.sqcmstraductor.statements.UseComponents;
+import compi1.web_designer_api.sqcmstraductor.statements.VisitsPage;
 import compi1.web_designer_api.sqcmstraductor.statements.VisitsSite;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
@@ -20,11 +23,17 @@ public class TraductorSQcms {
     private ResponserGen responserGen;
     
     private VisitsSite visitSite;
+    private VisitsPage visitsPage;
+    private PopularPages popularPages;
+    private UseComponents useComponents;
     
     public TraductorSQcms(Connection connection){
         index = new Index();
         responserGen = new ResponserGen();
         visitSite = new VisitsSite(connection);
+        visitsPage = new VisitsPage(connection);
+        popularPages = new PopularPages(connection);
+        useComponents = new UseComponents(connection);
     }
     
     public String traducir(List<Token> tokens){
@@ -38,13 +47,13 @@ public class TraductorSQcms {
                     response += startTranslate(visitSite, tokens);
                     break;
                 case sym.VISITAS_PAGINA:
-                    response += "";
+                    response += startTranslate(visitsPage, tokens);
                     break;
                 case sym.PAGINAS_POPULARES:
-                    response += "";
+                    response += startTranslate(popularPages, tokens);
                     break;
                 case sym.COMPONENTE:
-                    response += "";
+                    response += startTranslate(useComponents, tokens);
                     break;
                 default:
             }

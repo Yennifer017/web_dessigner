@@ -26,6 +26,7 @@ public class VisitsSite extends StatementSQcms{
         super.statisticsDB = new StatisticsDB(connection);
         super.semanticErrors = new ArrayList<>();
         siteDB = new SiteDB(connection);
+        idsSite = new ArrayList<>();
     }
 
     @Override
@@ -37,13 +38,17 @@ public class VisitsSite extends StatementSQcms{
             } else {
                 super.addNoFoundError(currentTkn, "No se puede consultar el sitio");
             }
+            index.increment();
             currentTkn = tokens.get(index.get());
         }
     }
 
     @Override
     public String translate(List<Token> tokens, Index index) throws ModelException {
+        super.semanticErrors.clear();
+        idsSite.clear();
         String mss = "";
+        recoveryInformation(tokens, index);
         if(!semanticErrors.isEmpty()){
             throw new ModelException();
         }
@@ -53,7 +58,7 @@ public class VisitsSite extends StatementSQcms{
             } catch (SQLException ex) {
                 throw new ModelException(ex.toString());
             } catch (NoDataException ex) {
-                //controlado
+                mss = "El sitio <" + id + "> no tiene paginas, no se estan contabilizando visitas";
             }
         }
         return mss;
