@@ -223,7 +223,9 @@ public class CreatePageTraductor extends StmTraductor {
             model.autocompleate();
         }
         this.internalTranslate(model);
-        return "Pagina <" + model.getId() + "> creada exitosamente.";
+        
+        return "Pagina <" + model.getId() + "> creada exitosamente, url: "
+                + filesUtil.getDirectoryCreatedPage(model.getFather(), model.getId());
     }
 
 }

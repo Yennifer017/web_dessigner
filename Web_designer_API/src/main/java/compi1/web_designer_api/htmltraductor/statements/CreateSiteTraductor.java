@@ -64,16 +64,17 @@ public class CreateSiteTraductor extends StmTraductor {
         }
         
         try {
+            pageDB.insertIntoDB(model.getId(), model.getId());
             filesUtil.saveAs(
                     htmlGen.getCodePageHtml("index" + model.getId()), 
                     FilesUtil.HTML_EXTENSION, 
                     model.getId(), 
                     sitePath
             );
-            pageDB.insertIntoDB(model.getId(), model.getId());
         } catch (IOException | OverWrittingFileException ex) {
             semanticErrors.add("Ocurrio un error inesperado al crear el index del sitio <" 
-                    + model.getId() + "> se recomienda borrarlo y volverlo a crear");
+                    + model.getId() + "> es posible que una pagina se llame igual al index"
+                            + "se recomienda borrarlo y volverlo a crear");
             throw new ModelException();
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -148,7 +149,8 @@ public class CreateSiteTraductor extends StmTraductor {
             model.autocompleate();
         }
         internalTranslate(model);
-        return "Sitio <" + model.getId() + "> creado exitosamente, url: ";
+        return "Sitio <" + model.getId() + "> creado exitosamente, url: " +
+                filesUtil.getDirectoryCreatedPage(model.getId(), model.getId());
     }
 
 }

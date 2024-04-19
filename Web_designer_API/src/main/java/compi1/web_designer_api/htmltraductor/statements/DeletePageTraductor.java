@@ -103,7 +103,7 @@ public class DeletePageTraductor extends StmTraductor {
             throw new ModelException();
         }
         internalTranslate(model);
-        return "Sitio <" + model.getId() + "> eliminado exitosamente";
+        return "Pagina <" + model.getId() + "> eliminada exitosamente";
     }
 
 }

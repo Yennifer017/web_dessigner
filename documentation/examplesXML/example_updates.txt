@@ -12,4 +12,19 @@
 			<etiqueta valor="$nueva_etiqueta"/>
 		</etiquetas>
 	</ACCION>
+	<accion nombre="MODIFICAR_PAGINA">
+		<parametros>
+			<parametro nombre="ID">
+				[$pagina2]
+			</parametro>
+			<parametro nombre="TITULO">
+				[NUEVO TITULO :V]
+			</parametro>
+		</parametros>
+		<etiquetas>
+			<etiqueta valor="$nueva_etiqueta"/>
+			<etiqueta valor="$etiqueta3"/>
+			<etiqueta valor ="_etiqueta_diferente"/>
+		</etiquetas>
+	</ACCION>
 </acciones>

@@ -10,6 +10,7 @@
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/statements/AddCompTraduct.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/models/DeleteCompModel.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/exceptions/InvalidAttributeException.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/util/ResponserGen.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/exceptions/NoFileException.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/exceptions/OverWrittingDirectoryEx.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/statements/DeletePageTraductor.java
@@ -61,7 +62,6 @@
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/util/Token.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/statements/AttributeRecolecor.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/exceptions/OverWrittingFileException.java
-/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/services/ResponserGen.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/models/AddCompModel.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/database/models/Page.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/sqcmstraductor/TraductorSQcms.java

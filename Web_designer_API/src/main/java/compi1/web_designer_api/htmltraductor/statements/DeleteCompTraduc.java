@@ -74,6 +74,7 @@ public class DeleteCompTraduc extends StmTraductor {
                 throw new ModelException();
             }
         }else{
+            semanticErrors.add("El componente no existe, no se puede eliminar");
             throw new ModelException();
         }
     }

@@ -28,7 +28,8 @@ public class ComponentCreator {
                         System.out.println(ex); //controlado
                     }
                 } else {
-                    warnings.add("attributo inutilizado");
+                    warnings.add("attributo inutilizado, linea: "  + attribute.getTypeAttrTkn().getLine()
+                        + " - columna: " + attribute.getTypeAttrTkn().getColumn());
                 }
             }
         }

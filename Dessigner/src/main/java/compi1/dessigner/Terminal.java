@@ -7,6 +7,8 @@ package compi1.dessigner;
 import compi1.dessigner.requests.Requester;
 import compi1.dessigner.util.NumberLine;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 
 public class Terminal extends javax.swing.JFrame {
 
@@ -202,7 +204,11 @@ public class Terminal extends javax.swing.JFrame {
     }//GEN-LAST:event_clearEditorBtnActionPerformed
 
     private void ExecuteConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteConsultaActionPerformed
-        requester.request(display.getText(), Requester.SQcms_EXECUTOR_URL, Requester.POST_METHOD);
+        try {
+            requester.request(display.getText(), Requester.SQcms_EXECUTOR_URL, Requester.POST_METHOD);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error fatal");
+        }
     }//GEN-LAST:event_ExecuteConsultaActionPerformed
 
     private void displayCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_displayCaretUpdate

@@ -1,5 +1,6 @@
 package compi1.web_designer_api.services;
 
+import compi1.web_designer_api.util.ResponserGen;
 import compi1.web_designer_api.database.DBManager;
 import compi1.web_designer_api.htmltraductor.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class XMLservice {
             XMLparser parser = new XMLparser(lexer);
             parser.parse();
             if (lexer.getErrors().isEmpty() && parser.getSyntaxErrors().isEmpty()) {
-                //showTkns(lexer);
+                //genera de una vez el xml que manda
                 mensajero.sendResponse(traductor.traducir(lexer.getTokens()), response);
             } else {
                 String responseMss = responserGen.generateError(lexer.getErrors(), ResponserGen.LEXICAL_ERRORS);

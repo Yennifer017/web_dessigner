@@ -2,7 +2,6 @@ compi1/web_designer_api/htmltraductor/statements/DeleteSiteTraductor.class
 compi1/web_designer_api/htmltraductor/statements/CreatePageTraductor.class
 compi1/web_designer_api/sqcmstraductor/SQcmsParser$CUP$SQcmsParser$actions.class
 compi1/web_designer_api/services/XMLservice.class
-compi1/web_designer_api/services/ResponserGen.class
 compi1/web_designer_api/htmltraductor/models/XMLmodel.class
 compi1/web_designer_api/exceptions/OverWrittingFileException.class
 compi1/web_designer_api/sqcmstraductor/statements/VisitsPage.class
@@ -42,6 +41,7 @@ compi1/web_designer_api/services/CountVisitService.class
 compi1/web_designer_api/htmltraductor/statements/AttributeRecolecor.class
 compi1/web_designer_api/sqcmstraductor/SQcmsParser.class
 compi1/web_designer_api/sqcmstraductor/TraductorSQcms.class
+compi1/web_designer_api/util/ResponserGen.class
 compi1/web_designer_api/sqcmstraductor/sym.class
 compi1/web_designer_api/exceptions/NoCodeException.class
 compi1/web_designer_api/resources/JakartaEE10Resource.class

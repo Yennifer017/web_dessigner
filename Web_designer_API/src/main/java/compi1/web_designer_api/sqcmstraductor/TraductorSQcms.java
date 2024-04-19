@@ -2,7 +2,7 @@
 package compi1.web_designer_api.sqcmstraductor;
 
 import compi1.web_designer_api.exceptions.ModelException;
-import compi1.web_designer_api.services.ResponserGen;
+import compi1.web_designer_api.util.ResponserGen;
 import compi1.web_designer_api.sqcmstraductor.statements.PopularPages;
 import compi1.web_designer_api.sqcmstraductor.statements.StatementSQcms;
 import compi1.web_designer_api.sqcmstraductor.statements.UseComponents;

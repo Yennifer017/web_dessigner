@@ -179,4 +179,14 @@ public class FilesUtil {
             throw new OverWrittingFileException();
         }
     }
+    
+    /**
+     * Retorna la ruta de la pagina web recien creada
+     * @param site, nombre del sitio
+     * @param page, nombre de la pagina
+     * @return ruta del servidor web
+     */
+    public String getDirectoryCreatedPage(String site, String page){
+        return WEB_ROUTE_SITES + site + getSeparator() + page + HTML_EXTENSION;
+    }
 }

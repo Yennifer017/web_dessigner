@@ -10,7 +10,7 @@ import compi1.web_designer_api.htmltraductor.statements.DeleteSiteTraductor;
 import compi1.web_designer_api.htmltraductor.statements.ModifyCompTraduc;
 import compi1.web_designer_api.htmltraductor.statements.ModifyPageTraductor;
 import compi1.web_designer_api.htmltraductor.statements.StmTraductor;
-import compi1.web_designer_api.services.ResponserGen;
+import compi1.web_designer_api.util.ResponserGen;
 import compi1.web_designer_api.util.Index;
 import compi1.web_designer_api.util.Token;
 import java.sql.Connection;
@@ -46,14 +46,14 @@ public class Traductor {
         addCompT = new AddCompTraduct(connection);
         deleteCompT = new DeleteCompTraduc(connection);
         modifyCompT = new ModifyCompTraduc(connection);
-        
+
         responserGen = new ResponserGen();
     }
 
     public String traducir(List<Token> tokens) {
         String response = "";
         index.setIndex(0);
-        for (index.get(); index.get() < tokens.size(); ) {
+        for (index.get(); index.get() < tokens.size();) {
             Token currentTkn = tokens.get(index.get());
             index.increment(); //para pasar al siguiente token
 
@@ -91,9 +91,8 @@ public class Traductor {
     private String startTranslate(StmTraductor traductor, List<Token> tokens) {
         String response = "";
         try {
-            response
-                    += //TODO: ARREGLAR AQUI                               
-                    traductor.translate(tokens, index);
+            response += responserGen.generateResponse(traductor.translate(tokens, index));
+            response += addWarnings(traductor);
         } catch (ModelException e) {
             traductor.addFailMss();
             response += responserGen.generateError(
@@ -102,5 +101,19 @@ public class Traductor {
             );
         }
         return response;
+    }
+
+    private String addWarnings(StmTraductor traductor) {
+        if (traductor instanceof ModifyCompTraduc) {
+            return responserGen.generateWarnings(
+                    ((ModifyCompTraduc) traductor).getWarnings()
+            );
+        } else if (traductor instanceof AddCompTraduct) {
+            return responserGen.generateWarnings(
+                    ((AddCompTraduct) traductor).getWarnings()
+            );
+        } else {
+            return "";
+        }
     }
 }

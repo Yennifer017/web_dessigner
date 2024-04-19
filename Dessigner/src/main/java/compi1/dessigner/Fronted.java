@@ -29,16 +29,17 @@ public class Fronted extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         initNumeracion();
-        init();
-        requester = new Requester(console);
+        initFilesUpdate();
         filesUtil = new FilesUtil();
+        requester = new Requester(console);
+        //initResponser();
     }
 
     private void initNumeracion() {
         numDisplayFile = new NumberLine(display);
         displayScroll.setRowHeaderView(numDisplayFile);
-        numConsole = new NumberLine(console);
-        consoleScroll.setRowHeaderView(numConsole);
+        //numConsole = new NumberLine(console);
+        //consoleScroll.setRowHeaderView(numConsole);
         numDisplayFile.updateColumna(columnaDisplay);
     }
 
@@ -47,21 +48,21 @@ public class Fronted extends javax.swing.JFrame {
                 "Error", JOptionPane.PLAIN_MESSAGE);
     }
 
-    private void init() {
+    private void initFilesUpdate() {
         Timer timer = new Timer(300, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(filesUtil.getCurrentPath() != null && filesUtil.isOpenFile()){
+                if (filesUtil.getCurrentPath() != null && filesUtil.isOpenFile()) {
                     System.out.println("changed");
                     filesUtil.setChanged(true);
                     filesUtil.setOpenFile(true);
-                } else if(filesUtil.getCurrentPath() != null && !filesUtil.isOpenFile()) {
+                } else if (filesUtil.getCurrentPath() != null && !filesUtil.isOpenFile()) {
                     filesUtil.setOpenFile(true);
                 }
             }
         });
         timer.setRepeats(false);
-        
+
         display.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -405,13 +406,13 @@ public class Fronted extends javax.swing.JFrame {
 
     private void saveAsOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsOpActionPerformed
         boolean execute = true;
-        if(filesUtil.getCurrentPath() != null && filesUtil.isChanged()){
-            int option = JOptionPane.showConfirmDialog(null, 
-                        "El documento ha sido modificado, se perdera lo que no has guardado, deseas continuar?");
+        if (filesUtil.getCurrentPath() != null && filesUtil.isChanged()) {
+            int option = JOptionPane.showConfirmDialog(null,
+                    "El documento ha sido modificado, se perdera lo que no has guardado, deseas continuar?");
             execute = option == 0;
         }
-        
-        if(execute){
+
+        if (execute) {
             try {
                 String newPath = filesUtil.saveAs(display.getText(), ".xml");
                 fileNameDisplay.setText(newPath);
@@ -424,14 +425,14 @@ public class Fronted extends javax.swing.JFrame {
     }//GEN-LAST:event_saveAsOpActionPerformed
 
     private void CloseFileOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseFileOpActionPerformed
-        if(filesUtil.getCurrentPath() != null){
+        if (filesUtil.getCurrentPath() != null) {
             boolean close = true;
-            if(filesUtil.isChanged()){
-                int option = JOptionPane.showConfirmDialog(null, 
+            if (filesUtil.isChanged()) {
+                int option = JOptionPane.showConfirmDialog(null,
                         "El documento ha sido modificado, de verdad quieres cerrarlo?");
                 close = option == 0;
             }
-            if(close){
+            if (close) {
                 fileNameDisplay.setText("[none]");
                 filesUtil.setCurrentPath(null);
                 display.setText("");
@@ -446,11 +447,21 @@ public class Fronted extends javax.swing.JFrame {
     }//GEN-LAST:event_clearEditorBtnActionPerformed
 
     private void ExecuteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteBtnActionPerformed
-        requester.request(display.getText(), Requester.XML_EXECUTOR_URL, Requester.POST_METHOD);
+        try {
+            requester.request(display.getText(), Requester.XML_EXECUTOR_URL, Requester.POST_METHOD);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Ocurrio un error");
+        }
     }//GEN-LAST:event_ExecuteBtnActionPerformed
 
     private void ExecuteConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteConsultaActionPerformed
-        requester.request(display.getText(), Requester.SQcms_EXECUTOR_URL, Requester.POST_METHOD);
+        try {
+            requester.request(display.getText(), Requester.SQcms_EXECUTOR_URL, Requester.POST_METHOD);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Ocurrio un error");
+        }
     }//GEN-LAST:event_ExecuteConsultaActionPerformed
 
     private void displayCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_displayCaretUpdate

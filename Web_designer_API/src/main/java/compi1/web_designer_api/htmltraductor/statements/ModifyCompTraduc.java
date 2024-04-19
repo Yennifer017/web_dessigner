@@ -125,7 +125,7 @@ public class ModifyCompTraduc extends StmTraductor {
                 throw new ModelException();
             }
         } else {
-            semanticErrors.add("El componente no existe en la pagina");
+            semanticErrors.add("El componente <" + model.getId() + "> no existe en la pagina");
             throw new ModelException();
         }
     }
@@ -220,6 +220,7 @@ public class ModifyCompTraduc extends StmTraductor {
     @Override
     public String translate(List<Token> tokens, Index index) throws ModelException {
         super.semanticErrors.clear();
+        this.warnings.clear();
         ModifyCompModel model = (ModifyCompModel) getModel(tokens, index);
         if (!semanticErrors.isEmpty()) {
             throw new ModelException();
