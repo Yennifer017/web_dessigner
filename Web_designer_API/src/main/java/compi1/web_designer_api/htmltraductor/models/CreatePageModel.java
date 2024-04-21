@@ -1,6 +1,7 @@
 
 package compi1.web_designer_api.htmltraductor.models;
 
+import compi1.web_designer_api.htmltraductor.models.comp.RecordHtmlModel;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,11 @@ public class CreatePageModel extends XMLmodel implements Autocompletable{
         mss += site == null ? super.getMissingParamMss("id sitio") : "";
         mss += father == null ? super.getMissingParamMss("id pag padre") : "";
         return mss;
+    }
+
+    @Override
+    public RecordHtmlModel getRecord() {
+        return new RecordHtmlModel(userModifyId, userCreateId, dateCreated, dateModify);
     }
     
 }

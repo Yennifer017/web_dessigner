@@ -32,6 +32,7 @@ compi1/web_designer_api/database/LabelDB.class
 compi1/web_designer_api/htmltraductor/statements/ComponentCreator.class
 compi1/web_designer_api/htmltraductor/HTMLgenerator.class
 compi1/web_designer_api/htmltraductor/sym.class
+compi1/web_designer_api/htmltraductor/models/comp/RecordHtmlModel.class
 compi1/web_designer_api/htmltraductor/XMLparser.class
 compi1/web_designer_api/htmltraductor/models/Autocompletable.class
 compi1/web_designer_api/htmltraductor/models/comp/MediaHtml.class

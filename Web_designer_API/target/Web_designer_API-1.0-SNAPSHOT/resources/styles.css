@@ -9,6 +9,7 @@
 body {
     margin: 0;
     background-color: rgb(238, 238, 238);
+    margin-bottom: 80px;
 }
 
 p {
@@ -83,4 +84,22 @@ video {
 
 .menu ul li a:hover {
     color: #0056b3;
+}
+
+footer { 
+  font-size: 12px;
+  background-color: #333; 
+  color: white; 
+  text-align: center; 
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+} 
+footer p { 
+  display: inline-block; 
+  width: 40%;
+  padding: 2px;
+  margin: 10px 0;
 }

@@ -8,6 +8,7 @@ import compi1.web_designer_api.exceptions.OverWrittingFileException;
 import compi1.web_designer_api.htmltraductor.HTMLgenerator;
 import compi1.web_designer_api.htmltraductor.models.CreatePageModel;
 import compi1.web_designer_api.htmltraductor.models.XMLmodel;
+import compi1.web_designer_api.htmltraductor.models.comp.RecordHtmlModel;
 import compi1.web_designer_api.htmltraductor.sym;
 import compi1.web_designer_api.util.FilesUtil;
 import compi1.web_designer_api.util.Index;
@@ -74,7 +75,10 @@ public class CreatePageTraductor extends StmTraductor {
     protected void internalTranslate(XMLmodel model) throws ModelException {
         CreatePageModel cModel = (CreatePageModel) model;
         String path = FilesUtil.SITES_PATH_SERVER + FilesUtil.getSeparator() + cModel.getSite();
-        String content = htmlGen.getCodePageHtml(cModel.getTitle());
+        String content = htmlGen.getCodePageHtml(
+                cModel.getTitle(), 
+                cModel.getRecord()
+        );
         try {
             pageDB.insertIntoDB(cModel);
             registLabels(cModel);
@@ -219,7 +223,7 @@ public class CreatePageTraductor extends StmTraductor {
         } else if (!model.hasEnoughParams()) {
             semanticErrors.add(model.getMissingParams());
             throw new ModelException();
-        } else if (model.isCompleate()) {
+        } else if (!model.isCompleate()) {
             model.autocompleate();
         }
         this.internalTranslate(model);

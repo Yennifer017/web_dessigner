@@ -1,6 +1,7 @@
 
 package compi1.web_designer_api.htmltraductor.models;
 
+import compi1.web_designer_api.htmltraductor.models.comp.RecordHtmlModel;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,11 @@ public class CreateSiteModel extends XMLmodel implements Autocompletable{
     @Override
     public boolean hasEnoughParams() {
         return super.id != null;
+    }
+
+    @Override
+    public RecordHtmlModel getRecord() {
+        return new RecordHtmlModel(userModifyId, userCreateId, dateCreated, dateModify);
     }
     
 }

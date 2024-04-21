@@ -19,6 +19,7 @@
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/sqcmstraductor/statements/VisitsPage.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/models/CreatePageModel.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/exceptions/NoCodeException.java
+/home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/models/comp/RecordHtmlModel.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/services/XMLservice.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/htmltraductor/statements/DeleteSiteTraductor.java
 /home/yennifer/NetBeansProjects/WEB_DESSINGER/Web_designer_API/src/main/java/compi1/web_designer_api/sqcmstraductor/statements/StatementSQcms.java

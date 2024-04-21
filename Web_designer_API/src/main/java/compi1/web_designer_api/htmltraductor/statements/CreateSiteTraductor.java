@@ -64,9 +64,10 @@ public class CreateSiteTraductor extends StmTraductor {
         }
         
         try {
+            CreateSiteModel cModel = (CreateSiteModel) model;
             pageDB.insertIntoDB(model.getId(), model.getId());
             filesUtil.saveAs(
-                    htmlGen.getCodePageHtml("index" + model.getId()), 
+                    htmlGen.getCodePageHtml("index" + model.getId(),  cModel.getRecord()), 
                     FilesUtil.HTML_EXTENSION, 
                     model.getId(), 
                     sitePath

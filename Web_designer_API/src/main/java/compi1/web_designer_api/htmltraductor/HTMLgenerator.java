@@ -4,6 +4,7 @@ import compi1.web_designer_api.database.models.Page;
 import compi1.web_designer_api.exceptions.NoCodeException;
 import compi1.web_designer_api.htmltraductor.models.comp.DisplayHtmlComp;
 import compi1.web_designer_api.htmltraductor.models.comp.MediaHtml;
+import compi1.web_designer_api.htmltraductor.models.comp.RecordHtmlModel;
 import compi1.web_designer_api.util.FilesUtil;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class HTMLgenerator {
     public static final String TITLE_INDICATOR = "<!--TITLE-->";
     public static final String COMPONENT_END = "-->";
 
-    public String getCodePageHtml(String title) {
+    public String getCodePageHtml(String title, RecordHtmlModel record) {
         if (title == null) {
             title = "Pagina";
         } else if (title.isEmpty() || title.isBlank()) {
@@ -39,6 +40,10 @@ public class HTMLgenerator {
         code += SPACE.repeat(4) + "</head>" + ENTER;
         code += SPACE.repeat(4) + "<body>" + ENTER;
         code += END_COMPONENTS + ENTER;
+        code += SPACE.repeat(8) + "<footer>" + ENTER;
+        code += SPACE.repeat(12) + "<p> Usuario creador: " + record.getUserCreated() + "</p>" + ENTER;
+        code += SPACE.repeat(12) + "<p> Fecha de creacion: " + record.getDateCreated() + "</p>" + ENTER;
+        code += SPACE.repeat(8) + "</footer>" + ENTER;
         code += SPACE.repeat(4) + "</body>" + ENTER;
         code += "</html>";
         return code;
