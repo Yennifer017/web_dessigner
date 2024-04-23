@@ -3,6 +3,7 @@ package compi1.web_designer_api.htmltraductor.models.comp;
 
 import compi1.web_designer_api.database.LabelDB;
 import compi1.web_designer_api.database.PageDB;
+import compi1.web_designer_api.database.SiteDB;
 import compi1.web_designer_api.database.models.Page;
 import compi1.web_designer_api.exceptions.InvalidAttributeException;
 import compi1.web_designer_api.exceptions.NoCodeException;
@@ -58,16 +59,18 @@ public class MenuComp extends ComponentHtml{
         throw new AssertionError("Plese use the special method");
     }
     
-    public String getHtmlCode(PageDB pageDB, LabelDB labelDB) throws NoCodeException, SQLException{
+    public String getHtmlCode(SiteDB siteDb, PageDB pageDB, LabelDB labelDB) throws NoCodeException, SQLException{
         List<Page> pages = new ArrayList<>();
         String path = "";
         String mss = "";
         if(father != null && labels != null){
-            path = FilesUtil.WEB_ROUTE_SITES + father + FilesUtil.getSeparator();
+            int idSite = pageDB.getIdSite(father);
+            path = FilesUtil.WEB_ROUTE_SITES + siteDb.getName(idSite) + FilesUtil.getSeparator();
             pages = pageDB.getFiltredPages(labels.split("\\|"), father);
             mss = "Paginas con el padre: " + father + " y con las etiquetas:[" + labels + "]";
         }else if(father != null){
-            path = FilesUtil.WEB_ROUTE_SITES + father + FilesUtil.getSeparator();
+            int idSite = pageDB.getIdSite(father);
+            path = FilesUtil.WEB_ROUTE_SITES + siteDb.getName(idSite) + FilesUtil.getSeparator();
             pages = pageDB.getChildren(father);
             mss = "Paginas con el padre: " + father;
         }else if(labels != null){

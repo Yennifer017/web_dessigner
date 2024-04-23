@@ -158,7 +158,7 @@ public class AddCompTraduct extends StmTraductor {
                         .append("\n");
                 if(component instanceof MenuComp){
                     MenuComp menuComp = (MenuComp) component;
-                    contenido.append(menuComp.getHtmlCode(pageDB, labelDB));
+                    contenido.append(menuComp.getHtmlCode(siteDB, pageDB, labelDB));
                 }else{
                     contenido.append(component.getHtmlCode());
                 }
